@@ -21,16 +21,21 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
-
-app.MapGet("latestImage",
-           (IOptions<ScreenshotOptions> options) =>
+app.MapGet("latestImage", ReturnImageOrNotFound);
+app.MapGet("createImageNow",
+           async (Creator creator, IOptions<ScreenshotOptions> options) =>
            {
-               var screenshotFile = Path.Combine(Environment.CurrentDirectory, options.Value.ScreenshotFileName);
-               return File.Exists(screenshotFile)
-                          ? Results.File(screenshotFile,
-                                         MediaTypeNames.Image.Jpeg)
-                          : Results.NotFound();
+               await creator.CreateScreenshotAsync();
+               return ReturnImageOrNotFound(options);
            });
 
 app.Run();
+
+IResult ReturnImageOrNotFound(IOptions<ScreenshotOptions> options1)
+{
+    var screenshotFile = Path.Combine(Environment.CurrentDirectory, options1.Value.ScreenshotFileName);
+    return File.Exists(screenshotFile)
+               ? Results.File(screenshotFile,
+                              MediaTypeNames.Image.Jpeg)
+               : Results.NotFound();
+}
