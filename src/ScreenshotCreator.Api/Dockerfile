@@ -18,11 +18,13 @@ FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
 RUN apt-get update
-RUN apt-get install -y wget apt-transport-https software-properties-common
-RUN wget -q https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb
-RUN dpkg -i packages-microsoft-prod.deb
-RUN apt-get update
-RUN apt-get install -y powershell
-RUN ["pwsh", "playwright.ps1" ,"install"]
-RUN ["pwsh", "playwright.ps1" ,"install-deps"]
+RUN apt-get install -y wget libssl1.1 libunwind8
+RUN mkdir -p /opt/microsoft/powershell/7
+RUN wget -O /tmp/powershell.tar.gz https://github.com/PowerShell/PowerShell/releases/download/v7.2.6/powershell-7.2.6-linux-arm64.tar.gz
+RUN tar zxf /tmp/powershell.tar.gz -C /opt/microsoft/powershell/7
+RUN chmod +x /opt/microsoft/powershell/7/pwsh
+RUN ln -s /opt/microsoft/powershell/7/pwsh /usr/bin/pwsh
+RUN rm /tmp/powershell.tar.gz
+RUN ["pwsh", "playwright.ps1", "install", "chromium"]
+RUN ["pwsh", "playwright.ps1", "install-deps", "chromium"]
 ENTRYPOINT ["dotnet", "ScreenshotCreator.Api.dll"]
