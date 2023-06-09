@@ -21,6 +21,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UsePathBase("/screenshotCreator");
+
 app.MapGet("latestImage", ReturnImageOrNotFound);
 app.MapGet("createImageNow",
            async (Creator creator, IOptions<ScreenshotOptions> options) =>
