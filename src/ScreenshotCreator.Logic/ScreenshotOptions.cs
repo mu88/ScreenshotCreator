@@ -19,4 +19,6 @@ public class ScreenshotOptions
     public uint RefreshIntervalInSeconds { get; set; }
 
     public string ScreenshotFileName { get; set; } = string.Empty;
+    
+    public bool BackgroundProcessingEnabled { get; set; }
 }
