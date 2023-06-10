@@ -16,11 +16,11 @@ public class ScreenshotCreator
         _screenshotOptions = options.Value;
     }
 
-    public async Task CreateScreenshotAsync()
+    public async Task CreateScreenshotAsync(uint width, uint height)
     {
         var page = await InitializePlaywrightAsync();
 
-        await page.SetViewportSizeAsync((int)_screenshotOptions.Width, (int)_screenshotOptions.Height);
+        await page.SetViewportSizeAsync((int)width, (int)height);
         await page.GotoAsync(GetBaseUrl());
         await WaitAsync();
         await page.GetByPlaceholder("User Name").FillAsync(_screenshotOptions.Username);
