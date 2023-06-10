@@ -9,6 +9,7 @@ public class ScreenshotCreator
 {
     private readonly ILogger<ScreenshotCreator> _logger;
     private readonly ScreenshotOptions _screenshotOptions;
+    private IPage? _page;
 
     public ScreenshotCreator(IOptions<ScreenshotOptions> options, ILogger<ScreenshotCreator> logger)
     {
@@ -18,20 +19,42 @@ public class ScreenshotCreator
 
     public async Task CreateScreenshotAsync(uint width, uint height)
     {
-        var page = await InitializePlaywrightAsync();
+        if (_page == null)
+            _page = await InitializePlaywrightAsync();
+        else
+            Log.ReusingPlaywrightPage(_logger);
 
-        await page.SetViewportSizeAsync((int)width, (int)height);
+        if (await NeedsLoginAsync(_page)) await LoginAsync(_page);
+
+        await _page.SetViewportSizeAsync((int)width, (int)height);
+        await _page.GotoAsync(_screenshotOptions.DashboardUrl);
+        await WaitAsync();
+        await _page.ScreenshotAsync(new PageScreenshotOptions { Path = _screenshotOptions.ScreenshotFileName });
+
+        Log.ScreenshotCreated(_logger);
+    }
+
+    private async Task LoginAsync(IPage page)
+    {
+        Log.LoggingIn(_logger);
+
         await page.GotoAsync(GetBaseUrl());
         await WaitAsync();
         await page.GetByPlaceholder("User Name").FillAsync(_screenshotOptions.Username);
         await page.GetByPlaceholder("Password", new PageGetByPlaceholderOptions { Exact = true }).FillAsync(_screenshotOptions.Password);
         await page.GetByRole(AriaRole.Button).ClickAsync();
         await WaitAsync();
+    }
+
+    private async Task<bool> NeedsLoginAsync(IPage page)
+    {
         await page.GotoAsync(_screenshotOptions.DashboardUrl);
         await WaitAsync();
-        await page.ScreenshotAsync(new PageScreenshotOptions { Path = _screenshotOptions.ScreenshotFileName });
-        
-        LoggerExtensions.ScreenshotCreated(_logger);
+
+        var needsLogin = await page.GetByText("Page Unavailable").CountAsync() == 0;
+        Log.LoginNecessaryCheck(_logger, needsLogin);
+
+        return needsLogin;
     }
 
     private async Task<IPage> InitializePlaywrightAsync()
@@ -43,8 +66,8 @@ public class ScreenshotCreator
         await pageTest.ContextSetup();
         await pageTest.PageSetup();
         var page = pageTest.Page;
-        
-        LoggerExtensions.PlaywrightTestInitialized(_logger);
+
+        Log.PlaywrightTestInitialized(_logger);
 
         return page;
     }

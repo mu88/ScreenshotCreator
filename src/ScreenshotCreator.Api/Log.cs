@@ -1,6 +1,6 @@
 ﻿namespace ScreenshotCreator.Api;
 
-public static partial class LoggerExtensions
+public static partial class Log
 {
     private const string Prefix = nameof(Api);
 

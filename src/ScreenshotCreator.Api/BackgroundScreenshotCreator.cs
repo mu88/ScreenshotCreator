@@ -22,7 +22,7 @@ internal class BackgroundScreenshotCreator : BackgroundService
     {
         if (!_screenshotOptions.BackgroundProcessingEnabled)
         {
-            LoggerExtensions.BackgroundServiceDisabled(_logger);
+            Log.BackgroundServiceDisabled(_logger);
             return;
         }
 
@@ -30,7 +30,7 @@ internal class BackgroundScreenshotCreator : BackgroundService
 
         while (await timer.WaitForNextTickAsync(stoppingToken))
         {
-            LoggerExtensions.BackgroundServiceTriggered(_logger);
+            Log.BackgroundServiceTriggered(_logger);
             await _screenshotCreator.CreateScreenshotAsync(_screenshotOptions.Width, _screenshotOptions.Height);
         }
     }
