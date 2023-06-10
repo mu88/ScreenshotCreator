@@ -20,7 +20,11 @@ internal class BackgroundScreenshotCreator : BackgroundService
     /// <inheritdoc />
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        if (!_screenshotOptions.BackgroundProcessingEnabled) return;
+        if (!_screenshotOptions.BackgroundProcessingEnabled)
+        {
+            LoggerExtensions.BackgroundServiceDisabled(_logger);
+            return;
+        }
 
         PeriodicTimer timer = new(TimeSpan.FromSeconds(_screenshotOptions.RefreshIntervalInSeconds));
 

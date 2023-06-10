@@ -9,4 +9,10 @@ public static partial class LoggerExtensions
                       Level = LogLevel.Information,
                       Message = "Background service triggered")]
     public static partial void BackgroundServiceTriggered(ILogger logger);
+
+    [LoggerMessage(EventId = 1,
+                      EventName = Prefix + nameof(BackgroundServiceDisabled),
+                      Level = LogLevel.Information,
+                      Message = "Background service disabled")]
+    public static partial void BackgroundServiceDisabled(ILogger logger);
 }

@@ -30,6 +30,12 @@ app.MapGet("createImageNow",
                await creator.CreateScreenshotAsync(options.Value.Width, options.Value.Height);
                return ReturnImageOrNotFound(options);
            });
+app.MapGet("createImageWithSizeNow",
+           async (uint width, uint height, Creator creator, IOptions<ScreenshotOptions> options) =>
+           {
+               await creator.CreateScreenshotAsync(width, height);
+               return ReturnImageOrNotFound(options);
+           });
 
 app.Run();
 
