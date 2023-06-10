@@ -51,7 +51,7 @@ public class ScreenshotCreator
         await page.GotoAsync(_screenshotOptions.DashboardUrl);
         await WaitAsync();
 
-        var needsLogin = await page.GetByText("Page Unavailable").CountAsync() == 0;
+        var needsLogin = await page.GetByText("You are not allowed to view this page because of visibility restrictions.").CountAsync() > 0;
         Log.LoginNecessaryCheck(_logger, needsLogin);
 
         return needsLogin;
