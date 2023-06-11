@@ -1,15 +1,17 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.Playwright;
-using Microsoft.Playwright.NUnit;
 
 namespace ScreenshotCreator.Logic;
 
-public class ScreenshotCreator
+public sealed class ScreenshotCreator : IAsyncDisposable
 {
     private readonly ILogger<ScreenshotCreator> _logger;
     private readonly ScreenshotOptions _screenshotOptions;
     private IPage? _page;
+    private bool _disposed;
+    private IPlaywright? _playwright;
+    private IBrowser? _browser;
 
     public ScreenshotCreator(IOptions<ScreenshotOptions> options, ILogger<ScreenshotCreator> logger)
     {
@@ -36,6 +38,17 @@ public class ScreenshotCreator
         Log.ScreenshotCreated(_logger);
     }
 
+    /// <inheritdoc />
+    public async ValueTask DisposeAsync()
+    {
+        if (_disposed) return;
+
+        if (_browser != null) await _browser.DisposeAsync();
+        _playwright?.Dispose();
+
+        _disposed = true;
+    }
+
     private async Task NavigateToDashboardAsync(IPage page)
     {
         await page.GotoAsync(_screenshotOptions.DashboardUrl);
@@ -51,7 +64,6 @@ public class ScreenshotCreator
         await page.GetByPlaceholder("User Name").FillAsync(_screenshotOptions.Username);
         await page.GetByPlaceholder("Password", new PageGetByPlaceholderOptions { Exact = true }).FillAsync(_screenshotOptions.Password);
         await page.GetByRole(AriaRole.Button).ClickAsync();
-        await WaitAsync();
     }
 
     private async Task<bool> NeedsLoginAsync(IPage page)
@@ -66,15 +78,11 @@ public class ScreenshotCreator
 
     private async Task<IPage> InitializePlaywrightAsync()
     {
-        var pageTest = new PageTest();
-        pageTest.WorkerSetup();
-        await pageTest.PlaywrightSetup();
-        await pageTest.BrowserSetup();
-        await pageTest.ContextSetup();
-        await pageTest.PageSetup();
-        var page = pageTest.Page;
+        _playwright = await Playwright.CreateAsync();
+        _browser = await _playwright.Chromium.LaunchAsync();
+        var page = await _browser.NewPageAsync();
 
-        Log.PlaywrightTestInitialized(_logger);
+        Log.PlaywrightInitialized(_logger);
 
         return page;
     }

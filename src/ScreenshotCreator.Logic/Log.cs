@@ -7,13 +7,13 @@ public static partial class Log
     private const string Prefix = nameof(Logic);
 
     [LoggerMessage(EventId = 0,
-                      EventName = Prefix + nameof(PlaywrightTestInitialized),
+                      EventName = Prefix + nameof(PlaywrightInitialized),
                       Level = LogLevel.Information,
-                      Message = "Playwright test initialized")]
-    public static partial void PlaywrightTestInitialized(ILogger logger);
+                      Message = "Playwright initialized")]
+    public static partial void PlaywrightInitialized(ILogger logger);
 
     [LoggerMessage(EventId = 1,
-                      EventName = Prefix + nameof(PlaywrightTestInitialized),
+                      EventName = Prefix + nameof(PlaywrightInitialized),
                       Level = LogLevel.Information,
                       Message = "Screenshot created")]
     public static partial void ScreenshotCreated(ILogger logger);
