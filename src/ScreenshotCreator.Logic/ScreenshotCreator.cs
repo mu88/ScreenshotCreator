@@ -24,14 +24,22 @@ public class ScreenshotCreator
         else
             Log.ReusingPlaywrightPage(_logger);
 
-        if (await NeedsLoginAsync(_page)) await LoginAsync(_page);
-
         await _page.SetViewportSizeAsync((int)width, (int)height);
-        await _page.GotoAsync(_screenshotOptions.DashboardUrl);
-        await WaitAsync();
+        if (await NeedsLoginAsync(_page))
+        {
+            await LoginAsync(_page);
+            await NavigateToDashboardAsync(_page);
+        }
+
         await _page.ScreenshotAsync(new PageScreenshotOptions { Path = _screenshotOptions.ScreenshotFileName });
 
         Log.ScreenshotCreated(_logger);
+    }
+
+    private async Task NavigateToDashboardAsync(IPage page)
+    {
+        await page.GotoAsync(_screenshotOptions.DashboardUrl);
+        await WaitAsync();
     }
 
     private async Task LoginAsync(IPage page)
@@ -48,8 +56,7 @@ public class ScreenshotCreator
 
     private async Task<bool> NeedsLoginAsync(IPage page)
     {
-        await page.GotoAsync(_screenshotOptions.DashboardUrl);
-        await WaitAsync();
+        await NavigateToDashboardAsync(page);
 
         var needsLogin = await page.GetByText("You are not allowed to view this page because of visibility restrictions.").CountAsync() > 0;
         Log.LoginNecessaryCheck(_logger, needsLogin);
