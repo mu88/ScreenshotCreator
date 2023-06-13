@@ -24,7 +24,7 @@ public sealed class ScreenshotCreator : IAsyncDisposable
         if (_page == null)
             _page = await InitializePlaywrightAsync();
         else
-            Log.ReusingPlaywrightPage(_logger);
+            _logger.ReusingPlaywrightPage();
 
         await _page.SetViewportSizeAsync((int)width, (int)height);
         if (await NeedsLoginAsync(_page))
@@ -35,7 +35,7 @@ public sealed class ScreenshotCreator : IAsyncDisposable
 
         await _page.ScreenshotAsync(new PageScreenshotOptions { Path = _screenshotOptions.ScreenshotFileName });
 
-        Log.ScreenshotCreated(_logger);
+        _logger.ScreenshotCreated();
     }
 
     /// <inheritdoc />
@@ -57,13 +57,14 @@ public sealed class ScreenshotCreator : IAsyncDisposable
 
     private async Task LoginAsync(IPage page)
     {
-        Log.LoggingIn(_logger);
+        _logger.LoggingIn();
 
         await page.GotoAsync(GetBaseUrl());
         await WaitAsync();
         await page.GetByPlaceholder("User Name").FillAsync(_screenshotOptions.Username);
         await page.GetByPlaceholder("Password", new PageGetByPlaceholderOptions { Exact = true }).FillAsync(_screenshotOptions.Password);
         await page.GetByRole(AriaRole.Button).ClickAsync();
+        await WaitAsync();
     }
 
     private async Task<bool> NeedsLoginAsync(IPage page)
@@ -71,7 +72,7 @@ public sealed class ScreenshotCreator : IAsyncDisposable
         await NavigateToDashboardAsync(page);
 
         var needsLogin = await page.GetByText("You are not allowed to view this page because of visibility restrictions.").CountAsync() > 0;
-        Log.LoginNecessaryCheck(_logger, needsLogin);
+        _logger.LoginNecessaryCheck(needsLogin);
 
         return needsLogin;
     }
@@ -80,9 +81,9 @@ public sealed class ScreenshotCreator : IAsyncDisposable
     {
         _playwright = await Playwright.CreateAsync();
         _browser = await _playwright.Chromium.LaunchAsync();
-        var page = await _browser.NewPageAsync();
+        var page = await _browser.NewPageAsync(new BrowserNewPageOptions { TimezoneId = Environment.GetEnvironmentVariable("TZ") });
 
-        Log.PlaywrightInitialized(_logger);
+        _logger.PlaywrightInitialized();
 
         return page;
     }

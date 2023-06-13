@@ -8,11 +8,11 @@ public static partial class Log
                       EventName = Prefix + nameof(BackgroundServiceTriggered),
                       Level = LogLevel.Information,
                       Message = "Background service triggered")]
-    public static partial void BackgroundServiceTriggered(ILogger logger);
+    public static partial void BackgroundServiceTriggered(this ILogger logger);
 
     [LoggerMessage(EventId = 1,
                       EventName = Prefix + nameof(BackgroundServiceDisabled),
                       Level = LogLevel.Information,
                       Message = "Background service disabled")]
-    public static partial void BackgroundServiceDisabled(ILogger logger);
+    public static partial void BackgroundServiceDisabled(this ILogger logger);
 }

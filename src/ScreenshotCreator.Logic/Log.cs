@@ -10,29 +10,29 @@ public static partial class Log
                       EventName = Prefix + nameof(PlaywrightInitialized),
                       Level = LogLevel.Information,
                       Message = "Playwright initialized")]
-    public static partial void PlaywrightInitialized(ILogger logger);
+    public static partial void PlaywrightInitialized(this ILogger logger);
 
     [LoggerMessage(EventId = 1,
                       EventName = Prefix + nameof(PlaywrightInitialized),
                       Level = LogLevel.Information,
                       Message = "Screenshot created")]
-    public static partial void ScreenshotCreated(ILogger logger);
+    public static partial void ScreenshotCreated(this ILogger logger);
 
     [LoggerMessage(EventId = 2,
                       EventName = Prefix + nameof(ReusingPlaywrightPage),
                       Level = LogLevel.Information,
                       Message = "Reusing Playwright page")]
-    public static partial void ReusingPlaywrightPage(ILogger logger);
+    public static partial void ReusingPlaywrightPage(this ILogger logger);
 
     [LoggerMessage(EventId = 3,
                       EventName = Prefix + nameof(LoginNecessaryCheck),
                       Level = LogLevel.Information,
                       Message = "Check if login is necessary was {loginIsNecessary}")]
-    public static partial void LoginNecessaryCheck(ILogger logger, bool loginIsNecessary);
+    public static partial void LoginNecessaryCheck(this ILogger logger, bool loginIsNecessary);
 
     [LoggerMessage(EventId = 4,
                       EventName = Prefix + nameof(LoggingIn),
                       Level = LogLevel.Information,
                       Message = "Logging in")]
-    public static partial void LoggingIn(ILogger logger);
+    public static partial void LoggingIn(this ILogger logger);
 }
