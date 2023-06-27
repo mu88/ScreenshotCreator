@@ -33,7 +33,7 @@ public sealed class ScreenshotCreator : IAsyncDisposable
             await NavigateToDashboardAsync(_page);
         }
 
-        await _page.ScreenshotAsync(new PageScreenshotOptions { Path = _screenshotOptions.ScreenshotFileName });
+        await _page.ScreenshotAsync(new PageScreenshotOptions { Path = _screenshotOptions.ScreenshotFileName, Type = ScreenshotType.Png });
 
         _logger.ScreenshotCreated();
     }

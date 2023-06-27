@@ -1,4 +1,3 @@
-using System.Net.Mime;
 using Microsoft.Extensions.Options;
 using ScreenshotCreator.Api;
 using ScreenshotCreator.Logic;
@@ -11,6 +10,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.Configure<ScreenshotOptions>(builder.Configuration.GetSection(ScreenshotOptions.SectionName));
 builder.Services.AddSingleton<Creator>();
+builder.Services.AddSingleton<ImageProcessor>();
 builder.Services.AddHostedService<BackgroundScreenshotCreator>();
 
 var app = builder.Build();
@@ -23,27 +23,36 @@ if (app.Environment.IsDevelopment())
 
 app.UsePathBase("/screenshotCreator");
 
-app.MapGet("latestImage", ReturnImageOrNotFound);
+app.MapGet("latestImage", ReturnImageOrNotFoundAsync);
 app.MapGet("createImageNow",
-           async (Creator creator, IOptions<ScreenshotOptions> options) =>
+           async (ImageProcessor imageProcessor, Creator creator, IOptions<ScreenshotOptions> options) =>
            {
                await creator.CreateScreenshotAsync(options.Value.Width, options.Value.Height);
-               return ReturnImageOrNotFound(options);
+               return await ReturnImageOrNotFoundAsync(imageProcessor, options);
            });
 app.MapGet("createImageWithSizeNow",
-           async (uint width, uint height, Creator creator, IOptions<ScreenshotOptions> options) =>
+           async (uint width, uint height, ImageProcessor imageProcessor, Creator creator, IOptions<ScreenshotOptions> options) =>
            {
                await creator.CreateScreenshotAsync(width, height);
-               return ReturnImageOrNotFound(options);
+               return await ReturnImageOrNotFoundAsync(imageProcessor, options);
            });
 
 app.Run();
 
-IResult ReturnImageOrNotFound(IOptions<ScreenshotOptions> options)
+async Task<IResult> ReturnImageOrNotFoundAsync(ImageProcessor imageProcessor,
+                                               IOptions<ScreenshotOptions> options,
+                                               bool blackAndWhite = false,
+                                               bool returnPixelValuesOnly = false)
 {
     var screenshotFile = Path.Combine(Environment.CurrentDirectory, options.Value.ScreenshotFileName);
-    return File.Exists(screenshotFile)
-               ? Results.File(screenshotFile,
-                              MediaTypeNames.Image.Jpeg)
-               : Results.NotFound();
+    if (File.Exists(screenshotFile))
+    {
+        var processingResult = await imageProcessor.ProcessAsync(screenshotFile, blackAndWhite, returnPixelValuesOnly);
+
+        if (returnPixelValuesOnly) return Results.Bytes(processingResult.Data, processingResult.MediaType, lastModified: File.GetLastWriteTimeUtc(screenshotFile));
+
+        return Results.File(processingResult.Data, processingResult.MediaType, lastModified: File.GetLastWriteTimeUtc(screenshotFile));
+    }
+
+    return Results.NotFound();
 }
