@@ -31,9 +31,9 @@ public class ImageProcessor
         var waveshareBytes = new byte[newWidth * image.Height];
         var originalBytes = image.GetPixelsUnsafe().ToByteArray("R") ?? Array.Empty<byte>();
         var currentBatchAsBinary = new bool[8];
-        for (var x = 0; x < newWidth; x++)
+        for (var y = 0; y < image.Height; y++)
         {
-            for (var y = 0; y < image.Height; y++)
+            for (var x = 0; x < newWidth; x++)
             {
                 var currentBatchIndex = x * y;
                 var currentBatchValue = originalBytes.Skip(currentBatchIndex).Take(8).ToArray();
