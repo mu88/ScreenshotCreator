@@ -17,6 +17,8 @@ public class ImageProcessor
             image.Threshold(new Percentage(95));
         }
 
+        image.Draw(new DrawableText(750, 470, File.GetLastWriteTimeUtc(screenshotFile).ToShortTimeString()));
+
         var bytes = forWaveshare
                         ? ToWaveshareBytes(image)
                         : image.ToByteArray();
