@@ -19,14 +19,11 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Content Include="..\..\.dockerignore">
-        <Link>.dockerignore</Link>
-      </Content>
-      <None Remove="mu88_root_CA.crt" />
-    </ItemGroup>
-    
-    <ItemGroup>
-        <None Remove="*.jpeg" />
+        <Content Include="..\..\.dockerignore">
+            <Link>.dockerignore</Link>
+        </Content>
+        <None Remove="*.png"/>
+        <None Remove="*.jpeg"/>
     </ItemGroup>
 
 </Project>

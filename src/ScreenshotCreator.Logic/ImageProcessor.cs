@@ -29,19 +29,21 @@ public class ImageProcessor
     {
         var newWidth = image.Width % 8 == 0 ? image.Width / 8 : image.Width / 8 + 1;
         var waveshareBytes = new byte[newWidth * image.Height];
-        var originalBytes = image.GetPixelsUnsafe().ToByteArray("R") ?? Array.Empty<byte>();
-        var currentBatchAsBinary = new bool[8];
-        for (var y = 0; y < image.Height; y++)
-        {
-            for (var x = 0; x < newWidth; x++)
-            {
-                var currentBatchIndex = x * y;
-                var currentBatchValue = originalBytes.Skip(currentBatchIndex).Take(8).ToArray();
-                for (var i = 0; i < currentBatchValue.Length; i++) { currentBatchAsBinary[i] = currentBatchValue[i] == 255; }
+        var binaryValues = new bool[image.Width * image.Height];
 
-                var bitArray = new BitArray(currentBatchAsBinary);
-                bitArray.CopyTo(waveshareBytes, currentBatchIndex);
-            }
+        var pixels = image.GetPixels().ToList();
+        for (var i = 0; i < pixels.Count; i++)
+        {
+            var pixel = pixels[i];
+            var currentPixelValue = pixel[0];
+            binaryValues[i] = currentPixelValue == 65535;
+        }
+
+        for (var i = 0; i < binaryValues.Length / 8; i++)
+        {
+            var currentBitBatch = binaryValues.Skip(i * 8).Take(8).Reverse().ToArray();
+            var bitArray = new BitArray(currentBitBatch);
+            bitArray.CopyTo(waveshareBytes, i);
         }
 
         return waveshareBytes;
