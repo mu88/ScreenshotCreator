@@ -4,7 +4,11 @@ public class ScreenshotOptions
 {
     public const string SectionName = nameof(ScreenshotOptions);
 
-    public string DashboardUrl { get; set; } = string.Empty;
+    public const string ScreenshotFileName = "Screenshot.png";
+
+    public string Url { get; set; } = string.Empty;
+
+    public UrlType UrlType { get; set; }
 
     public string Username { get; set; } = string.Empty;
 
@@ -18,7 +22,11 @@ public class ScreenshotOptions
 
     public uint RefreshIntervalInSeconds { get; set; }
 
-    public string ScreenshotFileName { get; set; } = string.Empty;
-    
     public bool BackgroundProcessingEnabled { get; set; }
+}
+
+public enum UrlType
+{
+    Any,
+    OpenHab
 }

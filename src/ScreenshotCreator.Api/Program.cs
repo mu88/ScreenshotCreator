@@ -42,14 +42,14 @@ app.Run();
 async Task<IResult> ReturnImageOrNotFoundAsync(ImageProcessor imageProcessor,
                                                IOptions<ScreenshotOptions> options,
                                                bool blackAndWhite = false,
-                                               bool forWaveshare = false)
+                                               bool asWaveshareBytes = false)
 {
-    var screenshotFile = Path.Combine(Environment.CurrentDirectory, options.Value.ScreenshotFileName);
+    var screenshotFile = Path.Combine(Environment.CurrentDirectory, ScreenshotOptions.ScreenshotFileName);
     if (File.Exists(screenshotFile))
     {
-        var processingResult = await imageProcessor.ProcessAsync(screenshotFile, blackAndWhite, forWaveshare);
+        var processingResult = await imageProcessor.ProcessAsync(screenshotFile, blackAndWhite, asWaveshareBytes);
 
-        if (forWaveshare) return Results.Bytes(processingResult.Data, processingResult.MediaType, lastModified: File.GetLastWriteTimeUtc(screenshotFile));
+        if (asWaveshareBytes) return Results.Bytes(processingResult.Data, processingResult.MediaType, lastModified: File.GetLastWriteTimeUtc(screenshotFile));
 
         return Results.File(processingResult.Data, processingResult.MediaType, lastModified: File.GetLastWriteTimeUtc(screenshotFile));
     }

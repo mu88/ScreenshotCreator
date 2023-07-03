@@ -30,10 +30,10 @@ public sealed class ScreenshotCreator : IAsyncDisposable
         if (await NeedsLoginAsync(_page))
         {
             await LoginAsync(_page);
-            await NavigateToDashboardAsync(_page);
+            await NavigateToUrlAsync(_page);
         }
 
-        await _page.ScreenshotAsync(new PageScreenshotOptions { Path = _screenshotOptions.ScreenshotFileName, Type = ScreenshotType.Png });
+        await _page.ScreenshotAsync(new PageScreenshotOptions { Path = ScreenshotOptions.ScreenshotFileName, Type = ScreenshotType.Png });
 
         _logger.ScreenshotCreated();
     }
@@ -49,9 +49,9 @@ public sealed class ScreenshotCreator : IAsyncDisposable
         _disposed = true;
     }
 
-    private async Task NavigateToDashboardAsync(IPage page)
+    private async Task NavigateToUrlAsync(IPage page)
     {
-        await page.GotoAsync(_screenshotOptions.DashboardUrl);
+        await page.GotoAsync(_screenshotOptions.Url);
         await WaitAsync();
     }
 
@@ -69,7 +69,13 @@ public sealed class ScreenshotCreator : IAsyncDisposable
 
     private async Task<bool> NeedsLoginAsync(IPage page)
     {
-        await NavigateToDashboardAsync(page);
+        if (_screenshotOptions.UrlType != UrlType.OpenHab)
+        {
+            _logger.LoginNotSupported(_screenshotOptions.UrlType.ToString());
+            return false;
+        }
+
+        await NavigateToUrlAsync(page);
 
         var needsLogin = await page.GetByText("You are not allowed to view this page because of visibility restrictions.").CountAsync() > 0;
         _logger.LoginNecessaryCheck(needsLogin);
@@ -90,5 +96,5 @@ public sealed class ScreenshotCreator : IAsyncDisposable
 
     private async Task WaitAsync() => await Task.Delay(TimeSpan.FromSeconds(_screenshotOptions.TimeoutBetweenHttpCallsInSeconds));
 
-    private string GetBaseUrl() => new Uri(_screenshotOptions.DashboardUrl).GetLeftPart(UriPartial.Authority);
+    private string GetBaseUrl() => new Uri(_screenshotOptions.Url).GetLeftPart(UriPartial.Authority);
 }

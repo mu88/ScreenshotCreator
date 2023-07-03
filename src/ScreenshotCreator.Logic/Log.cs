@@ -35,4 +35,17 @@ public static partial class Log
                       Level = LogLevel.Information,
                       Message = "Logging in")]
     public static partial void LoggingIn(this ILogger logger);
+
+    [LoggerMessage(EventId = 5,
+                      EventName = Prefix + nameof(LoginNotSupported),
+                      Level = LogLevel.Warning,
+                      Message = "Login is not supported for URL type {urlType}")]
+    public static partial void LoginNotSupported(this ILogger logger, string urlType);
+
+    [LoggerMessage(EventId = 6,
+                      EventName = Prefix + nameof(InvalidDimensions),
+                      Level = LogLevel.Warning,
+                      Message =
+                          "The image's dimensions are invalid. Width: {currentWidth} (expected {expectedWidth}); Height: {currentHeight} (expected {expectedHeight})")]
+    public static partial void InvalidDimensions(this ILogger logger, int currentWidth, int expectedWidth, int currentHeight, int expectedHeight);
 }

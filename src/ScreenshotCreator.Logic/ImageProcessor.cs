@@ -1,12 +1,17 @@
 ﻿using System.Collections;
 using System.Net.Mime;
 using ImageMagick;
+using Microsoft.Extensions.Logging;
 
 namespace ScreenshotCreator.Logic;
 
 public class ImageProcessor
 {
-    public async Task<ProcessingResult> ProcessAsync(string screenshotFile, bool blackAndWhite, bool forWaveshare)
+    private readonly ILogger<ImageProcessor> _logger;
+
+    public ImageProcessor(ILogger<ImageProcessor> logger) => _logger = logger;
+
+    public async Task<ProcessingResult> ProcessAsync(string screenshotFile, bool blackAndWhite, bool asWaveshareBytes)
     {
         using var image = new MagickImage();
         await image.ReadAsync(screenshotFile);
@@ -17,18 +22,22 @@ public class ImageProcessor
             image.Threshold(new Percentage(95));
         }
 
-        image.Draw(new DrawableText(750, 470, File.GetLastWriteTimeUtc(screenshotFile).ToShortTimeString()));
-
-        var bytes = forWaveshare
+        var bytes = asWaveshareBytes
                         ? ToWaveshareBytes(image)
                         : image.ToByteArray();
-        var contentType = forWaveshare ? MediaTypeNames.Application.Octet : image.FormatInfo?.MimeType;
+        var contentType = asWaveshareBytes ? MediaTypeNames.Application.Octet : image.FormatInfo?.MimeType;
 
         return new ProcessingResult(bytes, contentType);
     }
 
-    private static byte[] ToWaveshareBytes(MagickImage image)
+    private byte[] ToWaveshareBytes(MagickImage image)
     {
+        if (image.Width != 800 || image.Height != 480)
+        {
+            _logger.InvalidDimensions(image.Width, 800, image.Height, 480);
+            return Array.Empty<byte>();
+        }
+
         var newWidth = image.Width % 8 == 0 ? image.Width / 8 : image.Width / 8 + 1;
         var waveshareBytes = new byte[newWidth * image.Height];
         var binaryValues = new bool[image.Width * image.Height];
