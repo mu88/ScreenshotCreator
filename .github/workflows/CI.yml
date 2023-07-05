@@ -40,5 +40,6 @@ jobs:
         with:
           push: false
           provenance: false
+          platforms: linux/arm64,linux/amd64
           tags: mu88/screenshotcreator:latest
           file: src/ScreenshotCreator.Api/Dockerfile

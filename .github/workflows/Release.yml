@@ -34,6 +34,7 @@ jobs:
         with:
           push: true
           provenance: false
+          platforms: linux/arm64,linux/amd64
           tags: |
             mu88/screenshotcreator:latest
             mu88/screenshotcreator:${{ github.ref_name }}
