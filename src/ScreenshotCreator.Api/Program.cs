@@ -25,34 +25,46 @@ app.UsePathBase("/screenshotCreator");
 
 app.MapGet("latestImage", ReturnImageOrNotFoundAsync);
 app.MapGet("createImageNow",
-           async (ImageProcessor imageProcessor, Creator creator, IOptions<ScreenshotOptions> options) =>
+           async (HttpContext httpContext, ImageProcessor imageProcessor, Creator creator, IOptions<ScreenshotOptions> options) =>
            {
                await creator.CreateScreenshotAsync(options.Value.Width, options.Value.Height);
-               return await ReturnImageOrNotFoundAsync(imageProcessor, options);
+               return await ReturnImageOrNotFoundAsync(httpContext, imageProcessor, options);
            });
 app.MapGet("createImageWithSizeNow",
-           async (uint width, uint height, ImageProcessor imageProcessor, Creator creator, IOptions<ScreenshotOptions> options) =>
+           async (uint width,
+                  uint height,
+                  HttpContext httpContext,
+                  ImageProcessor imageProcessor,
+                  Creator creator,
+                  IOptions<ScreenshotOptions> options) =>
            {
                await creator.CreateScreenshotAsync(width, height);
-               return await ReturnImageOrNotFoundAsync(imageProcessor, options);
+               return await ReturnImageOrNotFoundAsync(httpContext, imageProcessor, options);
            });
 
 app.Run();
 
-async Task<IResult> ReturnImageOrNotFoundAsync(ImageProcessor imageProcessor,
+async Task<IResult> ReturnImageOrNotFoundAsync(HttpContext httpContext,
+                                               ImageProcessor imageProcessor,
                                                IOptions<ScreenshotOptions> options,
                                                bool blackAndWhite = false,
                                                bool asWaveshareBytes = false)
 {
     var screenshotFile = Path.Combine(Environment.CurrentDirectory, ScreenshotOptions.ScreenshotFileName);
-    if (File.Exists(screenshotFile))
-    {
-        var processingResult = await imageProcessor.ProcessAsync(screenshotFile, blackAndWhite, asWaveshareBytes);
+    if (!File.Exists(screenshotFile)) return Results.NotFound();
 
-        if (asWaveshareBytes) return Results.Bytes(processingResult.Data, processingResult.MediaType, lastModified: File.GetLastWriteTimeUtc(screenshotFile));
+    var processingResult = await imageProcessor.ProcessAsync(screenshotFile, blackAndWhite, asWaveshareBytes);
 
-        return Results.File(processingResult.Data, processingResult.MediaType, lastModified: File.GetLastWriteTimeUtc(screenshotFile));
-    }
+    var result = asWaveshareBytes
+                     ? Results.Bytes(processingResult.Data, processingResult.MediaType)
+                     : Results.File(processingResult.Data, processingResult.MediaType);
 
-    return Results.NotFound();
+    httpContext.Response.Headers.Add("last-modified-local-time", GetLastModifiedAsLocalTime(screenshotFile));
+
+    return result;
 }
+
+string GetLastModifiedAsLocalTime(string file) =>
+    TimeZoneInfo
+        .ConvertTimeFromUtc(File.GetLastWriteTimeUtc(file), TimeZoneInfo.FindSystemTimeZoneById(Environment.GetEnvironmentVariable("TZ") ?? TimeZoneInfo.Local.Id))
+        .ToShortTimeString();
