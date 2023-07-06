@@ -23,6 +23,8 @@ public class ScreenshotOptions
     public uint RefreshIntervalInSeconds { get; set; }
 
     public bool BackgroundProcessingEnabled { get; set; }
+
+    public Activity? Activity { get; set; }
 }
 
 public enum UrlType
@@ -30,3 +32,5 @@ public enum UrlType
     Any,
     OpenHab
 }
+
+public record Activity(TimeOnly ActiveFrom, TimeOnly ActiveTo, uint RefreshIntervalWhenInactiveInSeconds);
