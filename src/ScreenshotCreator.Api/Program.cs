@@ -28,25 +28,23 @@ app.MapGet("createImageNow",
            async (HttpContext httpContext, ImageProcessor imageProcessor, Creator creator, IOptions<ScreenshotOptions> options) =>
            {
                await creator.CreateScreenshotAsync(options.Value.Width, options.Value.Height);
-               return await ReturnImageOrNotFoundAsync(httpContext, imageProcessor, options);
+               return await ReturnImageOrNotFoundAsync(httpContext, imageProcessor);
            });
 app.MapGet("createImageWithSizeNow",
            async (uint width,
                   uint height,
                   HttpContext httpContext,
                   ImageProcessor imageProcessor,
-                  Creator creator,
-                  IOptions<ScreenshotOptions> options) =>
+                  Creator creator) =>
            {
                await creator.CreateScreenshotAsync(width, height);
-               return await ReturnImageOrNotFoundAsync(httpContext, imageProcessor, options);
+               return await ReturnImageOrNotFoundAsync(httpContext, imageProcessor);
            });
 
 app.Run();
 
 async Task<IResult> ReturnImageOrNotFoundAsync(HttpContext httpContext,
                                                ImageProcessor imageProcessor,
-                                               IOptions<ScreenshotOptions> options,
                                                bool blackAndWhite = false,
                                                bool asWaveshareBytes = false)
 {
