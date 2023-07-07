@@ -31,7 +31,7 @@ internal class BackgroundScreenshotCreator : BackgroundService
         while (await timer.WaitForNextTickAsync(stoppingToken))
         {
             _logger.BackgroundServiceTriggered();
-            await _screenshotCreator.CreateScreenshotAsync(_screenshotOptions.Width, _screenshotOptions.Height);
+            if (_screenshotOptions.Activity.DisplayShouldBeActive()) await _screenshotCreator.CreateScreenshotAsync(_screenshotOptions.Width, _screenshotOptions.Height);
         }
     }
 }

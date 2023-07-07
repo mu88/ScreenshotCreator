@@ -1,4 +1,3 @@
-using System.Diagnostics.CodeAnalysis;
 using Microsoft.Extensions.Options;
 using ScreenshotCreator.Api;
 using ScreenshotCreator.Logic;
@@ -70,26 +69,13 @@ void AddWaveshareInstructions(IHeaderDictionary headers, ScreenshotOptions scree
 {
     headers.Add("waveshare-last-modified-local-time", GetLastModifiedAsLocalTime(screenshotFile));
     headers.Add("waveshare-sleep-between-updates", CalculateSleepBetweenUpdates(screenshotOptions));
-    headers.Add("waveshare-update-screen", DisplayShouldBeActive(screenshotOptions.Activity) ? true.ToString() : false.ToString());
+    headers.Add("waveshare-update-screen", screenshotOptions.Activity.DisplayShouldBeActive() ? true.ToString() : false.ToString());
 }
 
 string CalculateSleepBetweenUpdates(ScreenshotOptions screenshotOptions) =>
-    DisplayShouldBeActive(screenshotOptions.Activity)
+    screenshotOptions.Activity.DisplayShouldBeActive()
         ? screenshotOptions.RefreshIntervalInSeconds.ToString()
         : screenshotOptions.Activity.RefreshIntervalWhenInactiveInSeconds.ToString();
-
-bool DisplayShouldBeActive([NotNullWhen(false)] Activity? activity)
-{
-    if (activity is null) return true;
-
-    var currentLocalTime = GetCurrentLocalTime();
-    return activity.ActiveFrom <= currentLocalTime && currentLocalTime <= activity.ActiveTo;
-}
-
-TimeOnly GetCurrentLocalTime() =>
-    TimeOnly.FromDateTime(TimeZoneInfo
-                              .ConvertTimeFromUtc(DateTime.UtcNow,
-                                                  TimeZoneInfo.FindSystemTimeZoneById(Environment.GetEnvironmentVariable("TZ") ?? TimeZoneInfo.Local.Id)));
 
 string GetLastModifiedAsLocalTime(string file) =>
     TimeZoneInfo
