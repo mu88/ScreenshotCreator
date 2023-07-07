@@ -47,29 +47,29 @@ app.Run();
 async Task<IResult> ReturnImageOrNotFoundAsync(HttpContext httpContext,
                                                ImageProcessor imageProcessor,
                                                IOptions<ScreenshotOptions> options,
-                                               bool blackAndWhite = false,
-                                               bool asWaveshareBytes = false,
-                                               bool addWaveshareInstructions = false)
+                                               bool bw = false,
+                                               bool wb = false,
+                                               bool wi = false)
 {
     var screenshotFile = Path.Combine(Environment.CurrentDirectory, ScreenshotOptions.ScreenshotFileName);
     if (!File.Exists(screenshotFile)) return Results.NotFound();
 
-    var processingResult = await imageProcessor.ProcessAsync(screenshotFile, blackAndWhite, asWaveshareBytes);
+    var processingResult = await imageProcessor.ProcessAsync(screenshotFile, bw, wb);
 
-    var result = asWaveshareBytes
+    var result = wb
                      ? Results.Bytes(processingResult.Data, processingResult.MediaType)
                      : Results.File(processingResult.Data, processingResult.MediaType);
 
-    if (addWaveshareInstructions) AddWaveshareInstructions(httpContext.Response.Headers, options.Value, screenshotFile);
+    if (wi) AddWaveshareInstructions(httpContext.Response.Headers, options.Value, screenshotFile);
 
     return result;
 }
 
 void AddWaveshareInstructions(IHeaderDictionary headers, ScreenshotOptions screenshotOptions, string screenshotFile)
 {
-    headers.Add("waveshare-last-modified-local-time", GetLastModifiedAsLocalTime(screenshotFile));
-    headers.Add("waveshare-sleep-between-updates", CalculateSleepBetweenUpdates(screenshotOptions));
-    headers.Add("waveshare-update-screen", screenshotOptions.Activity.DisplayShouldBeActive() ? true.ToString() : false.ToString());
+    headers.Add("w-lt", GetLastModifiedAsLocalTime(screenshotFile));
+    headers.Add("w-s", CalculateSleepBetweenUpdates(screenshotOptions));
+    headers.Add("w-u", screenshotOptions.Activity.DisplayShouldBeActive() ? true.ToString() : false.ToString());
 }
 
 string CalculateSleepBetweenUpdates(ScreenshotOptions screenshotOptions) =>
