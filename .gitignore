@@ -399,3 +399,4 @@ FodyWeavers.xsd
 .idea
 
 *.jpeg
+appsettings.secret.json
