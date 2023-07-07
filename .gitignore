@@ -399,4 +399,6 @@ FodyWeavers.xsd
 .idea
 
 *.jpeg
+*.png
 appsettings.secret.json
+!tests/Tests/testData/**/*.*

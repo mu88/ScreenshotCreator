@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScreenshotCreator.Api", "sr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScreenshotCreator.Logic", "src\ScreenshotCreator.Logic\ScreenshotCreator.Logic.csproj", "{5D531077-4585-4BD2-A67C-1544D9FBE220}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "tests\Tests\Tests.csproj", "{917FE148-D72B-45B2-9E72-94A3AB1F9DB9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{5D531077-4585-4BD2-A67C-1544D9FBE220}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5D531077-4585-4BD2-A67C-1544D9FBE220}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5D531077-4585-4BD2-A67C-1544D9FBE220}.Release|Any CPU.Build.0 = Release|Any CPU
+		{917FE148-D72B-45B2-9E72-94A3AB1F9DB9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{917FE148-D72B-45B2-9E72-94A3AB1F9DB9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{917FE148-D72B-45B2-9E72-94A3AB1F9DB9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{917FE148-D72B-45B2-9E72-94A3AB1F9DB9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

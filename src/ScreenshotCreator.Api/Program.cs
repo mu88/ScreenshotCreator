@@ -10,7 +10,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Configuration.AddJsonFile("appsettings.secret.json", true);
 builder.Services.Configure<ScreenshotOptions>(builder.Configuration.GetSection(ScreenshotOptions.SectionName));
-builder.Services.AddSingleton<Creator>();
+builder.Services.AddSingleton<IScreenshotCreator, Creator>();
 builder.Services.AddSingleton<ImageProcessor>();
 builder.Services.AddHostedService<BackgroundScreenshotCreator>();
 
@@ -26,7 +26,7 @@ app.UsePathBase("/screenshotCreator");
 
 app.MapGet("latestImage", ReturnImageOrNotFoundAsync);
 app.MapGet("createImageNow",
-           async (HttpContext httpContext, ImageProcessor imageProcessor, Creator creator, IOptions<ScreenshotOptions> options) =>
+           async (HttpContext httpContext, ImageProcessor imageProcessor, IScreenshotCreator creator, IOptions<ScreenshotOptions> options) =>
            {
                await creator.CreateScreenshotAsync(options.Value.Width, options.Value.Height);
                return await ReturnImageOrNotFoundAsync(httpContext, imageProcessor, options);
@@ -37,7 +37,7 @@ app.MapGet("createImageWithSizeNow",
                   HttpContext httpContext,
                   ImageProcessor imageProcessor,
                   IOptions<ScreenshotOptions> options,
-                  Creator creator) =>
+                  IScreenshotCreator creator) =>
            {
                await creator.CreateScreenshotAsync(width, height);
                return await ReturnImageOrNotFoundAsync(httpContext, imageProcessor, options);
@@ -52,7 +52,7 @@ async Task<IResult> ReturnImageOrNotFoundAsync(HttpContext httpContext,
                                                bool asWaveshareBytes = false,
                                                bool addWaveshareInstructions = false)
 {
-    var screenshotFile = Path.Combine(Environment.CurrentDirectory, ScreenshotOptions.ScreenshotFileName);
+    var screenshotFile = Path.Combine(Environment.CurrentDirectory, options.Value.ScreenshotFileName);
     if (!File.Exists(screenshotFile)) return Results.NotFound();
 
     var processingResult = await imageProcessor.ProcessAsync(screenshotFile, blackAndWhite, asWaveshareBytes);
@@ -61,24 +61,7 @@ async Task<IResult> ReturnImageOrNotFoundAsync(HttpContext httpContext,
                      ? Results.Bytes(processingResult.Data, processingResult.MediaType)
                      : Results.File(processingResult.Data, processingResult.MediaType);
 
-    if (addWaveshareInstructions) AddWaveshareInstructions(httpContext.Response.Headers, options.Value, screenshotFile);
+    if (addWaveshareInstructions) httpContext.Response.Headers.AddWaveshareInstructions(options.Value, screenshotFile);
 
     return result;
 }
-
-void AddWaveshareInstructions(IHeaderDictionary headers, ScreenshotOptions screenshotOptions, string screenshotFile)
-{
-    headers.Add("waveshare-last-modified-local-time", GetLastModifiedAsLocalTime(screenshotFile));
-    headers.Add("waveshare-sleep-between-updates", CalculateSleepBetweenUpdates(screenshotOptions));
-    headers.Add("waveshare-update-screen", screenshotOptions.Activity.DisplayShouldBeActive() ? true.ToString() : false.ToString());
-}
-
-string CalculateSleepBetweenUpdates(ScreenshotOptions screenshotOptions) =>
-    screenshotOptions.Activity.DisplayShouldBeActive()
-        ? screenshotOptions.RefreshIntervalInSeconds.ToString()
-        : screenshotOptions.Activity.RefreshIntervalWhenInactiveInSeconds.ToString();
-
-string GetLastModifiedAsLocalTime(string file) =>
-    TimeZoneInfo
-        .ConvertTimeFromUtc(File.GetLastWriteTimeUtc(file), TimeZoneInfo.FindSystemTimeZoneById(Environment.GetEnvironmentVariable("TZ") ?? TimeZoneInfo.Local.Id))
-        .ToShortTimeString();

@@ -5,12 +5,12 @@ namespace ScreenshotCreator.Api;
 
 internal class BackgroundScreenshotCreator : BackgroundService
 {
-    private readonly Logic.ScreenshotCreator _screenshotCreator;
+    private readonly IScreenshotCreator _screenshotCreator;
     private readonly ILogger<BackgroundScreenshotCreator> _logger;
     private readonly ScreenshotOptions _screenshotOptions;
 
     /// <inheritdoc />
-    public BackgroundScreenshotCreator(Logic.ScreenshotCreator screenshotCreator, IOptions<ScreenshotOptions> options, ILogger<BackgroundScreenshotCreator> logger)
+    public BackgroundScreenshotCreator(IScreenshotCreator screenshotCreator, IOptions<ScreenshotOptions> options, ILogger<BackgroundScreenshotCreator> logger)
     {
         _screenshotCreator = screenshotCreator;
         _logger = logger;

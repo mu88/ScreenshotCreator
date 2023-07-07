@@ -1,10 +1,11 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using System.Diagnostics.CodeAnalysis;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.Playwright;
 
 namespace ScreenshotCreator.Logic;
 
-public sealed class ScreenshotCreator : IAsyncDisposable
+public sealed class ScreenshotCreator : IScreenshotCreator
 {
     private readonly ILogger<ScreenshotCreator> _logger;
     private readonly ScreenshotOptions _screenshotOptions;
@@ -27,18 +28,17 @@ public sealed class ScreenshotCreator : IAsyncDisposable
             _logger.ReusingPlaywrightPage();
 
         await _page.SetViewportSizeAsync((int)width, (int)height);
-        if (await NeedsLoginAsync(_page))
-        {
-            await LoginAsync(_page);
-            await NavigateToUrlAsync(_page);
-        }
+        if (await NeedsLoginAsync(_page)) { await LoginAsync(_page); }
 
-        await _page.ScreenshotAsync(new PageScreenshotOptions { Path = ScreenshotOptions.ScreenshotFileName, Type = ScreenshotType.Png });
+        await NavigateToUrlAsync(_page);
+
+        await _page.ScreenshotAsync(new PageScreenshotOptions { Path = _screenshotOptions.ScreenshotFileName, Type = ScreenshotType.Png });
 
         _logger.ScreenshotCreated();
     }
 
     /// <inheritdoc />
+    [ExcludeFromCodeCoverage(Justification = "Default Dispose pattern")]
     public async ValueTask DisposeAsync()
     {
         if (_disposed) return;

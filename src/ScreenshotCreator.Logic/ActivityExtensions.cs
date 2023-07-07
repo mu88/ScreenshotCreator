@@ -4,16 +4,16 @@ namespace ScreenshotCreator.Logic;
 
 public static class ActivityExtensions
 {
-    public static bool DisplayShouldBeActive([NotNullWhen(false)] this Activity? activity)
+    public static bool DisplayShouldBeActive([NotNullWhen(false)] this Activity? activity, TimeProvider? timeProvider = null)
     {
         if (activity is null) return true;
 
-        var currentLocalTime = GetCurrentLocalTime();
+        var currentLocalTime = GetCurrentLocalTime(timeProvider ?? TimeProvider.System);
         return activity.ActiveFrom <= currentLocalTime && currentLocalTime <= activity.ActiveTo;
     }
 
-    private static TimeOnly GetCurrentLocalTime() =>
+    private static TimeOnly GetCurrentLocalTime(TimeProvider timeProvider) =>
         TimeOnly.FromDateTime(TimeZoneInfo
-                                  .ConvertTimeFromUtc(DateTime.UtcNow,
+                                  .ConvertTimeFromUtc(timeProvider.GetUtcNow().UtcDateTime,
                                                       TimeZoneInfo.FindSystemTimeZoneById(Environment.GetEnvironmentVariable("TZ") ?? TimeZoneInfo.Local.Id)));
 }

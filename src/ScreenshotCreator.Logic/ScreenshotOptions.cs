@@ -4,8 +4,6 @@ public class ScreenshotOptions
 {
     public const string SectionName = nameof(ScreenshotOptions);
 
-    public const string ScreenshotFileName = "Screenshot.png";
-
     public string Url { get; set; } = string.Empty;
 
     public UrlType UrlType { get; set; }
@@ -13,6 +11,8 @@ public class ScreenshotOptions
     public string Username { get; set; } = string.Empty;
 
     public string Password { get; set; } = string.Empty;
+
+    public string ScreenshotFileName { get; set; } = "Screenshot.png";
 
     public uint Width { get; set; }
 
@@ -25,6 +25,11 @@ public class ScreenshotOptions
     public bool BackgroundProcessingEnabled { get; set; }
 
     public Activity? Activity { get; set; }
+
+    public string CalculateSleepBetweenUpdates() =>
+        Activity.DisplayShouldBeActive()
+            ? RefreshIntervalInSeconds.ToString()
+            : Activity.RefreshIntervalWhenInactiveInSeconds.ToString();
 }
 
 public enum UrlType
