@@ -28,6 +28,9 @@ internal class BackgroundScreenshotCreator : BackgroundService
 
         PeriodicTimer timer = new(TimeSpan.FromSeconds(_screenshotOptions.RefreshIntervalInSeconds));
 
+        // There should always be at least one image present in case the background processor is enabled
+        await _screenshotCreator.CreateScreenshotAsync(_screenshotOptions.Width, _screenshotOptions.Height);
+
         while (await timer.WaitForNextTickAsync(stoppingToken))
         {
             _logger.BackgroundServiceTriggered();
