@@ -1,41 +1,12 @@
-﻿# see https://github.com/waveshareteam/Pico_ePaper_Code/blob/main/python/Pico-ePaper-7.5-B.py
-
-# *****************************************************************************
-# * | File        :	  Pico_ePaper-7.5-B.py
-# * | Author      :   Waveshare team
-# * | Function    :   Electronic paper driver
-# * | Info        :
-# *----------------
-# * | This version:   V1.0
-# * | Date        :   2021-05-27
-# # | Info        :   python demo
-# -----------------------------------------------------------------------------
-# Permission is hereby granted, free of charge, to any person obtaining a copy
-# of this software and associated documnetation files (the "Software"), to deal
-# in the Software without restriction, including without limitation the rights
-# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-# copies of the Software, and to permit persons to  whom the Software is
-# furished to do so, subject to the following conditions:
-#
-# The above copyright notice and this permission notice shall be included in
-# all copies or substantial portions of the Software.
-#
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-# FITNESS OR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-# LIABILITY WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-# THE SOFTWARE.
-#
-
-import framebuf
+﻿import framebuf
 import gc
 from machine import Pin, SPI
 import network
 import time
 import urequests
 import utime
+import ina219
+import os
 
 # Display resolution
 EPD_WIDTH       = 800
@@ -129,12 +100,6 @@ class EPD_7in5_B:
         self.send_data(0x28)        # If an exception is displayed, try using 0x38
         self.send_data(0x17)
         
-#         self.send_command(0x01)  # POWER SETTING
-#         self.send_data(0x07)
-#         self.send_data(0x07)     # VGH=20V,VGL=-20V
-#         self.send_data(0x3f)     # VDH=15V
-#         self.send_data(0x3f)     # VDL=-15V
-        
         self.send_command(0x04)  # POWER ON
         self.delay_ms(100)
         self.WaitUntilIdle()
@@ -184,42 +149,6 @@ class EPD_7in5_B:
                 
         self.TurnOnDisplay()
         
-    def ClearRed(self):
-        
-        high = self.height
-        if( self.width % 8 == 0) :
-            wide =  self.width // 8
-        else :
-            wide =  self.width // 8 + 1
-        
-        self.send_command(0x10) 
-        for i in range(0, wide):
-            self.send_data1([0xff] * high)
-                
-        self.send_command(0x13) 
-        for i in range(0, wide):
-            self.send_data1([0xff] * high)
-                
-        self.TurnOnDisplay()
-        
-    def ClearBlack(self):
-        
-        high = self.height
-        if( self.width % 8 == 0) :
-            wide =  self.width // 8
-        else :
-            wide =  self.width // 8 + 1
-        
-        self.send_command(0x10) 
-        for i in range(0, wide):
-            self.send_data1([0x00] * high)
-                
-        self.send_command(0x13) 
-        for i in range(0, wide):
-            self.send_data1([0x00] * high)
-                
-        self.TurnOnDisplay()
-        
     def display(self):
         
         high = self.height
@@ -240,7 +169,6 @@ class EPD_7in5_B:
             
         self.TurnOnDisplay()
 
-
     def sleep(self):
         self.send_command(0x02) # power off
         self.WaitUntilIdle()
@@ -258,12 +186,12 @@ def connect_wifi():
     wifi.connect('<<SSID>>', '<<Password>>')
     time.sleep(2)
 
-    max_wait = 10
+    max_wait = 30
     while max_wait > 0:
         if wifi.status() < 0 or wifi.status() >= 3:
             break
         max_wait -= 1
-        time.sleep(1)
+        time.sleep(2)
 
     if wifi.status() != 3:
         raise RuntimeError('network connection failed')
@@ -282,6 +210,13 @@ if __name__=='__main__':
     sleep_in_seconds = 90
     empty_buffer = bytearray(0)
 
+    power = ina219.INA219(addr=0x43)
+
+    try:
+        os.remove('error.txt')
+    except Exception: 
+        pass
+
     try:
         connect_wifi()
 
@@ -299,9 +234,12 @@ if __name__=='__main__':
                     epd.init() # explicitly wake up display from deep sleep
 
                     # assign black and red portion
+                    gc.collect()
+                    time.sleep(1)
                     epd.buffer_black = response.content
                     epd.imagered.fill(0x00)
-                    epd.imagered.text(last_modified, 550, 460, 0xff)
+                    epd.imagered.text(last_modified, 740, 460, 0xff)
+                    epd.imagered.text((str(power.getBusVoltage()) + ' %'), 25, 460, 0xff)
 
                     # display and go to deep sleep
                     epd.display()
@@ -311,11 +249,14 @@ if __name__=='__main__':
                     epd.buffer_black = empty_buffer
                     update_screen = None
                     last_modified = None
-                    response = None
+                    response = None      
 
             time.sleep(sleep_in_seconds)
     except Exception as e:
         print(e)
+        f = open('error.txt', 'w')
+        f.write(str(e))
+        f.close()
         pin = Pin("LED", Pin.OUT)
         pin.on()
         raise e
