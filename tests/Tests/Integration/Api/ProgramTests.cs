@@ -8,20 +8,28 @@ namespace Tests.Integration.Api;
 [Category("Integration")]
 public class ProgramTests
 {
-    private HttpClient _client = null!;
+    private HttpClient _clientForAny = null!;
 
     [SetUp]
-    public void SetUp()
+    public void SetUp() => _clientForAny = new WebApplicationFactoryForAny().CreateClient();
+
+    [Test]
+    public async Task CreateImageNowForAny()
     {
-        var webApplicationFactory = new CustomWebApplicationFactory();
-        _client = webApplicationFactory.CreateClient();
+        // Arrange & Act
+        var result = await _clientForAny.GetAsync("createImageNow");
+
+        // Assert
+        result.Should().HaveStatusCode(HttpStatusCode.OK);
+        result.Content.Headers.ContentType.Should().NotBeNull();
+        result.Content.Headers.ContentType!.MediaType.Should().Be("image/png");
     }
 
     [Test]
-    public async Task CreateImageNow()
+    public async Task CreateImageNowForOpenHab()
     {
         // Arrange & Act
-        var result = await _client.GetAsync("createImageNow");
+        var result = await new WebApplicationFactoryForOpenHab().CreateClient().GetAsync("createImageNow");
 
         // Assert
         result.Should().HaveStatusCode(HttpStatusCode.OK);
@@ -33,8 +41,8 @@ public class ProgramTests
     public async Task CreateImageWithSizeNow()
     {
         // Arrange & Act
-        var result = await _client.GetAsync(QueryHelpers.AddQueryString("createImageWithSizeNow",
-                                                                        new Dictionary<string, string?> { { "width", "1024" }, { "height", "768" } }));
+        var result = await _clientForAny.GetAsync(QueryHelpers.AddQueryString("createImageWithSizeNow",
+                                                                              new Dictionary<string, string?> { { "width", "1024" }, { "height", "768" } }));
 
         // Assert
         result.Should().HaveStatusCode(HttpStatusCode.OK);
@@ -46,10 +54,10 @@ public class ProgramTests
     public async Task LatestImage()
     {
         // Arrange
-        await _client.GetAsync("createImageNow");
+        await _clientForAny.GetAsync("createImageNow");
 
         // Act
-        var result = await _client.GetAsync("latestImage");
+        var result = await _clientForAny.GetAsync("latestImage");
 
         // Assert
         result.Should().HaveStatusCode(HttpStatusCode.OK);
@@ -61,11 +69,11 @@ public class ProgramTests
     public async Task LatestImage_ShouldReturnBlackWhiteImage()
     {
         // Arrange
-        await _client.GetAsync("createImageNow");
+        await _clientForAny.GetAsync("createImageNow");
 
         // Act
-        var result = await _client.GetAsync(QueryHelpers.AddQueryString("latestImage",
-                                                                        new Dictionary<string, string?> { { "blackAndWhite", "true" } }));
+        var result = await _clientForAny.GetAsync(QueryHelpers.AddQueryString("latestImage",
+                                                                              new Dictionary<string, string?> { { "blackAndWhite", "true" } }));
 
         // Assert
         result.Should().HaveStatusCode(HttpStatusCode.OK);
@@ -77,11 +85,11 @@ public class ProgramTests
     public async Task LatestImage_ShouldReturnWaveshareBytes()
     {
         // Arrange
-        await _client.GetAsync("createImageNow");
+        await _clientForAny.GetAsync("createImageNow");
 
         // Act
-        var result = await _client.GetAsync(QueryHelpers.AddQueryString("latestImage",
-                                                                        new Dictionary<string, string?> { { "asWaveshareBytes", "true" } }));
+        var result = await _clientForAny.GetAsync(QueryHelpers.AddQueryString("latestImage",
+                                                                              new Dictionary<string, string?> { { "asWaveshareBytes", "true" } }));
 
         // Assert
         result.Should().HaveStatusCode(HttpStatusCode.OK);
@@ -93,11 +101,11 @@ public class ProgramTests
     public async Task LatestImage_ShouldAddWaveshareInstructions()
     {
         // Arrange
-        await _client.GetAsync("createImageNow");
+        await _clientForAny.GetAsync("createImageNow");
 
         // Act
-        var result = await _client.GetAsync(QueryHelpers.AddQueryString("latestImage",
-                                                                        new Dictionary<string, string?> { { "addWaveshareInstructions", "true" } }));
+        var result = await _clientForAny.GetAsync(QueryHelpers.AddQueryString("latestImage",
+                                                                              new Dictionary<string, string?> { { "addWaveshareInstructions", "true" } }));
 
         // Assert
         result.Should().HaveStatusCode(HttpStatusCode.OK);
@@ -108,7 +116,7 @@ public class ProgramTests
     public async Task LatestImage_ShouldReturn404_IfNoImageExists()
     {
         // Arrange & Act
-        var result = await _client.GetAsync("latestImage");
+        var result = await _clientForAny.GetAsync("latestImage");
 
         // Assert
         result.Should().HaveStatusCode(HttpStatusCode.NotFound);

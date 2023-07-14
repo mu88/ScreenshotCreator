@@ -6,7 +6,7 @@ using ScreenshotCreator.Logic;
 
 namespace Tests.Integration.Api;
 
-internal class CustomWebApplicationFactory : WebApplicationFactory<Program>
+internal class WebApplicationFactoryForAny : WebApplicationFactory<Program>
 {
     protected override void ConfigureWebHost(IWebHostBuilder builder) =>
         builder.ConfigureTestServices(services => services.Configure<ScreenshotOptions>(options =>
