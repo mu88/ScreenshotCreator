@@ -18,7 +18,7 @@ public class ScreenshotOptions
 
     public uint Height { get; set; }
 
-    public uint TimeoutBetweenHttpCallsInSeconds { get; set; }
+    public uint TimeBetweenHttpCallsInSeconds { get; set; }
 
     public uint RefreshIntervalInSeconds { get; set; }
 

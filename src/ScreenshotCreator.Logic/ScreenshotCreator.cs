@@ -94,7 +94,7 @@ public sealed class ScreenshotCreator : IScreenshotCreator
         return page;
     }
 
-    private async Task WaitAsync() => await Task.Delay(TimeSpan.FromSeconds(_screenshotOptions.TimeoutBetweenHttpCallsInSeconds));
+    private async Task WaitAsync() => await Task.Delay(TimeSpan.FromSeconds(_screenshotOptions.TimeBetweenHttpCallsInSeconds));
 
     private string GetBaseUrl() => new Uri(_screenshotOptions.Url).GetLeftPart(UriPartial.Authority);
 }
