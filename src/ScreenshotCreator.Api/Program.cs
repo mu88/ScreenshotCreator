@@ -9,7 +9,11 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Configuration.AddJsonFile("appsettings.secret.json", true);
-builder.Services.Configure<ScreenshotOptions>(builder.Configuration.GetSection(ScreenshotOptions.SectionName));
+builder.Services
+    .AddOptions<ScreenshotOptions>()
+    .Bind(builder.Configuration.GetSection(ScreenshotOptions.SectionName))
+    .ValidateDataAnnotations()
+    .ValidateOnStart();
 builder.Services.AddSingleton<IScreenshotCreator, Creator>();
 builder.Services.AddSingleton<ImageProcessor>();
 builder.Services.AddHostedService<BackgroundScreenshotCreator>();

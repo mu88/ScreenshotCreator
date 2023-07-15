@@ -1,11 +1,16 @@
-﻿namespace ScreenshotCreator.Logic;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace ScreenshotCreator.Logic;
 
 public class ScreenshotOptions
 {
     public const string SectionName = nameof(ScreenshotOptions);
 
+    [Required]
+    [Url]
     public string Url { get; set; } = string.Empty;
 
+    [Required]
     public UrlType UrlType { get; set; }
 
     public string Username { get; set; } = string.Empty;
@@ -14,14 +19,19 @@ public class ScreenshotOptions
 
     public string ScreenshotFileName { get; set; } = "Screenshot.png";
 
+    [Range(1, uint.MaxValue)]
     public uint Width { get; set; }
 
+    [Range(1, uint.MaxValue)]
     public uint Height { get; set; }
 
+    [Range(1, uint.MaxValue)]
     public uint TimeBetweenHttpCallsInSeconds { get; set; }
 
+    [Range(1, uint.MaxValue)]
     public uint RefreshIntervalInSeconds { get; set; }
 
+    [Required]
     public bool BackgroundProcessingEnabled { get; set; }
 
     public Activity? Activity { get; set; }
@@ -38,4 +48,9 @@ public enum UrlType
     OpenHab
 }
 
-public record Activity(TimeOnly ActiveFrom, TimeOnly ActiveTo, uint RefreshIntervalWhenInactiveInSeconds);
+public record Activity([Required]
+                       TimeOnly ActiveFrom,
+                       [Required]
+                       TimeOnly ActiveTo,
+                       [Range(1, uint.MaxValue)]
+                       uint RefreshIntervalWhenInactiveInSeconds);
