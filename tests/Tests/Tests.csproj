@@ -23,6 +23,7 @@
         <PackageReference Include="NUnit" Version="3.13.3"/>
         <PackageReference Include="NUnit3TestAdapter" Version="4.4.2"/>
         <PackageReference Include="NUnit.Analyzers" Version="3.6.1"/>
+        <PackageReference Include="Testcontainers" Version="3.3.0"/>
     </ItemGroup>
 
     <ItemGroup>
@@ -31,10 +32,11 @@
     </ItemGroup>
 
     <ItemGroup>
-        <None Remove="testData\*.*" />
-        <Content Include="testData\*.*">
+        <None Remove="testData\**\*.*"/>
+        <Content Include="testData\**\*.*">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>
+        <None Remove="coverage.*.xml"/>
     </ItemGroup>
 
 </Project>

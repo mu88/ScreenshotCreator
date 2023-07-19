@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using DotNet.Testcontainers.Builders;
 using FluentAssertions;
 using Microsoft.AspNetCore.WebUtilities;
 
@@ -28,13 +29,17 @@ public class ProgramTests
     [Test]
     public async Task CreateImageNowForOpenHab()
     {
-        // Arrange & Act
-        var result = await new WebApplicationFactoryForOpenHab().CreateClient().GetAsync("createImageNow");
+        // Arrange
+        var mappedPublicPort = await StartLocalOpenHabContainerAndGetPortAsync();
+
+        // Act
+        var result = await new WebApplicationFactoryForOpenHab(mappedPublicPort).CreateClient().GetAsync("createImageNow");
 
         // Assert
         result.Should().HaveStatusCode(HttpStatusCode.OK);
         result.Content.Headers.ContentType.Should().NotBeNull();
         result.Content.Headers.ContentType!.MediaType.Should().Be("image/png");
+        (await result.Content.ReadAsByteArrayAsync()).Length.Should().BeGreaterThan(2000).And.BeLessThan(5000);
     }
 
     [Test]
@@ -120,5 +125,29 @@ public class ProgramTests
 
         // Assert
         result.Should().HaveStatusCode(HttpStatusCode.NotFound);
+    }
+
+    private static async Task<ushort> StartLocalOpenHabContainerAndGetPortAsync()
+    {
+        var openHabNetwork = new NetworkBuilder().Build();
+        var openHabContainer = new ContainerBuilder()
+            .WithImage("openhab/openhab:latest")
+            .WithNetwork(openHabNetwork)
+            .WithPortBinding(8080, true)
+            .WithResourceMapping(new DirectoryInfo(Path.Combine(Environment.CurrentDirectory, "testData", "openhab", "conf")), "/openhab/conf")
+            .WithResourceMapping(new DirectoryInfo(Path.Combine(Environment.CurrentDirectory, "testData", "openhab", "userdata")), "/openhab/userdata")
+            .WithWaitStrategy(Wait.ForUnixContainer()
+                                  .UntilPortIsAvailable(8080)
+                                  .UntilHttpRequestIsSucceeded(strategy => strategy
+                                                                   .ForPort(8080)
+                                                                   .ForStatusCode(HttpStatusCode.OK)))
+            .Build();
+
+        await openHabNetwork.CreateAsync();
+        await openHabContainer.StartAsync();
+
+        var mappedPublicPort = openHabContainer.GetMappedPublicPort(8080);
+
+        return mappedPublicPort;
     }
 }
