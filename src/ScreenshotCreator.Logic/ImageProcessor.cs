@@ -38,23 +38,20 @@ public class ImageProcessor
             return Array.Empty<byte>();
         }
 
-        var newWidth = image.Width % 8 == 0 ? image.Width / 8 : image.Width / 8 + 1;
+        var newWidth = image.Width / 8;
         var waveshareBytes = new byte[newWidth * image.Height];
-        var binaryValues = new bool[image.Width * image.Height];
-
-        var pixels = image.GetPixels().ToList();
-        for (var i = 0; i < pixels.Count; i++)
+        var pixelByteSpan = image.GetPixelsUnsafe().ToByteArray("R").AsSpan();
+        var array = new BitArray(8);
+        for (var finalBytePosition = 0; finalBytePosition < pixelByteSpan.Length / 8; finalBytePosition++)
         {
-            var pixel = pixels[i];
-            var currentPixelValue = pixel[0];
-            binaryValues[i] = currentPixelValue == 65535;
-        }
+            var currentSlice = pixelByteSpan.Slice(finalBytePosition * 8, 8);
+            currentSlice.Reverse();
+            for (var currentSlicePosition = 0; currentSlicePosition < 8; currentSlicePosition++)
+            {
+                array[currentSlicePosition] = currentSlice[currentSlicePosition] == 255;
+            }
 
-        for (var i = 0; i < binaryValues.Length / 8; i++)
-        {
-            var currentBitBatch = binaryValues.Skip(i * 8).Take(8).Reverse().ToArray();
-            var bitArray = new BitArray(currentBitBatch);
-            bitArray.CopyTo(waveshareBytes, i);
+            array.CopyTo(waveshareBytes, finalBytePosition);
         }
 
         return waveshareBytes;
