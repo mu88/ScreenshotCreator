@@ -5,5 +5,15 @@
     "group:all",
     ":semanticCommitTypeAll(chore)",
     "schedule:earlyMondays"
+  ],
+  "ignorePresets": [":ignoreModulesAndTests"],
+  "ignorePaths": [
+    "**/node_modules/**",
+    "**/bower_components/**",
+    "**/vendor/**",
+    "**/examples/**",
+    "**/__tests__/**",
+    "**/test/**",
+    "**/__fixtures__/**"
   ]
 }
