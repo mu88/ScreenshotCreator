@@ -1,0 +1,27 @@
+﻿name: Mutation Testing
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-ci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '7.0'
+      - name: Restore dependencies
+        run: dotnet restore ScreenshotCreator.sln
+      - name: Restore tools
+        run: dotnet tool restore
+      - name: Run mutation testing
+        run: dotnet stryker -f stryker-config.json
+      - name: Archive mutation testing results
+        uses: actions/upload-artifact@v3
+        with:
+          name: mutation-testing-report
+          path: StrykerOutput/**/*.*
