@@ -7,6 +7,7 @@ import urequests
 import utime
 import ina219
 import os
+import machine
 
 # Display resolution
 EPD_WIDTH       = 800
@@ -175,10 +176,15 @@ class EPD_7in5_B:
         self.send_command(0x07) # deep sleep
         self.send_data(0xa5)
 
-def connect_wifi():
+def turn_led_on():
+    pin = Pin("LED", Pin.OUT)
+    pin.on()
+
+def turn_led_off():
     pin = Pin("LED", Pin.OUT)
     pin.off()
 
+def connect_wifi():
     # waiting some time between connecting and checking the status is crucial for a reliable WiFi connection
     wifi = network.WLAN(network.STA_IF)
     wifi.active(True)
@@ -188,12 +194,13 @@ def connect_wifi():
 
     max_wait = 30
     while max_wait > 0:
-        if wifi.status() < 0 or wifi.status() >= 3:
+        if wifi.status() >= 3:
             break
         max_wait -= 1
         time.sleep(2)
 
     if wifi.status() != 3:
+        turn_led_on()
         raise RuntimeError('network connection failed')
     
     wifi = None
@@ -201,8 +208,7 @@ def connect_wifi():
 if __name__=='__main__':
     gc.enable()
 
-    pin = Pin("LED", Pin.OUT)
-    pin.off()
+    turn_led_off()
 
     epd = EPD_7in5_B()
     epd.Clear()
@@ -217,10 +223,10 @@ if __name__=='__main__':
     except Exception: 
         pass
 
-    try:
-        connect_wifi()
+    while(True):
+        try:   
+            connect_wifi() # must happen every time due to deepsleep
 
-        while(True):
             gc.collect()
             response = urequests.get('http://<<Server>>/screenshotCreator/latestImage?blackAndWhite=true&asWaveshareBytes=true&addWaveshareInstructions=true')
 
@@ -249,14 +255,16 @@ if __name__=='__main__':
                     epd.buffer_black = empty_buffer
                     update_screen = None
                     last_modified = None
-                    response = None      
+                    response = None
+                
+                turn_led_off()
+            else:
+                turn_led_on()
 
-            time.sleep(sleep_in_seconds)
-    except Exception as e:
-        print(e)
-        f = open('error.txt', 'w')
-        f.write(str(e))
-        f.close()
-        pin = Pin("LED", Pin.OUT)
-        pin.on()
-        raise e
+            machine.lightsleep(sleep_in_seconds * 1000)
+        except Exception as e:
+            print(e)
+            f = open('error.txt', 'w')
+            f.write(str(e))
+            f.close()
+            turn_led_on()
