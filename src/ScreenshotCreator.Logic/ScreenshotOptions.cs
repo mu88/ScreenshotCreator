@@ -6,6 +6,7 @@ public class ScreenshotOptions
 {
     public const string SectionName = nameof(ScreenshotOptions);
 
+    // Stryker disable all : don't mutate default initialization
     [Required]
     [Url]
     public string Url { get; set; } = string.Empty;
@@ -18,6 +19,7 @@ public class ScreenshotOptions
     public string Password { get; set; } = string.Empty;
 
     public string ScreenshotFileName { get; set; } = "Screenshot.png";
+    // Stryker restore all
 
     [Range(1, uint.MaxValue)]
     public uint Width { get; set; }

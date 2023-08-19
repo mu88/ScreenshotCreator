@@ -1,0 +1,17 @@
+{
+    "stryker-config":
+    {
+        "project": "ScreenshotCreator.Logic",
+        "reporters": [
+            "html",
+            "progress",
+            "dashboard"
+        ],
+        "project-info": {
+            "name": "github.com/mu88/ScreenshotCreator"
+        },
+        "ignore-methods": [
+            "_logger.*"
+        ]
+    }
+}
