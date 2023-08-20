@@ -5,10 +5,11 @@
 [![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=mu88_ScreenshotCreator&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=mu88_ScreenshotCreator)
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=mu88_ScreenshotCreator&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=mu88_ScreenshotCreator)
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=mu88_ScreenshotCreator&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=mu88_ScreenshotCreator)
-[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=mu88_ScreenshotCreator&metric=coverage)](https://sonarcloud.io/summary/new_code?id=mu88_ScreenshotCreator)
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=mu88_ScreenshotCreator&metric=bugs)](https://sonarcloud.io/summary/new_code?id=mu88_ScreenshotCreator)
 [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=mu88_ScreenshotCreator&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=mu88_ScreenshotCreator)
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=mu88_ScreenshotCreator&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=mu88_ScreenshotCreator)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=mu88_ScreenshotCreator&metric=coverage)](https://sonarcloud.io/summary/new_code?id=mu88_ScreenshotCreator)
+[![Mutation testing badge](https://img.shields.io/endpoint?style=flat&url=https%3A%2F%2Fbadge-api.stryker-mutator.io%2Fgithub.com%2Fmu88%2FScreenshotCreator%2Fmain)](https://dashboard.stryker-mutator.io/reports/github.com/mu88/ScreenshotCreator/main)
 
 ![](public_assets/image1.jpg)
 ![](public_assets/image3.jpg)
