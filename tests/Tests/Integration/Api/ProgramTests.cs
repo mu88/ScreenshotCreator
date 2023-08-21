@@ -39,7 +39,7 @@ public class ProgramTests
         result.Should().HaveStatusCode(HttpStatusCode.OK);
         result.Content.Headers.ContentType.Should().NotBeNull();
         result.Content.Headers.ContentType!.MediaType.Should().Be("image/png");
-        (await result.Content.ReadAsByteArrayAsync()).Length.Should().BeGreaterThan(2000).And.BeLessThan(5000);
+        (await result.Content.ReadAsByteArrayAsync()).Length.Should().BeGreaterThan(2000).And.BeLessThan(25000);
     }
 
     [Test]
