@@ -16,7 +16,7 @@
         <PackageReference Include="Microsoft.Bcl.TimeProvider" Version="8.0.0-preview.7.23375.6"/>
         <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.1"/>
         <PackageReference Include="Microsoft.Extensions.Options" Version="7.0.1"/>
-        <PackageReference Include="Microsoft.Playwright" Version="1.36.0"/>
+        <PackageReference Include="Microsoft.Playwright" Version="1.37.1"/>
     </ItemGroup>
 
 </Project>
