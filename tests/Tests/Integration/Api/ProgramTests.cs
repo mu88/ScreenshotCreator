@@ -14,6 +14,9 @@ public class ProgramTests
     [SetUp]
     public void SetUp() => _clientForAny = new WebApplicationFactoryForAny().CreateClient();
 
+    [TearDown]
+    public void TearDown() => _clientForAny.Dispose();
+
     [Test]
     public async Task CreateImageNowForAny()
     {
