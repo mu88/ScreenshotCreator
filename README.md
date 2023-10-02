@@ -11,11 +11,10 @@
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=mu88_ScreenshotCreator&metric=coverage)](https://sonarcloud.io/summary/new_code?id=mu88_ScreenshotCreator)
 [![Mutation testing badge](https://img.shields.io/endpoint?style=flat&url=https%3A%2F%2Fbadge-api.stryker-mutator.io%2Fgithub.com%2Fmu88%2FScreenshotCreator%2Fmain)](https://dashboard.stryker-mutator.io/reports/github.com/mu88/ScreenshotCreator/main)
 
-![](public_assets/image1.jpg)
-![](public_assets/image3.jpg)
-
 ## Goal
 ScreenshotCreator is a versatile and easy-to-use tool that allows you to capture screenshots programmatically. It provides a simple API for taking screenshots of web pages, which can be used for displaying them on a Waveshare ePaper display attached to a Raspberry Pi Pico W.
+
+Scroll down to the bottom for some pictures.
 
 ## Features
 - Capture full-page screenshots of web pages
@@ -56,7 +55,8 @@ Last but not least, the current battery status of the UPS is retrieved and displ
 - [Raspberry Pi Pico W](https://www.raspberrypi.com/products/raspberry-pi-pico/)
 - [Waveshare ePaper display](https://www.waveshare.com/Pico-ePaper-7.5-B.htm)
 - [Waveshare UPS](https://www.waveshare.com/product/pico-ups-b.htm)
-- [Frame/Case](https://www.thingiverse.com/thing:3996613)
+- [Front cover](https://www.thingiverse.com/thing:3996613)
+- [Back cover](https://forum.drucktipps3d.de/forum/thread/27757-abwandlung-3d-modell/?postID=317099#post317099)
 
 ## Configuration
 ScreenshotCreator provides various configuration options to customize the screenshot capture process. These options can be set using environment variables or via `appsettings.json` ([see here](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/configuration/)). Here are the available configuration parameters:
@@ -135,3 +135,10 @@ That's why I'm thinking about creating my own dashboard being purely black and w
 - https://docs.micropython.org/en/latest/library/network.WLAN.html
 - https://docs.micropython.org/en/latest/library/framebuf.html
 - https://www.raspberrypi.com/documentation/microcontrollers/raspberry-pi-pico.html
+
+## Images
+![](public_assets/image1.jpg)
+![](public_assets/image2.jpg)
+![](public_assets/image3.jpg)
+![](public_assets/image4.jpg)
+![](public_assets/image5.jpg)
