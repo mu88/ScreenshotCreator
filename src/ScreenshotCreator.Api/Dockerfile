@@ -5,7 +5,7 @@ COPY src/ScreenshotCreator.Api/install-powershell-$TARGETARCH.sh /scripts/instal
 RUN chmod +x /scripts/install-powershell-$TARGETARCH.sh
 RUN /scripts/install-powershell-$TARGETARCH.sh
 
-FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/sdk:8.0 AS sdk
+FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/sdk:7.0 AS sdk
 WORKDIR /src_playwright
 RUN dotnet new console --no-restore 
 RUN dotnet add package Microsoft.Playwright
