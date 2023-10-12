@@ -10,6 +10,7 @@
         "project-info": {
             "name": "github.com/mu88/ScreenshotCreator"
         },
+        "test-case-filter": "TestCategory=Unit",
         "ignore-methods": [
             "_logger.*"
         ]

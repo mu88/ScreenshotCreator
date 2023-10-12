@@ -15,6 +15,7 @@ builder.Services
     .ValidateDataAnnotations()
     .ValidateOnStart();
 builder.Services.AddSingleton<IScreenshotCreator, Creator>();
+builder.Services.AddSingleton<IPlaywrightHelper, PlaywrightHelper>();
 builder.Services.AddSingleton<ImageProcessor>();
 builder.Services.AddHostedService<BackgroundScreenshotCreator>();
 

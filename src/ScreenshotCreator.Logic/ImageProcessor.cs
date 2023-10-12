@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Diagnostics.CodeAnalysis;
 using System.Net.Mime;
 using ImageMagick;
 using Microsoft.Extensions.Logging;
@@ -25,10 +26,13 @@ public class ImageProcessor
         var bytes = asWaveshareBytes
                         ? ToWaveshareBytes(image)
                         : image.ToByteArray();
-        var contentType = asWaveshareBytes ? MediaTypeNames.Application.Octet : image.FormatInfo?.MimeType;
+        var contentType = asWaveshareBytes ? MediaTypeNames.Application.Octet : GetImageMimeType(image);
 
         return new ProcessingResult(bytes, contentType);
     }
+
+    [ExcludeFromCodeCoverage(Justification = "Didn't find a of setting FormatInfo to null")]
+    private static string GetImageMimeType(MagickImage image) => image.FormatInfo?.MimeType ?? "NoClue";
 
     private byte[] ToWaveshareBytes(MagickImage image)
     {

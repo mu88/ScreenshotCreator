@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using FluentAssertions.Extensions;
 using Microsoft.AspNetCore.Http;
+using Moq;
 using ScreenshotCreator.Api;
 using ScreenshotCreator.Logic;
 
@@ -10,21 +11,40 @@ namespace Tests.Unit.Api;
 [Category("Unit")]
 public class HeaderDictionaryExtensionsTests
 {
-    [Test]
-    public void AddWaveshareInstructions()
+    [TestCase(true,
+                 "",
+                 "",
+                 "15:00",
+                 true,
+                 "1953")]
+    [TestCase(false,
+                 "16:00",
+                 "13:00",
+                 "15:00",
+                 false,
+                 "15")]
+    public void AddWaveshareInstructions(bool isNull,
+                                         string activeFrom,
+                                         string activeTo,
+                                         string now,
+                                         bool expectedDisplayState,
+                                         string expectedSleep)
     {
         // Arrange
         Environment.SetEnvironmentVariable("TZ", null);
+        var timeProviderMock = new Mock<TimeProvider>();
+        timeProviderMock.Setup(provider => provider.GetUtcNow()).Returns(12.April(1953).Add(TimeOnly.Parse(now).ToTimeSpan()));
+        var activity = isNull ? null : new Activity(TimeOnly.Parse(activeFrom), TimeOnly.Parse(activeTo), 15u);
         var getLastWriteTimeUtc = (string file) => 12.April(2023).At(19, 53).AsUtc();
-        var screenshotOptions = new ScreenshotOptions { RefreshIntervalInSeconds = 1953 };
+        var screenshotOptions = new ScreenshotOptions { RefreshIntervalInSeconds = 1953, Activity = activity };
         var testee = new HeaderDictionary();
 
         // Act
         testee.AddWaveshareInstructions(screenshotOptions, "testData/Screenshot.png", getLastWriteTimeUtc, "Europe/Berlin");
 
         // Assert
-        testee.Should().Contain(header => header.Key == "waveshare-update-screen" && header.Value.Single() == "True");
-        testee.Should().Contain(header => header.Key == "waveshare-sleep-between-updates" && header.Value.Single() == "1953");
+        testee.Should().Contain(header => header.Key == "waveshare-update-screen" && header.Value.Single() == expectedDisplayState.ToString());
+        testee.Should().Contain(header => header.Key == "waveshare-sleep-between-updates" && header.Value.Single() == expectedSleep);
         testee.Should().Contain(header => header.Key == "waveshare-last-modified-local-time");
         TimeOnly.Parse(testee["waveshare-last-modified-local-time"].Single()!)
             .Should()

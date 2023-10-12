@@ -4,8 +4,6 @@ namespace ScreenshotCreator.Logic;
 
 public static partial class Log
 {
-    private const string Prefix = nameof(Logic);
-
     [LoggerMessage(EventId = 0,
                       EventName = Prefix + nameof(PlaywrightInitialized),
                       Level = LogLevel.Information,

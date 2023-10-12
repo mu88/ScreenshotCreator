@@ -25,7 +25,7 @@ jobs:
         run: 'src/ScreenshotCreator.Api/bin/Debug/net7.0/playwright.ps1 install chromium'
         shell: pwsh
       - name: Test and collect coverage
-        run: dotnet test --no-build /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
+        run: dotnet test --no-build /p:CollectCoverage=true /p:CoverletOutputFormat=opencover '/p:ExcludeByFile=\"**/Log.Prefix.cs\"'
       - name: End Sonar scan
         run: dotnet sonarscanner end /d:sonar.login=${{ secrets.SONAR_TOKEN }}
       - name: Set up QEMU

@@ -1,5 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.Playwright;
 
@@ -7,52 +6,35 @@ namespace ScreenshotCreator.Logic;
 
 public sealed class ScreenshotCreator : IScreenshotCreator
 {
+    private readonly IPlaywrightHelper _playwrightHelper;
     private readonly ILogger<ScreenshotCreator> _logger;
     private readonly ScreenshotOptions _screenshotOptions;
-    private IPage? _page;
-    private bool _disposed;
-    private IPlaywright? _playwright;
-    private IBrowser? _browser;
 
-    public ScreenshotCreator(IOptions<ScreenshotOptions> options, ILogger<ScreenshotCreator> logger)
+    public ScreenshotCreator(IPlaywrightHelper playwrightHelper, IOptions<ScreenshotOptions> options, ILogger<ScreenshotCreator> logger)
     {
+        _playwrightHelper = playwrightHelper;
         _logger = logger;
         _screenshotOptions = options.Value;
     }
 
     public async Task CreateScreenshotAsync(uint width, uint height)
     {
-        if (_page == null)
-            _page = await InitializePlaywrightAsync();
-        else
-            _logger.ReusingPlaywrightPage();
+        var page = await _playwrightHelper.InitializePlaywrightAsync();
 
-        await _page.SetViewportSizeAsync((int)width, (int)height);
-        if (await NeedsLoginAsync(_page)) { await LoginAsync(_page); }
+        await page.SetViewportSizeAsync((int)width, (int)height);
+        if (await NeedsLoginAsync(page)) await LoginAsync(page);
 
-        await NavigateToUrlAsync(_page);
+        await NavigateToUrlAsync(page);
 
-        await _page.ScreenshotAsync(new PageScreenshotOptions { Path = _screenshotOptions.ScreenshotFileName, Type = ScreenshotType.Png });
+        await page.ScreenshotAsync(new PageScreenshotOptions { Path = _screenshotOptions.ScreenshotFileName, Type = ScreenshotType.Png });
 
         _logger.ScreenshotCreated();
-    }
-
-    /// <inheritdoc />
-    [ExcludeFromCodeCoverage(Justification = "Default Dispose pattern")]
-    public async ValueTask DisposeAsync()
-    {
-        if (_disposed) return;
-
-        if (_browser != null) await _browser.DisposeAsync();
-        _playwright?.Dispose();
-
-        _disposed = true;
     }
 
     private async Task NavigateToUrlAsync(IPage page)
     {
         await page.GotoAsync(_screenshotOptions.Url);
-        await WaitAsync();
+        await _playwrightHelper.WaitAsync();
     }
 
     private async Task LoginAsync(IPage page)
@@ -60,11 +42,11 @@ public sealed class ScreenshotCreator : IScreenshotCreator
         _logger.LoggingIn();
 
         await page.GotoAsync(GetBaseUrl());
-        await WaitAsync();
+        await _playwrightHelper.WaitAsync();
         await page.GetByPlaceholder("User Name").FillAsync(_screenshotOptions.Username);
         await page.GetByPlaceholder("Password", new PageGetByPlaceholderOptions { Exact = true }).FillAsync(_screenshotOptions.Password);
         await page.GetByRole(AriaRole.Button).ClickAsync();
-        await WaitAsync();
+        await _playwrightHelper.WaitAsync();
     }
 
     private async Task<bool> NeedsLoginAsync(IPage page)
@@ -82,19 +64,6 @@ public sealed class ScreenshotCreator : IScreenshotCreator
 
         return needsLogin;
     }
-
-    private async Task<IPage> InitializePlaywrightAsync()
-    {
-        _playwright = await Playwright.CreateAsync();
-        _browser = await _playwright.Chromium.LaunchAsync();
-        var page = await _browser.NewPageAsync(new BrowserNewPageOptions { TimezoneId = Environment.GetEnvironmentVariable("TZ") });
-
-        _logger.PlaywrightInitialized();
-
-        return page;
-    }
-
-    private async Task WaitAsync() => await Task.Delay(TimeSpan.FromSeconds(_screenshotOptions.TimeBetweenHttpCallsInSeconds));
 
     private string GetBaseUrl() => new Uri(_screenshotOptions.Url).GetLeftPart(UriPartial.Authority);
 }

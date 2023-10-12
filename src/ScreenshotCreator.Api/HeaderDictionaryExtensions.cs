@@ -13,7 +13,7 @@ internal static class HeaderDictionaryExtensions
         headers.Add("waveshare-last-modified-local-time",
                     GetLastModifiedAsLocalTime(screenshotFile, getLastWriteTimeUtc ?? File.GetLastWriteTimeUtc, localTimeZoneId ?? TimeZoneInfo.Local.Id));
         headers.Add("waveshare-sleep-between-updates", screenshotOptions.CalculateSleepBetweenUpdates());
-        headers.Add("waveshare-update-screen", screenshotOptions.Activity.DisplayShouldBeActive() ? true.ToString() : false.ToString());
+        headers.Add("waveshare-update-screen", screenshotOptions.Activity.DisplayShouldBeActive().ToString());
     }
 
     private static string GetLastModifiedAsLocalTime(string file, Func<string, DateTime> getLastWriteTimeUtc, string localTimeZoneId) =>

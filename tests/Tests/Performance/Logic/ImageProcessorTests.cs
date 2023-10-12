@@ -28,5 +28,5 @@ public class ImageProcessorTests
 public class ImageProcessorBenchmarks
 {
     [Benchmark]
-    public async Task ProcessAsync() => await new ImageProcessor(new Mock<ILogger<ImageProcessor>>().Object).ProcessAsync("testData/Screenshot.png", true, true);
+    public static async Task ProcessAsync() => await new ImageProcessor(new Mock<ILogger<ImageProcessor>>().Object).ProcessAsync("testData/Screenshot.png", true, true);
 }

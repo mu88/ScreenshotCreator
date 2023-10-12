@@ -2,8 +2,6 @@
 
 public static partial class Log
 {
-    private const string Prefix = nameof(Api);
-
     [LoggerMessage(EventId = 0,
                       EventName = Prefix + nameof(BackgroundServiceTriggered),
                       Level = LogLevel.Information,

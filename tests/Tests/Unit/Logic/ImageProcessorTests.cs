@@ -55,14 +55,16 @@ public class ImageProcessorTests
         result.MediaType.Should().Be(MediaTypeNames.Application.Octet);
     }
 
-    [Test]
-    public async Task ProcessImage_ShouldReturnEmptyIfImageHasInvalidDimensions()
+    [TestCase("testData/Screenshot_invalidByInvalid.png")]
+    [TestCase("testData/Screenshot_invalidBy480.png")]
+    [TestCase("testData/Screenshot_800ByInvalid.png")]
+    public async Task ProcessImage_ShouldReturnEmptyIfImageHasInvalidDimensions(string fileName)
     {
         // Arrange
         var testee = new ImageProcessor(new Mock<ILogger<ImageProcessor>>().Object);
 
         // Act
-        var result = await testee.ProcessAsync("testData/Screenshot_invalid_dimensions.png", true, true);
+        var result = await testee.ProcessAsync(fileName, true, true);
 
         // Assert
         result.Data.Should().HaveCount(0);
