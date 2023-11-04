@@ -56,8 +56,8 @@ public class BackgroundScreenshotCreatorTests
     public async Task ProcessInBackground_ShouldDoNothing_IfNotActive()
     {
         // Arrange
-        var activeFrom = TimeOnly.FromDateTime(DateTime.UtcNow).AddHours(1);
-        var activeTo = TimeOnly.FromDateTime(DateTime.UtcNow).AddHours(2);
+        var activeFrom = TimeOnly.FromDateTime(DateTime.UtcNow).AddHours(4);
+        var activeTo = TimeOnly.FromDateTime(DateTime.UtcNow).AddHours(5);
         var screenshotOptions = new ScreenshotOptions
         {
             RefreshIntervalInSeconds = 1, BackgroundProcessingEnabled = true, Width = 800, Height = 600, Activity = new Activity(activeFrom, activeTo, 90u)
