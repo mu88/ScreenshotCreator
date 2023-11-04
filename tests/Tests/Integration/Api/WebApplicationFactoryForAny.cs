@@ -11,7 +11,7 @@ internal class WebApplicationFactoryForAny : WebApplicationFactory<Program>
     protected override void ConfigureWebHost(IWebHostBuilder builder) =>
         builder.ConfigureTestServices(services => services.Configure<ScreenshotOptions>(options =>
         {
-            options.Url = "https://www.dynamo-dresden.de";
+            options.Url = "https://www.google.com";
             options.UrlType = UrlType.Any;
             options.BackgroundProcessingEnabled = false;
             options.ScreenshotFileName = $"Screenshot_{Guid.NewGuid()}.png";
