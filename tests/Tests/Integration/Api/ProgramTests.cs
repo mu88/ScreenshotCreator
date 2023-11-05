@@ -7,7 +7,7 @@ namespace Tests.Integration.Api;
 
 [TestFixture]
 [Category("Integration")]
-public class ProgramTests
+public class ProgramTests : PlaywrightTests
 {
     private HttpClient _clientForAny = null!;
 
