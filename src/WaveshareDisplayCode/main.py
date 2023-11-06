@@ -1,12 +1,11 @@
 ﻿import framebuf
 import gc
+import json
 from machine import Pin, SPI
 import network
 import time
 import urequests
 import utime
-import ina219
-import os
 import machine
 
 # Display resolution
@@ -184,13 +183,13 @@ def turn_led_off():
     pin = Pin("LED", Pin.OUT)
     pin.off()
 
-def connect_wifi():
+def connect_wifi(config):
     # waiting some time between connecting and checking the status is crucial for a reliable WiFi connection
     wifi = network.WLAN(network.STA_IF)
     wifi.active(True)
     time.sleep(2)
-    wifi.connect('<<SSID>>', '<<Password>>')
-    time.sleep(2)
+    wifi.connect(config['wifi_ssid'], config['wifi_pw'])
+    time.sleep(5)
 
     max_wait = 30
     while max_wait > 0:
@@ -210,61 +209,58 @@ if __name__=='__main__':
 
     turn_led_off()
 
-    epd = EPD_7in5_B()
-    epd.Clear()
-
-    sleep_in_seconds = 90
+    sleep_in_seconds = 60
     empty_buffer = bytearray(0)
 
-    power = ina219.INA219(addr=0x43)
-
     try:
-        os.remove('error.txt')
-    except Exception: 
-        pass
+        config_file = open('config.json', 'r')
+        config = json.loads(config_file.read())
+        config_file.close()
 
-    while(True):
-        try:   
-            connect_wifi() # must happen every time due to deepsleep
+        endpoint = 'http://%s/screenshotCreator/latestImage?blackAndWhite=true&asWaveshareBytes=true&addWaveshareInstructions=true'%(config['server'])
 
-            gc.collect()
-            response = urequests.get('http://<<Server>>/screenshotCreator/latestImage?blackAndWhite=true&asWaveshareBytes=true&addWaveshareInstructions=true')
+        connect_wifi(config)
 
-            if response.status_code == 200:
-                update_screen = response.headers.get('waveshare-update-screen', 'True') == 'True'
-                sleep_in_seconds = int(response.headers.get('waveshare-sleep-between-updates', '90'))
+        gc.collect()
+        response = urequests.get(endpoint)
 
-                if update_screen:
-                    last_modified = response.headers.get('waveshare-last-modified-local-time', 'xx:xx')
+        if response.status_code == 200:
+            update_screen = response.headers.get('waveshare-update-screen', 'True') == 'True'
+            sleep_in_seconds = int(response.headers.get('waveshare-sleep-between-updates', '60'))
 
-                    epd.init() # explicitly wake up display from deep sleep
+            if update_screen:
+                epd = EPD_7in5_B()
+                epd.Clear()
 
-                    # assign black and red portion
-                    gc.collect()
-                    time.sleep(1)
-                    epd.buffer_black = response.content
-                    epd.imagered.fill(0x00)
-                    epd.imagered.text(last_modified, 740, 460, 0xff)
-                    epd.imagered.text((str(power.getBusVoltage()) + ' %'), 25, 460, 0xff)
+                last_modified = response.headers.get('waveshare-last-modified-local-time', 'xx:xx')
 
-                    # display and go to deep sleep
-                    epd.display()
-                    epd.sleep()
+                epd.init() # explicitly wake up display from deep sleep
 
-                    # do not leak memory
-                    epd.buffer_black = empty_buffer
-                    update_screen = None
-                    last_modified = None
-                    response = None
-                
-                turn_led_off()
-            else:
-                turn_led_on()
+                # assign black and red portion
+                gc.collect()
+                time.sleep(1)
+                epd.buffer_black = response.content
+                epd.imagered.fill(0x00)
+                epd.imagered.text(last_modified, 740, 460, 0xff)
 
-            machine.lightsleep(sleep_in_seconds * 1000)
-        except Exception as e:
-            print(e)
-            f = open('error.txt', 'w')
-            f.write(str(e))
-            f.close()
+                # display and go to deep sleep
+                epd.display()
+                epd.sleep()
+
+                # do not leak memory
+                epd.buffer_black = empty_buffer
+                update_screen = None
+                last_modified = None
+                response = None
+            
+            turn_led_off()
+        else:
             turn_led_on()
+    except Exception as e:
+        print(e)
+        error_file = open('error.txt', 'w')
+        error_file.write(str(e))
+        error_file.close()
+        turn_led_on()
+    
+    machine.deepsleep(sleep_in_seconds * 1000)
