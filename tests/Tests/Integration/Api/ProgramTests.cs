@@ -134,7 +134,7 @@ public class ProgramTests : PlaywrightTests
     {
         var openHabNetwork = new NetworkBuilder().Build();
         var openHabContainer = new ContainerBuilder()
-            .WithImage("openhab/openhab:latest")
+            .WithImage("openhab/openhab:3.4.4")
             .WithNetwork(openHabNetwork)
             .WithPortBinding(8080, true)
             .WithResourceMapping(new DirectoryInfo(Path.Combine(Environment.CurrentDirectory, "testData", "openhab", "conf")), "/openhab/conf")
