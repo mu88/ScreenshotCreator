@@ -8,7 +8,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Configuration.AddJsonFile("appsettings.secret.json", true);
+builder.Configuration
+    .AddJsonFile("appsettings.secret.json", true)
+    .AddKeyPerFile("/run/secrets", true);
 builder.Services
     .AddOptions<ScreenshotOptions>()
     .Bind(builder.Configuration.GetSection(ScreenshotOptions.SectionName))
