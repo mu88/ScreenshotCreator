@@ -2,7 +2,6 @@
 
 on:
   push:
-    # Sequence of patterns matched against refs/tags
     tags:
       - '*' # Push events to matching everything, e. g. "v1" or "2021.2.2.1"
 
@@ -19,6 +18,8 @@ jobs:
         run: dotnet restore ScreenshotCreator.sln
       - name: Build
         run: dotnet build --no-restore ScreenshotCreator.sln
+      - name: Test
+        run: dotnet test
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
       - name: Set up Docker Buildx
