@@ -1,1 +1,1 @@
-{"wifi_ssid": "My WiFi", "wifi_pw": "SuperSecretKey", "server": "myOtherRaspiWhereTheBackendIsRunning"}
+{"ssid": "My WiFi", "pw": "SuperSecretKey", "host": "myOtherRaspiWhereTheBackendIsRunning"}

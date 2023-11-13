@@ -6,6 +6,7 @@ import network
 import time
 import urequests
 import utime
+import os
 import machine
 
 # Display resolution
@@ -129,7 +130,7 @@ class EPD_7in5_B:
         self.send_data(0x00)
         self.send_data(0x00)
         
-        return 0;
+        return 0
 
     def Clear(self):
         
@@ -184,11 +185,12 @@ def turn_led_off():
     pin.off()
 
 def connect_wifi(config):
+    print('Connecting to WiFi')
     # waiting some time between connecting and checking the status is crucial for a reliable WiFi connection
     wifi = network.WLAN(network.STA_IF)
     wifi.active(True)
     time.sleep(2)
-    wifi.connect(config['wifi_ssid'], config['wifi_pw'])
+    wifi.connect(config['ssid'], config['pw'])
     time.sleep(5)
 
     max_wait = 30
@@ -202,9 +204,11 @@ def connect_wifi(config):
         turn_led_on()
         raise RuntimeError('network connection failed')
     
+    print('WiFi connection established')
     wifi = None
 
 if __name__=='__main__':
+    print('Starting')
     gc.enable()
 
     turn_led_off()
@@ -217,24 +221,23 @@ if __name__=='__main__':
         config = json.loads(config_file.read())
         config_file.close()
 
-        endpoint = 'http://%s/screenshotCreator/latestImage?blackAndWhite=true&asWaveshareBytes=true&addWaveshareInstructions=true'%(config['server'])
-
         connect_wifi(config)
 
         gc.collect()
-        response = urequests.get(endpoint)
+        print('Requesting backend')
+        response = urequests.get('http://%s/screenshotCreator/latestImage?blackAndWhite=true&asWaveshareBytes=true&addWaveshareInstructions=true'%(config['host']))
 
         if response.status_code == 200:
+            print('Response indicated success')
             update_screen = response.headers.get('waveshare-update-screen', 'True') == 'True'
             sleep_in_seconds = int(response.headers.get('waveshare-sleep-between-updates', '60'))
 
             if update_screen:
+                print('Updating screen')
                 epd = EPD_7in5_B()
                 epd.Clear()
 
                 last_modified = response.headers.get('waveshare-last-modified-local-time', 'xx:xx')
-
-                epd.init() # explicitly wake up display from deep sleep
 
                 # assign black and red portion
                 gc.collect()
@@ -252,9 +255,9 @@ if __name__=='__main__':
                 update_screen = None
                 last_modified = None
                 response = None
-            
             turn_led_off()
         else:
+            print('Response did not indicate success')
             turn_led_on()
     except Exception as e:
         print(e)
@@ -262,5 +265,9 @@ if __name__=='__main__':
         error_file.write(str(e))
         error_file.close()
         turn_led_on()
-    
-    machine.deepsleep(sleep_in_seconds * 1000)
+
+    print('Sleeping for %s s'%(sleep_in_seconds))
+    network.WLAN(network.STA_IF).deinit()
+    machine.freq(18000000)
+    time.sleep(sleep_in_seconds)
+    machine.reset()
