@@ -11,7 +11,7 @@ public static partial class Log
     public static partial void PlaywrightInitialized(this ILogger logger);
 
     [LoggerMessage(EventId = 1,
-                      EventName = Prefix + nameof(PlaywrightInitialized),
+                      EventName = Prefix + nameof(ScreenshotCreated),
                       Level = LogLevel.Information,
                       Message = "Screenshot created")]
     public static partial void ScreenshotCreated(this ILogger logger);

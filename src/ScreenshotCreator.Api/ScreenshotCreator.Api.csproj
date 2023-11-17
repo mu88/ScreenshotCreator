@@ -1,34 +1,24 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
-
-    <PropertyGroup>
-        <TargetFramework>net7.0</TargetFramework>
-        <Nullable>enable</Nullable>
-        <ImplicitUsings>enable</ImplicitUsings>
-        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-        <UserSecretsId>508bf84b-6a9d-4aae-863a-ca54ef5d3c61</UserSecretsId>
-        <PlaywrightPlatform>all</PlaywrightPlatform>
-    </PropertyGroup>
-
-    <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.13"/>
-        <PackageReference Include="Microsoft.Extensions.Options.DataAnnotations" Version="7.0.0"/>
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0"/>
-    </ItemGroup>
-
-    <ItemGroup>
-        <ProjectReference Include="..\ScreenshotCreator.Logic\ScreenshotCreator.Logic.csproj"/>
-    </ItemGroup>
-
-    <ItemGroup>
-        <InternalsVisibleTo Include="Tests"/>
-    </ItemGroup>
-
-    <ItemGroup>
-        <Content Include="..\..\.dockerignore">
-            <Link>.dockerignore</Link>
-        </Content>
-        <None Remove="*.png"/>
-        <None Remove="*.jpeg"/>
-    </ItemGroup>
-
+  <PropertyGroup>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <PlaywrightPlatform>all</PlaywrightPlatform>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0"/>
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.0"/>
+    <PackageReference Include="Microsoft.Extensions.Options.DataAnnotations" Version="8.0.0"/>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ScreenshotCreator.Logic\ScreenshotCreator.Logic.csproj"/>
+  </ItemGroup>
+  <ItemGroup>
+    <InternalsVisibleTo Include="Tests"/>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\..\.dockerignore">
+      <Link>.dockerignore</Link>
+    </Content>
+    <None Remove="*.png"/>
+    <None Remove="*.jpeg"/>
+  </ItemGroup>
 </Project>

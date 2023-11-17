@@ -3,7 +3,7 @@
 on:
   push:
     tags:
-      - '*' # Push events to matching everything, e. g. "v1" or "2021.2.2.1"
+      - '*'
 
 jobs:
   build-release:
@@ -13,7 +13,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '7.0'
+          dotnet-version: '8.0'
       - name: Restore dependencies
         run: dotnet restore ScreenshotCreator.sln
       - name: Build
