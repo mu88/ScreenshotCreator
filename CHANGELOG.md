@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [versionize](https://github.com/versionize/versionize) for commit guidelines.
 
+<a name="2.0.1"></a>
+## [2.0.1](https://www.github.com/mu88/ScreenshotCreator/releases/tag/v2.0.1) (2023-11-17)
+
+### Bug Fixes
+
+* assign proper permissions to create file ([5533728](https://www.github.com/mu88/ScreenshotCreator/commit/5533728787a366d93000e481e8545d86b3915e14))
+
 <a name="2.0.0"></a>
 ## [2.0.0](https://www.github.com/mu88/ScreenshotCreator/releases/tag/v2.0.0) (2023-11-17)
 
