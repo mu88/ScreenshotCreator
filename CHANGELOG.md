@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [versionize](https://github.com/versionize/versionize) for commit guidelines.
 
+<a name="2.0.0"></a>
+## [2.0.0](https://www.github.com/mu88/ScreenshotCreator/releases/tag/v2.0.0) (2023-11-17)
+
+### Features
+
+* use .NET 8 ([a62666d](https://www.github.com/mu88/ScreenshotCreator/commit/a62666d7ea2d076e42535fe34debb41cda9f520c))
+
+### Breaking Changes
+
+* use .NET 8 ([a62666d](https://www.github.com/mu88/ScreenshotCreator/commit/a62666d7ea2d076e42535fe34debb41cda9f520c))
+
 <a name="1.21.0"></a>
 ## [1.21.0](https://www.github.com/mu88/ScreenshotCreator/releases/tag/v1.21.0) (2023-11-17)
 
