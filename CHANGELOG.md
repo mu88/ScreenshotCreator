@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [versionize](https://github.com/versionize/versionize) for commit guidelines.
 
+<a name="2.1.0"></a>
+## [2.1.0](https://www.github.com/mu88/ScreenshotCreator/releases/tag/v2.1.0) (2023-11-18)
+
+### Features
+
+* introduce concept of availability indicator ([1f78793](https://www.github.com/mu88/ScreenshotCreator/commit/1f787938034ff155c184b567c9e4395d84b8a3d5))
+
 <a name="2.0.1"></a>
 ## [2.0.1](https://www.github.com/mu88/ScreenshotCreator/releases/tag/v2.0.1) (2023-11-17)
 
