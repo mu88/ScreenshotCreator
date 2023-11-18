@@ -2,6 +2,7 @@
     "stryker-config":
     {
         "project": "ScreenshotCreator.Logic",
+        "language-version": "Preview", // see https://github.com/stryker-mutator/stryker-net/issues/2741
         "reporters": [
             "html",
             "progress",
