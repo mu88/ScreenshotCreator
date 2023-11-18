@@ -6,12 +6,8 @@ using Microsoft.Extensions.Logging;
 
 namespace ScreenshotCreator.Logic;
 
-public class ImageProcessor
+public class ImageProcessor(ILogger<ImageProcessor> logger)
 {
-    private readonly ILogger<ImageProcessor> _logger;
-
-    public ImageProcessor(ILogger<ImageProcessor> logger) => _logger = logger;
-
     public async Task<ProcessingResult> ProcessAsync(string screenshotFile, bool blackAndWhite, bool asWaveshareBytes)
     {
         using var image = new MagickImage();
@@ -38,7 +34,7 @@ public class ImageProcessor
     {
         if (image.Width != 800 || image.Height != 480)
         {
-            _logger.InvalidDimensions(image.Width, 800, image.Height, 480);
+            logger.InvalidDimensions(image.Width, 800, image.Height, 480);
             return Array.Empty<byte>();
         }
 

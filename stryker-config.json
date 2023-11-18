@@ -13,7 +13,7 @@
         },
         "test-case-filter": "TestCategory=Unit",
         "ignore-methods": [
-            "_logger.*"
+            "logger.*"
         ]
     }
 }
