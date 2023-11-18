@@ -19,6 +19,8 @@ public class ScreenshotOptions
     public string Password { get; set; } = string.Empty;
 
     public string ScreenshotFileName { get; set; } = "Screenshot.png";
+
+    public string? AvailabilityIndicator { get; set; } = string.Empty;
     // Stryker restore all
 
     [Range(1, uint.MaxValue)]

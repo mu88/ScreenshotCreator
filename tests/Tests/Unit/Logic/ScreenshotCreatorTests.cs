@@ -114,4 +114,60 @@ public class ScreenshotCreatorTests
         playwrightHelperMock.Verify(helper => helper.InitializePlaywrightAsync(), Times.Once);
         playwrightHelperMock.Verify(helper => helper.WaitAsync(), Times.Exactly(4));
     }
+
+    [Test]
+    public async Task CreateScreenshotWithLogin_ShouldNotCreateScreenshot_IfSiteDoesNotIndicateAvailability()
+    {
+        // Arrange
+        var screenshotOptions = new ScreenshotOptions { Url = "https://www.mysite.com", UrlType = UrlType.OpenHab, AvailabilityIndicator = "Success" };
+        var playwrightHelperMock = new Mock<IPlaywrightHelper>();
+        var pageMock = new Mock<IPage>();
+        pageMock.Setup(page => page.GetByPlaceholder("User Name", null).FillAsync(screenshotOptions.Username, null));
+        pageMock.Setup(page => page
+                           .GetByPlaceholder("Password", It.Is<PageGetByPlaceholderOptions>(options => options.Exact == true))
+                           .FillAsync(screenshotOptions.Password, null));
+        pageMock.Setup(page => page.GetByRole(AriaRole.Button, null).ClickAsync(null));
+        pageMock.Setup(page => page.GetByText("You are not allowed to view this page because of visibility restrictions.", null).CountAsync()).ReturnsAsync(1);
+        pageMock.Setup(page => page.GetByText(screenshotOptions.AvailabilityIndicator, null).CountAsync()).ReturnsAsync(0);
+        playwrightHelperMock.Setup(helper => helper.InitializePlaywrightAsync()).ReturnsAsync(pageMock.Object);
+        var testee = new ScreenshotCreator.Logic.ScreenshotCreator(playwrightHelperMock.Object,
+                                                                   Options.Create(screenshotOptions),
+                                                                   new Mock<ILogger<ScreenshotCreator.Logic.ScreenshotCreator>>().Object);
+
+        // Act
+        await testee.CreateScreenshotAsync(800, 480);
+
+        // Assert
+        pageMock.Verify(page => page.ScreenshotAsync(It.Is<PageScreenshotOptions>(options => options.Path == screenshotOptions.ScreenshotFileName &&
+                                                                                             options.Type == ScreenshotType.Png)),
+                        Times.Never);
+    }
+
+    [Test]
+    public async Task CreateScreenshotWithLogin_ShouldCreateScreenshot_IfSiteIndicatesAvailability()
+    {
+        // Arrange
+        var screenshotOptions = new ScreenshotOptions { Url = "https://www.mysite.com", UrlType = UrlType.OpenHab, AvailabilityIndicator = "Success" };
+        var playwrightHelperMock = new Mock<IPlaywrightHelper>();
+        var pageMock = new Mock<IPage>();
+        pageMock.Setup(page => page.GetByPlaceholder("User Name", null).FillAsync(screenshotOptions.Username, null));
+        pageMock.Setup(page => page
+                           .GetByPlaceholder("Password", It.Is<PageGetByPlaceholderOptions>(options => options.Exact == true))
+                           .FillAsync(screenshotOptions.Password, null));
+        pageMock.Setup(page => page.GetByRole(AriaRole.Button, null).ClickAsync(null));
+        pageMock.Setup(page => page.GetByText("You are not allowed to view this page because of visibility restrictions.", null).CountAsync()).ReturnsAsync(1);
+        pageMock.Setup(page => page.GetByText(screenshotOptions.AvailabilityIndicator, null).CountAsync()).ReturnsAsync(1);
+        playwrightHelperMock.Setup(helper => helper.InitializePlaywrightAsync()).ReturnsAsync(pageMock.Object);
+        var testee = new ScreenshotCreator.Logic.ScreenshotCreator(playwrightHelperMock.Object,
+                                                                   Options.Create(screenshotOptions),
+                                                                   new Mock<ILogger<ScreenshotCreator.Logic.ScreenshotCreator>>().Object);
+
+        // Act
+        await testee.CreateScreenshotAsync(800, 480);
+
+        // Assert
+        pageMock.Verify(page => page.ScreenshotAsync(It.Is<PageScreenshotOptions>(options => options.Path == screenshotOptions.ScreenshotFileName &&
+                                                                                             options.Type == ScreenshotType.Png)),
+                        Times.Once);
+    }
 }

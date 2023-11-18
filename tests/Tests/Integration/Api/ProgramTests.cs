@@ -2,6 +2,7 @@
 using DotNet.Testcontainers.Builders;
 using FluentAssertions;
 using Microsoft.AspNetCore.WebUtilities;
+using ScreenshotCreator.Logic;
 
 namespace Tests.Integration.Api;
 
@@ -125,6 +126,30 @@ public class ProgramTests : PlaywrightTests
     {
         // Arrange & Act
         var result = await _clientForAny.GetAsync("latestImage");
+
+        // Assert
+        result.Should().HaveStatusCode(HttpStatusCode.NotFound);
+    }
+
+    [Test]
+    public async Task LatestImage_ShouldReturn404_IfSiteIsNotAvailable()
+    {
+        // Arrange
+        var httpClient = new WebApplicationFactoryForAny(options =>
+            {
+                options.Url = "http://127.0.0.1/doesNotExist";
+                options.AvailabilityIndicator = "Success";
+                options.UrlType = UrlType.Any;
+                options.BackgroundProcessingEnabled = false;
+                options.ScreenshotFileName = $"Screenshot_{Guid.NewGuid()}.png";
+                options.Activity = null;
+                options.RefreshIntervalInSeconds = 1953;
+            })
+            .CreateClient();
+        await httpClient.GetAsync("createImageNow");
+
+        // Act
+        var result = await httpClient.GetAsync("latestImage");
 
         // Assert
         result.Should().HaveStatusCode(HttpStatusCode.NotFound);

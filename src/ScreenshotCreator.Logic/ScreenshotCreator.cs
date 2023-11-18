@@ -4,63 +4,64 @@ using Microsoft.Playwright;
 
 namespace ScreenshotCreator.Logic;
 
-public sealed class ScreenshotCreator : IScreenshotCreator
+public sealed class ScreenshotCreator(IPlaywrightHelper playwrightHelper, IOptions<ScreenshotOptions> options, ILogger<ScreenshotCreator> logger)
+    : IScreenshotCreator
 {
-    private readonly IPlaywrightHelper _playwrightHelper;
-    private readonly ILogger<ScreenshotCreator> _logger;
-    private readonly ScreenshotOptions _screenshotOptions;
-
-    public ScreenshotCreator(IPlaywrightHelper playwrightHelper, IOptions<ScreenshotOptions> options, ILogger<ScreenshotCreator> logger)
-    {
-        _playwrightHelper = playwrightHelper;
-        _logger = logger;
-        _screenshotOptions = options.Value;
-    }
+    private readonly ScreenshotOptions _screenshotOptions = options.Value;
 
     public async Task CreateScreenshotAsync(uint width, uint height)
     {
-        var page = await _playwrightHelper.InitializePlaywrightAsync();
+        var page = await playwrightHelper.InitializePlaywrightAsync();
 
         await page.SetViewportSizeAsync((int)width, (int)height);
         if (await NeedsLoginAsync(page)) await LoginAsync(page);
 
-        await NavigateToUrlAsync(page);
+        if (await PageIsAvailableAsync(page))
+        {
+            await NavigateToUrlAsync(page);
+            await page.ScreenshotAsync(new PageScreenshotOptions { Path = _screenshotOptions.ScreenshotFileName, Type = ScreenshotType.Png });
+        }
 
-        await page.ScreenshotAsync(new PageScreenshotOptions { Path = _screenshotOptions.ScreenshotFileName, Type = ScreenshotType.Png });
+        logger.ScreenshotCreated();
+    }
 
-        _logger.ScreenshotCreated();
+    private async Task<bool> PageIsAvailableAsync(IPage page)
+    {
+        if (string.IsNullOrWhiteSpace(_screenshotOptions.AvailabilityIndicator)) return true;
+
+        return await page.GetByText(_screenshotOptions.AvailabilityIndicator).CountAsync() > 0;
     }
 
     private async Task NavigateToUrlAsync(IPage page)
     {
         await page.GotoAsync(_screenshotOptions.Url);
-        await _playwrightHelper.WaitAsync();
+        await playwrightHelper.WaitAsync();
     }
 
     private async Task LoginAsync(IPage page)
     {
-        _logger.LoggingIn();
+        logger.LoggingIn();
 
         await page.GotoAsync(GetBaseUrl());
-        await _playwrightHelper.WaitAsync();
+        await playwrightHelper.WaitAsync();
         await page.GetByPlaceholder("User Name").FillAsync(_screenshotOptions.Username);
         await page.GetByPlaceholder("Password", new PageGetByPlaceholderOptions { Exact = true }).FillAsync(_screenshotOptions.Password);
         await page.GetByRole(AriaRole.Button).ClickAsync();
-        await _playwrightHelper.WaitAsync();
+        await playwrightHelper.WaitAsync();
     }
 
     private async Task<bool> NeedsLoginAsync(IPage page)
     {
         if (_screenshotOptions.UrlType != UrlType.OpenHab)
         {
-            _logger.LoginNotSupported(_screenshotOptions.UrlType.ToString());
+            logger.LoginNotSupported(_screenshotOptions.UrlType.ToString());
             return false;
         }
 
         await NavigateToUrlAsync(page);
 
         var needsLogin = await page.GetByText("You are not allowed to view this page because of visibility restrictions.").CountAsync() > 0;
-        _logger.LoginNecessaryCheck(needsLogin);
+        logger.LoginNecessaryCheck(needsLogin);
 
         return needsLogin;
     }

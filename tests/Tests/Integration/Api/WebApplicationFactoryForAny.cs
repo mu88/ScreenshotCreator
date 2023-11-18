@@ -1,21 +1,20 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.AspNetCore.TestHost;
-using Microsoft.Extensions.DependencyInjection;
-using ScreenshotCreator.Logic;
+﻿using ScreenshotCreator.Logic;
 
 namespace Tests.Integration.Api;
 
-internal class WebApplicationFactoryForAny : WebApplicationFactory<Program>
+internal class WebApplicationFactoryForAny : WebApplicationFactory
 {
-    protected override void ConfigureWebHost(IWebHostBuilder builder) =>
-        builder.ConfigureTestServices(services => services.Configure<ScreenshotOptions>(options =>
-        {
-            options.Url = "https://www.google.com";
-            options.UrlType = UrlType.Any;
-            options.BackgroundProcessingEnabled = false;
-            options.ScreenshotFileName = $"Screenshot_{Guid.NewGuid()}.png";
-            options.Activity = null;
-            options.RefreshIntervalInSeconds = 1953;
-        }));
+    /// <inheritdoc />
+    public WebApplicationFactoryForAny(Action<ScreenshotOptions>? configureOptions = null)
+        : base(configureOptions ?? (options =>
+                                       {
+                                           options.Url = "https://www.google.com";
+                                           options.UrlType = UrlType.Any;
+                                           options.BackgroundProcessingEnabled = false;
+                                           options.ScreenshotFileName = $"Screenshot_{Guid.NewGuid()}.png";
+                                           options.Activity = null;
+                                           options.RefreshIntervalInSeconds = 1953;
+                                       }))
+    {
+    }
 }
