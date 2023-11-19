@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [versionize](https://github.com/versionize/versionize) for commit guidelines.
 
+<a name="2.2.0"></a>
+## [2.2.0](https://www.github.com/mu88/ScreenshotCreator/releases/tag/v2.2.0) (2023-11-19)
+
+### Features
+
+* detect (hidden) login button before logging in ([dac768c](https://www.github.com/mu88/ScreenshotCreator/commit/dac768ca6b3fcfd6f1a630eb97b855dcc8ac24bf))
+
 <a name="2.1.1"></a>
 ## [2.1.1](https://www.github.com/mu88/ScreenshotCreator/releases/tag/v2.1.1) (2023-11-19)
 
