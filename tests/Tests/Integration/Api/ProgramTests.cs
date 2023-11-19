@@ -43,7 +43,7 @@ public class ProgramTests : PlaywrightTests
         result.Should().HaveStatusCode(HttpStatusCode.OK);
         result.Content.Headers.ContentType.Should().NotBeNull();
         result.Content.Headers.ContentType!.MediaType.Should().Be("image/png");
-        (await result.Content.ReadAsByteArrayAsync()).Length.Should().BeGreaterThan(2000).And.BeLessThan(25000);
+        (await result.Content.ReadAsByteArrayAsync()).Length.Should().BeGreaterThan(1300).And.BeLessThan(2000);
     }
 
     [Test]
@@ -159,7 +159,7 @@ public class ProgramTests : PlaywrightTests
     {
         var openHabNetwork = new NetworkBuilder().Build();
         var openHabContainer = new ContainerBuilder()
-            .WithImage("openhab/openhab:3.4.4")
+            .WithImage("openhab/openhab:latest")
             .WithNetwork(openHabNetwork)
             .WithPortBinding(8080, true)
             .WithResourceMapping(new DirectoryInfo(Path.Combine(Environment.CurrentDirectory, "testData", "openhab", "conf")), "/openhab/conf")

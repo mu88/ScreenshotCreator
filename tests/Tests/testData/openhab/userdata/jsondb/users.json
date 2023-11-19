@@ -3,8 +3,8 @@
     "class": "org.openhab.core.auth.ManagedUser",
     "value": {
       "name": "admin",
-      "passwordHash": "te64tq8bLdG1P5ujBijxKbro37TXEwZo0jYguJ6o5yJGfZcWeANOV4JipxvayBs5+gLnnWm2SgnRRl5TNDkULg\u003d\u003d",
-      "passwordSalt": "zc2deUNeA/5ZcmflPiH6+k6VkUtOssGgW7726OOeTwAldzdYNXloDSReb7/Xvsj8HEpMwKJ9cztSxbrNeNnbhw\u003d\u003d",
+      "passwordHash": "ygR798tAJ3aVBj2Axm0FqIkpO70J8sy2e8TK3+qydJN0s5Vt3WRC5pPlRx6IB1TQVEs5eWWfZvSkTXfPZq5DVg\u003d\u003d",
+      "passwordSalt": "JQsMIC+Ggmyzr6yPn59EKb6E17T8Je6kes5UGzlBMMOGkeAjGMOfYITe3b3/pJZCcAi+DyDqoIDVpmi8JuN7MQ\u003d\u003d",
       "roles": [
         "administrator"
       ],

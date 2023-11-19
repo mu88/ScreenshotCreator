@@ -90,6 +90,7 @@ public class ScreenshotCreatorTests
                            .FillAsync(screenshotOptions.Password, null));
         pageMock.Setup(page => page.GetByRole(AriaRole.Button, null).ClickAsync(null));
         pageMock.Setup(page => page.GetByText("You are not allowed to view this page because of visibility restrictions.", null).CountAsync()).ReturnsAsync(1);
+        pageMock.Setup(page => page.GetByText("lock_shield_fill", null).IsVisibleAsync(null)).ReturnsAsync(true);
         playwrightHelperMock.Setup(helper => helper.InitializePlaywrightAsync()).ReturnsAsync(pageMock.Object);
         var testee = new ScreenshotCreator.Logic.ScreenshotCreator(playwrightHelperMock.Object,
                                                                    Options.Create(screenshotOptions),
@@ -116,6 +117,70 @@ public class ScreenshotCreatorTests
     }
 
     [Test]
+    public async Task CreateScreenshotWithLogin_ShouldOpenMenuAndClickLogin_IfLoginPageIsNotShown()
+    {
+        // Arrange
+        var screenshotOptions = new ScreenshotOptions { Url = "https://www.mysite.com", UrlType = UrlType.OpenHab };
+        var playwrightHelperMock = new Mock<IPlaywrightHelper>();
+        var pageMock = new Mock<IPage>();
+        pageMock.Setup(page => page.GetByPlaceholder("User Name", null).FillAsync(screenshotOptions.Username, null));
+        pageMock.Setup(page => page.GetByPlaceholder("User Name", null).IsVisibleAsync(null)).ReturnsAsync(false);
+        pageMock.Setup(page => page
+                           .GetByPlaceholder("Password", It.Is<PageGetByPlaceholderOptions>(options => options.Exact == true))
+                           .FillAsync(screenshotOptions.Password, null));
+        pageMock.Setup(page => page.GetByRole(AriaRole.Button, null).ClickAsync(null));
+        pageMock.Setup(page => page.GetByText("You are not allowed to view this page because of visibility restrictions.", null).CountAsync()).ReturnsAsync(1);
+        pageMock.Setup(page => page.GetByText("lock_shield_fill", null).IsVisibleAsync(null)).ReturnsAsync(false);
+        pageMock.Setup(page => page.GetByText("menu", null).ClickAsync(null));
+        playwrightHelperMock.Setup(helper => helper.InitializePlaywrightAsync()).ReturnsAsync(pageMock.Object);
+        var testee = new ScreenshotCreator.Logic.ScreenshotCreator(playwrightHelperMock.Object,
+                                                                   Options.Create(screenshotOptions),
+                                                                   new Mock<ILogger<ScreenshotCreator.Logic.ScreenshotCreator>>().Object);
+
+        // Act
+        await testee.CreateScreenshotAsync(800, 480);
+
+        // Assert
+        pageMock.Verify(page => page.ScreenshotAsync(It.Is<PageScreenshotOptions>(options => options.Path == screenshotOptions.ScreenshotFile &&
+                                                                                             options.Type == ScreenshotType.Png)),
+                        Times.Once);
+        pageMock.Verify(page => page.GetByText("menu", null).ClickAsync(null), Times.Once);
+        pageMock.Verify(page => page.GetByText("lock_shield_fill", null).ClickAsync(null), Times.Once);
+    }
+    
+    [Test]
+    public async Task CreateScreenshotWithLogin_ShouldNotOpenMenuAndLogin_IfLoginPageIsAlreadyShown()
+    {
+        // Arrange
+        var screenshotOptions = new ScreenshotOptions { Url = "https://www.mysite.com", UrlType = UrlType.OpenHab };
+        var playwrightHelperMock = new Mock<IPlaywrightHelper>();
+        var pageMock = new Mock<IPage>();
+        pageMock.Setup(page => page.GetByPlaceholder("User Name", null).FillAsync(screenshotOptions.Username, null));
+        pageMock.Setup(page => page.GetByPlaceholder("User Name", null).IsVisibleAsync(null)).ReturnsAsync(true);
+        pageMock.Setup(page => page
+                           .GetByPlaceholder("Password", It.Is<PageGetByPlaceholderOptions>(options => options.Exact == true))
+                           .FillAsync(screenshotOptions.Password, null));
+        pageMock.Setup(page => page.GetByRole(AriaRole.Button, null).ClickAsync(null));
+        pageMock.Setup(page => page.GetByText("You are not allowed to view this page because of visibility restrictions.", null).CountAsync()).ReturnsAsync(1);
+        pageMock.Setup(page => page.GetByText("lock_shield_fill", null).IsVisibleAsync(null)).ReturnsAsync(false);
+        pageMock.Setup(page => page.GetByText("menu", null).ClickAsync(null));
+        playwrightHelperMock.Setup(helper => helper.InitializePlaywrightAsync()).ReturnsAsync(pageMock.Object);
+        var testee = new ScreenshotCreator.Logic.ScreenshotCreator(playwrightHelperMock.Object,
+                                                                   Options.Create(screenshotOptions),
+                                                                   new Mock<ILogger<ScreenshotCreator.Logic.ScreenshotCreator>>().Object);
+
+        // Act
+        await testee.CreateScreenshotAsync(800, 480);
+
+        // Assert
+        pageMock.Verify(page => page.ScreenshotAsync(It.Is<PageScreenshotOptions>(options => options.Path == screenshotOptions.ScreenshotFile &&
+                                                                                             options.Type == ScreenshotType.Png)),
+                        Times.Once);
+        pageMock.Verify(page => page.GetByText("menu", null).ClickAsync(null), Times.Never);
+        pageMock.Verify(page => page.GetByText("lock_shield_fill", null).ClickAsync(null), Times.Never);
+    }
+
+    [Test]
     public async Task CreateScreenshotWithLogin_ShouldNotCreateScreenshot_IfSiteDoesNotIndicateAvailability()
     {
         // Arrange
@@ -129,6 +194,7 @@ public class ScreenshotCreatorTests
         pageMock.Setup(page => page.GetByRole(AriaRole.Button, null).ClickAsync(null));
         pageMock.Setup(page => page.GetByText("You are not allowed to view this page because of visibility restrictions.", null).CountAsync()).ReturnsAsync(1);
         pageMock.Setup(page => page.GetByText(screenshotOptions.AvailabilityIndicator, null).CountAsync()).ReturnsAsync(0);
+        pageMock.Setup(page => page.GetByText("lock_shield_fill", null).IsVisibleAsync(null)).ReturnsAsync(true);
         playwrightHelperMock.Setup(helper => helper.InitializePlaywrightAsync()).ReturnsAsync(pageMock.Object);
         var testee = new ScreenshotCreator.Logic.ScreenshotCreator(playwrightHelperMock.Object,
                                                                    Options.Create(screenshotOptions),
@@ -157,6 +223,7 @@ public class ScreenshotCreatorTests
         pageMock.Setup(page => page.GetByRole(AriaRole.Button, null).ClickAsync(null));
         pageMock.Setup(page => page.GetByText("You are not allowed to view this page because of visibility restrictions.", null).CountAsync()).ReturnsAsync(1);
         pageMock.Setup(page => page.GetByText(screenshotOptions.AvailabilityIndicator, null).CountAsync()).ReturnsAsync(1);
+        pageMock.Setup(page => page.GetByText("lock_shield_fill", null).IsVisibleAsync(null)).ReturnsAsync(true);
         playwrightHelperMock.Setup(helper => helper.InitializePlaywrightAsync()).ReturnsAsync(pageMock.Object);
         var testee = new ScreenshotCreator.Logic.ScreenshotCreator(playwrightHelperMock.Object,
                                                                    Options.Create(screenshotOptions),

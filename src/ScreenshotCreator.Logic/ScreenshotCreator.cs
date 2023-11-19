@@ -44,7 +44,17 @@ public sealed class ScreenshotCreator(IPlaywrightHelper playwrightHelper, IOptio
 
         await page.GotoAsync(GetBaseUrl());
         await playwrightHelper.WaitAsync();
-        await page.GetByPlaceholder("User Name").FillAsync(_screenshotOptions.Username);
+
+        var usernameTextfield = page.GetByPlaceholder("User Name");
+        if (!await usernameTextfield.IsVisibleAsync())
+        {
+            var loginButton = page.GetByText("lock_shield_fill");
+            if (!await loginButton.IsVisibleAsync()) await page.GetByText("menu").ClickAsync();
+
+            await loginButton.ClickAsync();
+        }
+
+        await usernameTextfield.FillAsync(_screenshotOptions.Username);
         await page.GetByPlaceholder("Password", new PageGetByPlaceholderOptions { Exact = true }).FillAsync(_screenshotOptions.Password);
         await page.GetByRole(AriaRole.Button).ClickAsync();
         await playwrightHelper.WaitAsync();
