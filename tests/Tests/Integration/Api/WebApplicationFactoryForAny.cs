@@ -11,7 +11,7 @@ internal class WebApplicationFactoryForAny : WebApplicationFactory
                                            options.Url = "https://www.google.com";
                                            options.UrlType = UrlType.Any;
                                            options.BackgroundProcessingEnabled = false;
-                                           options.ScreenshotFileName = $"Screenshot_{Guid.NewGuid()}.png";
+                                           options.ScreenshotFile = $"Screenshot_{Guid.NewGuid()}.png";
                                            options.Activity = null;
                                            options.RefreshIntervalInSeconds = 1953;
                                        }))

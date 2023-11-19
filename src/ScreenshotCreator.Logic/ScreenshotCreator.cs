@@ -19,7 +19,7 @@ public sealed class ScreenshotCreator(IPlaywrightHelper playwrightHelper, IOptio
         if (await PageIsAvailableAsync(page))
         {
             await NavigateToUrlAsync(page);
-            await page.ScreenshotAsync(new PageScreenshotOptions { Path = _screenshotOptions.ScreenshotFileName, Type = ScreenshotType.Png });
+            await page.ScreenshotAsync(new PageScreenshotOptions { Path = _screenshotOptions.ScreenshotFile, Type = ScreenshotType.Png });
         }
 
         logger.ScreenshotCreated();

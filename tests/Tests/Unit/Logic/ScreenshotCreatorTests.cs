@@ -22,7 +22,7 @@ public class ScreenshotCreatorTests
         var playwrightHelperMock = new Mock<IPlaywrightHelper>();
         var pageMock = new Mock<IPage>();
         pageMock
-            .Setup(page => page.ScreenshotAsync(It.Is<PageScreenshotOptions>(options => options.Path == screenshotOptions.ScreenshotFileName &&
+            .Setup(page => page.ScreenshotAsync(It.Is<PageScreenshotOptions>(options => options.Path == screenshotOptions.ScreenshotFile &&
                                                                                         options.Type == ScreenshotType.Png)))
             .ReturnsAsync(await File.ReadAllBytesAsync("testData/Screenshot.png"));
         playwrightHelperMock.Setup(helper => helper.InitializePlaywrightAsync()).ReturnsAsync(pageMock.Object);
@@ -53,7 +53,7 @@ public class ScreenshotCreatorTests
         var playwrightHelperMock = new Mock<IPlaywrightHelper>();
         var pageMock = new Mock<IPage>();
         pageMock
-            .Setup(page => page.ScreenshotAsync(It.Is<PageScreenshotOptions>(options => options.Path == screenshotOptions.ScreenshotFileName &&
+            .Setup(page => page.ScreenshotAsync(It.Is<PageScreenshotOptions>(options => options.Path == screenshotOptions.ScreenshotFile &&
                                                                                         options.Type == ScreenshotType.Png)))
             .ReturnsAsync(await File.ReadAllBytesAsync("testData/Screenshot.png"));
         pageMock.Setup(page => page.GetByText("You are not allowed to view this page because of visibility restrictions.", null).CountAsync()).ReturnsAsync(0);
@@ -107,7 +107,7 @@ public class ScreenshotCreatorTests
         pageMock.Verify(page => page.GetByRole(AriaRole.Button, null).ClickAsync(null), Times.Once);
         pageMock.Verify(page => page.SetViewportSizeAsync(800, 480), Times.Once);
         pageMock.Verify(page => page.GotoAsync(screenshotOptions.Url, null), Times.Exactly(expectedCallsOfGoto));
-        pageMock.Verify(page => page.ScreenshotAsync(It.Is<PageScreenshotOptions>(options => options.Path == screenshotOptions.ScreenshotFileName &&
+        pageMock.Verify(page => page.ScreenshotAsync(It.Is<PageScreenshotOptions>(options => options.Path == screenshotOptions.ScreenshotFile &&
                                                                                              options.Type == ScreenshotType.Png)),
                         Times.Once);
         pageMock.Verify(page => page.GetByText("You are not allowed to view this page because of visibility restrictions.", null).CountAsync(), Times.Once);
@@ -138,7 +138,7 @@ public class ScreenshotCreatorTests
         await testee.CreateScreenshotAsync(800, 480);
 
         // Assert
-        pageMock.Verify(page => page.ScreenshotAsync(It.Is<PageScreenshotOptions>(options => options.Path == screenshotOptions.ScreenshotFileName &&
+        pageMock.Verify(page => page.ScreenshotAsync(It.Is<PageScreenshotOptions>(options => options.Path == screenshotOptions.ScreenshotFile &&
                                                                                              options.Type == ScreenshotType.Png)),
                         Times.Never);
     }
@@ -166,7 +166,7 @@ public class ScreenshotCreatorTests
         await testee.CreateScreenshotAsync(800, 480);
 
         // Assert
-        pageMock.Verify(page => page.ScreenshotAsync(It.Is<PageScreenshotOptions>(options => options.Path == screenshotOptions.ScreenshotFileName &&
+        pageMock.Verify(page => page.ScreenshotAsync(It.Is<PageScreenshotOptions>(options => options.Path == screenshotOptions.ScreenshotFile &&
                                                                                              options.Type == ScreenshotType.Png)),
                         Times.Once);
     }

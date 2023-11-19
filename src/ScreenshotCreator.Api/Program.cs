@@ -59,16 +59,15 @@ async Task<IResult> ReturnImageOrNotFoundAsync(HttpContext httpContext,
                                                bool asWaveshareBytes = false,
                                                bool addWaveshareInstructions = false)
 {
-    var screenshotFile = Path.Combine(Environment.CurrentDirectory, options.Value.ScreenshotFileName);
-    if (!File.Exists(screenshotFile)) return Results.NotFound();
+    if (!File.Exists(options.Value.ScreenshotFile)) return Results.NotFound();
 
-    var processingResult = await imageProcessor.ProcessAsync(screenshotFile, blackAndWhite, asWaveshareBytes);
+    var processingResult = await imageProcessor.ProcessAsync(options.Value.ScreenshotFile, blackAndWhite, asWaveshareBytes);
 
     var result = asWaveshareBytes
                      ? Results.Bytes(processingResult.Data, processingResult.MediaType)
                      : Results.File(processingResult.Data, processingResult.MediaType);
 
-    if (addWaveshareInstructions) httpContext.Response.Headers.AddWaveshareInstructions(options.Value, screenshotFile);
+    if (addWaveshareInstructions) httpContext.Response.Headers.AddWaveshareInstructions(options.Value, options.Value.ScreenshotFile);
 
     return result;
 }
