@@ -31,6 +31,10 @@
       "matchUpdateTypes": [
         "major"
       ]
+    },
+    {
+      "matchPackageNames": ["Moq", "Moq.AutoMock"],
+      "enabled": false
     }
   ]
 }
