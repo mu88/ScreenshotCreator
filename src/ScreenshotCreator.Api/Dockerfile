@@ -28,6 +28,5 @@ RUN dotnet publish -a $TARGETARCH "/src/src/ScreenshotCreator.Api/ScreenshotCrea
 FROM playwright-install AS final
 WORKDIR /app
 COPY --from=build /app/publish .
-RUN chmod -R 777 /app
 USER $APP_UID
 ENTRYPOINT ["dotnet", "ScreenshotCreator.Api.dll"]
