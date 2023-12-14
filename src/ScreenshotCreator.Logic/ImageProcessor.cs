@@ -28,7 +28,7 @@ public class ImageProcessor(ILogger<ImageProcessor> logger)
     }
 
     [ExcludeFromCodeCoverage(Justification = "Didn't find a of setting FormatInfo to null")]
-    private static string GetImageMimeType(MagickImage image) => image.FormatInfo?.MimeType ?? "NoClue";
+    private static string GetImageMimeType(MagickImage image) => MagickFormatInfo.Create(image.Format)?.MimeType ?? "NoClue";
 
     private byte[] ToWaveshareBytes(MagickImage image)
     {

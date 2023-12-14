@@ -11,7 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Setup .NET
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '8.0'
       - name: Restore dependencies
@@ -26,7 +26,7 @@ jobs:
       - name: Run mutation testing
         run: dotnet stryker --dashboard-api-key "${{ secrets.STRYKER_DASHBOARD_API_KEY }}" --version "${{ github.ref_name }}" --config-file stryker-config.json
       - name: Archive mutation testing results
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: mutation-testing-report
           path: StrykerOutput/**/*.*
