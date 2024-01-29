@@ -45,6 +45,28 @@ public class ProgramTests : PlaywrightTests
         result.Content.Headers.ContentType!.MediaType.Should().Be("image/png");
         (await result.Content.ReadAsByteArrayAsync()).Length.Should().BeGreaterThan(1300).And.BeLessThan(2000);
     }
+    
+    [Test]
+    [Ignore("Not yet ready")]
+    public async Task CreateImageNowForOpenHab2()
+    {
+        // Arrange
+        var futureImage = new ImageFromDockerfileBuilder()
+            .WithDockerfileDirectory(CommonDirectoryPath.GetSolutionDirectory(), Path.Combine("src", "ScreenshotCreator.Api"))
+            .WithDockerfile("Dockerfile")
+            .Build();
+        await futureImage.CreateAsync();
+        var mappedPublicPort = await StartLocalOpenHabContainerAndGetPortAsync();
+
+        // Act
+        var result = await new WebApplicationFactoryForOpenHab(mappedPublicPort).CreateClient().GetAsync("createImageNow");
+
+        // Assert
+        result.Should().HaveStatusCode(HttpStatusCode.OK);
+        result.Content.Headers.ContentType.Should().NotBeNull();
+        result.Content.Headers.ContentType!.MediaType.Should().Be("image/png");
+        (await result.Content.ReadAsByteArrayAsync()).Length.Should().BeGreaterThan(1300).And.BeLessThan(2000);
+    }
 
     [Test]
     public async Task CreateImageWithSizeNow()
