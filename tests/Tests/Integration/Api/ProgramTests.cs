@@ -49,7 +49,7 @@ public class ProgramTests : PlaywrightTests
 
     [Test]
     [Explicit("Not yet ready")]
-    public async Task CreateImageNowForOpenHab2()
+    public async Task CreateImageNowForOpenHabAndAppBothRunningInDocker()
     {
         // Arrange
         var rootDirectory = Directory.GetParent(Environment.CurrentDirectory)?.Parent?.Parent?.Parent?.Parent ?? throw new NullReferenceException();
