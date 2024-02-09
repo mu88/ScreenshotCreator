@@ -10,5 +10,4 @@ RUN dotnet publish -a $TARGETARCH "/src/src/ScreenshotCreator.Api/ScreenshotCrea
 FROM base AS final
 WORKDIR /app
 COPY --from=build /app/publish .
-RUN chmod +x /app/.playwright/node/*/node
 ENTRYPOINT ["dotnet", "ScreenshotCreator.Api.dll"]
