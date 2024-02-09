@@ -1,4 +1,4 @@
-name: Combined CI / Release
+name: Playwright
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - 'renovate/playwright'
 
 jobs:
-  ci_cd:
+  playwright:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

@@ -14,6 +14,10 @@ jobs:
   ci_cd:
     runs-on: ubuntu-latest
     steps:
+      - name: Sleep for 5 minutes and thereby "wait" for the Playwright workflow
+        if: ${{ contains(github.ref, 'renovate/playwright') }}
+        run: sleep 5m
+        shell: bash
       - uses: actions/checkout@v4
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
