@@ -14,10 +14,13 @@ jobs:
   ci_cd:
     runs-on: ubuntu-latest
     steps:
-      - name: Sleep for 5 minutes and thereby "wait" for the Playwright workflow
+      - name: Workflow Dispatch and wait
         if: ${{ contains(github.ref, 'renovate/playwright') }}
-        run: sleep 5m
-        shell: bash
+        uses: aurelien-baudet/workflow-dispatch@v2.1.1
+        with:
+          workflow: Playwright
+          token: ${{ secrets.GITHUB_TOKEN }}
+          wait-for-completion: true
       - uses: actions/checkout@v4
       - name: Setup .NET
         uses: actions/setup-dotnet@v4

@@ -1,9 +1,6 @@
 name: Playwright
 
-on:
-  push:
-    branches:
-      - 'renovate/playwright'
+on: workflow_dispatch
 
 jobs:
   playwright:
