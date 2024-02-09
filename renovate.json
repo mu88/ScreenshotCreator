@@ -18,6 +18,12 @@
   ],
   "packageRules": [
     {
+      "matchPackageNames": ["Microsoft.Playwright"],
+      "groupName": "Playwright",
+      "automerge": true,
+      "automergeType": "branch"
+    },
+    {
       "description": "Automatically merge minor and patch-level updates",
       "matchUpdateTypes": ["minor", "patch", "digest"],
       "automerge": true,
