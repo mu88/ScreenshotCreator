@@ -1,8 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <ContainerBaseImagePlaywrightVersion>dev</ContainerBaseImagePlaywrightVersion>
     <ContainerRepository>mu88/screenshotcreator</ContainerRepository>
-    <ContainerBaseImage>docker.io/mu88/screenshotcreator-playwright:latest</ContainerBaseImage>
+    <ContainerBaseImage>docker.io/mu88/screenshotcreator-playwright:$(ContainerBaseImagePlaywrightVersion)</ContainerBaseImage>
     <PlaywrightPlatform>all</PlaywrightPlatform>
   </PropertyGroup>
   <ItemGroup>
@@ -17,9 +18,6 @@
     <InternalsVisibleTo Include="Tests"/>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\..\.dockerignore">
-      <Link>.dockerignore</Link>
-    </Content>
     <None Remove="*.png"/>
     <None Remove="*.jpeg"/>
   </ItemGroup>
