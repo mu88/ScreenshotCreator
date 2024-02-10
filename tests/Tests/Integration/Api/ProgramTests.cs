@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using System.Net;
+﻿using System.Net;
 using DotNet.Testcontainers.Builders;
 using FluentAssertions;
 using Microsoft.AspNetCore.WebUtilities;
@@ -44,42 +43,7 @@ public class ProgramTests : PlaywrightTests
         result.Should().HaveStatusCode(HttpStatusCode.OK);
         result.Content.Headers.ContentType.Should().NotBeNull();
         result.Content.Headers.ContentType!.MediaType.Should().Be("image/png");
-        (await result.Content.ReadAsByteArrayAsync()).Length.Should().BeGreaterThan(1300).And.BeLessThan(2000);
-    }
-
-    [Test]
-    [Explicit("Not yet ready")]
-    public async Task CreateImageNowForOpenHabAndAppBothRunningInDocker()
-    {
-        // Arrange
-        var rootDirectory = Directory.GetParent(Environment.CurrentDirectory)?.Parent?.Parent?.Parent?.Parent ?? throw new NullReferenceException();
-        var dockerfile = Path.Join(rootDirectory.FullName, "src", "ScreenshotCreator.Api", "Dockerfile");
-        var process = new Process
-        {
-            StartInfo = new ProcessStartInfo
-            {
-                FileName = "docker",
-                Arguments = $"build --platform linux/amd64 -f {dockerfile} -t screenshotcreator:dev {rootDirectory}",
-                UseShellExecute = false,
-                RedirectStandardOutput = true,
-                CreateNoWindow = true
-            }
-        };
-        process.Start();
-        while (!process.StandardOutput.EndOfStream) { await TestContext.Progress.WriteLineAsync(await process.StandardOutput.ReadLineAsync()); }
-
-        await process.WaitForExitAsync();
-        process.ExitCode.Should().Be(0);
-        var mappedPublicPort = await StartLocalOpenHabContainerAndGetPortAsync();
-
-        // Act
-        var result = await new WebApplicationFactoryForOpenHab(mappedPublicPort).CreateClient().GetAsync("createImageNow");
-
-        // Assert
-        result.Should().HaveStatusCode(HttpStatusCode.OK);
-        result.Content.Headers.ContentType.Should().NotBeNull();
-        result.Content.Headers.ContentType!.MediaType.Should().Be("image/png");
-        (await result.Content.ReadAsByteArrayAsync()).Length.Should().BeGreaterThan(1300).And.BeLessThan(2000);
+        (await result.Content.ReadAsByteArrayAsync()).Length.Should().BeInRange(8000, 15000);
     }
 
     [Test]
@@ -194,24 +158,11 @@ public class ProgramTests : PlaywrightTests
     private static async Task<ushort> StartLocalOpenHabContainerAndGetPortAsync()
     {
         var openHabNetwork = new NetworkBuilder().Build();
-        var openHabContainer = new ContainerBuilder()
-            .WithImage("openhab/openhab:latest")
-            .WithNetwork(openHabNetwork)
-            .WithPortBinding(8080, true)
-            .WithResourceMapping(new DirectoryInfo(Path.Combine(Environment.CurrentDirectory, "testData", "openhab", "conf")), "/openhab/conf")
-            .WithResourceMapping(new DirectoryInfo(Path.Combine(Environment.CurrentDirectory, "testData", "openhab", "userdata")), "/openhab/userdata")
-            .WithWaitStrategy(Wait.ForUnixContainer()
-                                  .UntilPortIsAvailable(8080)
-                                  .UntilHttpRequestIsSucceeded(strategy => strategy
-                                                                   .ForPort(8080)
-                                                                   .ForStatusCode(HttpStatusCode.OK)))
-            .Build();
+        var openHabContainer = Shared.CreateOpenHabContainer(openHabNetwork);
 
         await openHabNetwork.CreateAsync();
         await openHabContainer.StartAsync();
 
-        var mappedPublicPort = openHabContainer.GetMappedPublicPort(8080);
-
-        return mappedPublicPort;
+        return openHabContainer.GetMappedPublicPort(8080);
     }
 }

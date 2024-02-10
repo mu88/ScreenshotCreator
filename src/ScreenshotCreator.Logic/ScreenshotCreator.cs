@@ -14,19 +14,18 @@ public sealed class ScreenshotCreator(IPlaywrightHelper playwrightHelper, IOptio
         var page = await playwrightHelper.InitializePlaywrightAsync();
 
         await page.SetViewportSizeAsync((int)width, (int)height);
-        if (await NeedsLoginAsync(page)) await LoginAsync(page);
+        if (await NeedsLoginAsync(page)) { await LoginAsync(page); }
 
         if (await PageIsAvailableAsync(page))
         {
-            await NavigateToUrlAsync(page);
             await page.ScreenshotAsync(new PageScreenshotOptions { Path = _screenshotOptions.ScreenshotFile, Type = ScreenshotType.Png });
+            logger.ScreenshotCreated();
         }
-
-        logger.ScreenshotCreated();
     }
 
     private async Task<bool> PageIsAvailableAsync(IPage page)
     {
+        await NavigateToUrlAsync(page);
         if (string.IsNullOrWhiteSpace(_screenshotOptions.AvailabilityIndicator)) return true;
 
         return await page.GetByText(_screenshotOptions.AvailabilityIndicator).CountAsync() > 0;

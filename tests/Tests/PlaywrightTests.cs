@@ -2,7 +2,7 @@
 
 namespace Tests;
 
-public class PlaywrightTests
+public abstract class PlaywrightTests
 {
     [SetUp]
     public void InstallPlaywright() =>

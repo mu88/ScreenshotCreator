@@ -8,12 +8,13 @@ internal class WebApplicationFactoryForOpenHab : WebApplicationFactory
     public WebApplicationFactoryForOpenHab(int port, Action<ScreenshotOptions>? configureOptions = null)
         : base(configureOptions ?? (options =>
                                        {
-                                           options.Url = $"http://127.0.0.1:{port}/page/page_b0d3c939f7";
+                                           options.Url = $"http://127.0.0.1:{port}/page/page_28d2e71d84";
                                            options.Username = "admin";
                                            options.Password = "admin";
                                            options.UrlType = UrlType.OpenHab;
                                            options.BackgroundProcessingEnabled = false;
                                            options.ScreenshotFile = $"Screenshot_{Guid.NewGuid()}.png";
+                                           options.AvailabilityIndicator = "Wohnzimmer";
                                            options.Activity = null;
                                            options.RefreshIntervalInSeconds = 1953;
                                        }))

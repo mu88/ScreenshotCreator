@@ -27,14 +27,50 @@
         "parameters": [],
         "parameterGroups": []
       },
-      "timestamp": "Nov 19, 2023, 2:17:34 PM",
+      "timestamp": "Feb 10, 2024, 5:01:19 PM",
       "component": "oh-layout-page",
       "config": {
-        "label": "Temperaturen"
+        "label": "Temperaturen",
+        "visibleTo": [
+          "role:administrator"
+        ]
       },
       "slots": {
         "canvas": [],
-        "default": [],
+        "default": [
+          {
+            "component": "oh-block",
+            "config": {},
+            "slots": {
+              "default": [
+                {
+                  "component": "oh-grid-row",
+                  "config": {},
+                  "slots": {
+                    "default": [
+                      {
+                        "component": "oh-grid-col",
+                        "config": {},
+                        "slots": {
+                          "default": [
+                            {
+                              "component": "oh-label-card",
+                              "config": {
+                                "footer": "This is nice",
+                                "label": "14.7°C",
+                                "title": "Wohnzimmer"
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ],
         "grid": []
       }
     }
