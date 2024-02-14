@@ -61,7 +61,7 @@ jobs:
       - name: Build Docker
         if: ${{ env.IS_RELEASE != 'true' }}
         run: |
-          dotnet publish src/ScreenshotCreator.Api/ScreenshotCreator.Api.csproj --os linux --arch arm64 /t:PublishContainer '-p:ContainerImageTags="${{ env.VERSION }};latest"'
+          dotnet publish src/ScreenshotCreator.Api/ScreenshotCreator.Api.csproj --os linux --arch arm64 /t:PublishContainer '-p:ContainerImageTags="dev"'
       - name: Push Docker
         if: ${{ env.IS_RELEASE == 'true' }}
         run: |
