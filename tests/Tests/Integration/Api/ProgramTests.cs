@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using DotNet.Testcontainers.Builders;
+using DotNet.Testcontainers.Containers;
 using FluentAssertions;
 using Microsoft.AspNetCore.WebUtilities;
 using ScreenshotCreator.Logic;
@@ -34,10 +35,10 @@ public class ProgramTests : PlaywrightTests
     public async Task CreateImageNowForOpenHab()
     {
         // Arrange
-        var mappedPublicPort = await StartLocalOpenHabContainerAndGetPortAsync();
+        var openHabContainer = await StartLocalOpenHabContainerAndGetPortAsync();
 
         // Act
-        var result = await new WebApplicationFactoryForOpenHab(mappedPublicPort).CreateClient().GetAsync("createImageNow");
+        var result = await new WebApplicationFactoryForOpenHab(openHabContainer).CreateClient().GetAsync("createImageNow");
 
         // Assert
         result.Should().HaveStatusCode(HttpStatusCode.OK);
@@ -155,7 +156,7 @@ public class ProgramTests : PlaywrightTests
         result.Should().HaveStatusCode(HttpStatusCode.NotFound);
     }
 
-    private static async Task<ushort> StartLocalOpenHabContainerAndGetPortAsync()
+    private static async Task<IContainer> StartLocalOpenHabContainerAndGetPortAsync()
     {
         var openHabNetwork = new NetworkBuilder().Build();
         var openHabContainer = Shared.CreateOpenHabContainer(openHabNetwork);
@@ -163,6 +164,6 @@ public class ProgramTests : PlaywrightTests
         await openHabNetwork.CreateAsync();
         await openHabContainer.StartAsync();
 
-        return openHabContainer.GetMappedPublicPort(8080);
+        return openHabContainer;
     }
 }

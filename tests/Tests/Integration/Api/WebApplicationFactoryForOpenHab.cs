@@ -1,14 +1,15 @@
-﻿using ScreenshotCreator.Logic;
+﻿using DotNet.Testcontainers.Containers;
+using ScreenshotCreator.Logic;
 
 namespace Tests.Integration.Api;
 
 internal class WebApplicationFactoryForOpenHab : WebApplicationFactory
 {
     /// <inheritdoc />
-    public WebApplicationFactoryForOpenHab(int port, Action<ScreenshotOptions>? configureOptions = null)
+    public WebApplicationFactoryForOpenHab(IContainer openHabContainer, Action<ScreenshotOptions>? configureOptions = null)
         : base(configureOptions ?? (options =>
                                        {
-                                           options.Url = $"http://127.0.0.1:{port}/page/page_28d2e71d84";
+                                           options.Url = $"http://{openHabContainer.Hostname}:{openHabContainer.GetMappedPublicPort(8080)}/page/page_28d2e71d84";
                                            options.Username = "admin";
                                            options.Password = "admin";
                                            options.UrlType = UrlType.OpenHab;

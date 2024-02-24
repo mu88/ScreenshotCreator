@@ -11,7 +11,7 @@ public static class Shared
         new ContainerBuilder()
             .WithImage("openhab/openhab:latest")
             .WithNetwork(network)
-            .WithName(containerName)
+            .WithNetworkAliases(containerName)
             .WithPortBinding(8080, true)
             .WithResourceMapping(new DirectoryInfo(Path.Combine(Environment.CurrentDirectory, "testData", "openhab", "conf")), "/openhab/conf")
             .WithResourceMapping(new DirectoryInfo(Path.Combine(Environment.CurrentDirectory, "testData", "openhab", "userdata")), "/openhab/userdata")
