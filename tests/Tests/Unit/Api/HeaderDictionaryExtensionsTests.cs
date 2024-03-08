@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
 using FluentAssertions.Extensions;
 using Microsoft.AspNetCore.Http;
-using Moq;
+using NSubstitute;
 using ScreenshotCreator.Api;
 using ScreenshotCreator.Logic;
 
@@ -32,8 +32,8 @@ public class HeaderDictionaryExtensionsTests
     {
         // Arrange
         Environment.SetEnvironmentVariable("TZ", null);
-        var timeProviderMock = new Mock<TimeProvider>();
-        timeProviderMock.Setup(provider => provider.GetUtcNow()).Returns(12.April(1953).Add(TimeOnly.Parse(now).ToTimeSpan()));
+        var timeProviderMock = Substitute.For<TimeProvider>();
+        timeProviderMock.GetUtcNow().Returns(12.April(1953).Add(TimeOnly.Parse(now).ToTimeSpan()));
         var activity = isNull ? null : new Activity(TimeOnly.Parse(activeFrom), TimeOnly.Parse(activeTo), 15u);
         var getLastWriteTimeUtc = (string file) => 12.April(2023).At(19, 53).AsUtc();
         var screenshotOptions = new ScreenshotOptions { RefreshIntervalInSeconds = 1953, Activity = activity };

@@ -3,7 +3,7 @@ using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Running;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
-using Moq;
+using NSubstitute;
 using ScreenshotCreator.Logic;
 
 namespace Tests.Performance.Logic;
@@ -28,5 +28,5 @@ public class ImageProcessorTests
 public class ImageProcessorBenchmarks
 {
     [Benchmark]
-    public static async Task ProcessAsync() => await new ImageProcessor(new Mock<ILogger<ImageProcessor>>().Object).ProcessAsync("testData/Screenshot.png", true, true);
+    public static async Task ProcessAsync() => await new ImageProcessor(Substitute.For<ILogger<ImageProcessor>>()).ProcessAsync("testData/Screenshot.png", true, true);
 }

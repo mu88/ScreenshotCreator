@@ -3,7 +3,7 @@ using FluentAssertions;
 using ImageMagick;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
-using Moq;
+using NSubstitute;
 using ScreenshotCreator.Logic;
 
 namespace Tests.Unit.Logic;
@@ -16,7 +16,7 @@ public class ImageProcessorTests
     public async Task ProcessImage()
     {
         // Arrange
-        var testee = new ImageProcessor(new Mock<ILogger<ImageProcessor>>().Object);
+        var testee = new ImageProcessor(Substitute.For<ILogger<ImageProcessor>>());
 
         // Act
         var result = await testee.ProcessAsync("testData/Screenshot.png", false, false);
@@ -45,7 +45,7 @@ public class ImageProcessorTests
     public async Task ProcessImage_ShouldCreateBlackWhiteImageInWaveshareFormat()
     {
         // Arrange
-        var testee = new ImageProcessor(new Mock<ILogger<ImageProcessor>>().Object);
+        var testee = new ImageProcessor(Substitute.For<ILogger<ImageProcessor>>());
 
         // Act
         var result = await testee.ProcessAsync("testData/Screenshot.png", true, true);
@@ -61,7 +61,7 @@ public class ImageProcessorTests
     public async Task ProcessImage_ShouldReturnEmptyIfImageHasInvalidDimensions(string fileName)
     {
         // Arrange
-        var testee = new ImageProcessor(new Mock<ILogger<ImageProcessor>>().Object);
+        var testee = new ImageProcessor(Substitute.For<ILogger<ImageProcessor>>());
 
         // Act
         var result = await testee.ProcessAsync(fileName, true, true);

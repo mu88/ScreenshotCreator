@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Options;
-using Moq;
+using NSubstitute;
 using ScreenshotCreator.Api;
 using ScreenshotCreator.Logic;
 
@@ -18,8 +18,8 @@ public class BackgroundScreenshotCreatorTests
         // Arrange
         var screenshotOptions = new ScreenshotOptions { RefreshIntervalInSeconds = 1, BackgroundProcessingEnabled = true, Width = 800, Height = 600 };
         var cancellationTokenSource = new CancellationTokenSource();
-        var screenshotCreatorMock = new Mock<IScreenshotCreator>();
-        var testee = new BackgroundScreenshotCreator(screenshotCreatorMock.Object,
+        var screenshotCreatorMock = Substitute.For<IScreenshotCreator>();
+        var testee = new BackgroundScreenshotCreator(screenshotCreatorMock,
                                                      Options.Create(screenshotOptions),
                                                      NullLogger<BackgroundScreenshotCreator>.Instance);
 
@@ -29,7 +29,8 @@ public class BackgroundScreenshotCreatorTests
         cancellationTokenSource.Cancel();
 
         // Assert
-        screenshotCreatorMock.Verify(creator => creator.CreateScreenshotAsync(800, 600), Times.Exactly(2));
+        await screenshotCreatorMock.Received(2).CreateScreenshotAsync(800, 600);
+        await screenshotCreatorMock.Received(2).CreateScreenshotAsync(800, 600);
     }
 
     [Test]
@@ -38,8 +39,8 @@ public class BackgroundScreenshotCreatorTests
         // Arrange
         var screenshotOptions = new ScreenshotOptions { RefreshIntervalInSeconds = 1, BackgroundProcessingEnabled = false, Width = 800, Height = 600 };
         var cancellationTokenSource = new CancellationTokenSource();
-        var screenshotCreatorMock = new Mock<IScreenshotCreator>();
-        var testee = new BackgroundScreenshotCreator(screenshotCreatorMock.Object,
+        var screenshotCreatorMock = Substitute.For<IScreenshotCreator>();
+        var testee = new BackgroundScreenshotCreator(screenshotCreatorMock,
                                                      Options.Create(screenshotOptions),
                                                      NullLogger<BackgroundScreenshotCreator>.Instance);
 
@@ -49,7 +50,7 @@ public class BackgroundScreenshotCreatorTests
         cancellationTokenSource.Cancel();
 
         // Assert
-        screenshotCreatorMock.Verify(creator => creator.CreateScreenshotAsync(800, 600), Times.Never);
+        await screenshotCreatorMock.DidNotReceive().CreateScreenshotAsync(800, 600);
     }
 
     [Test]
@@ -63,8 +64,8 @@ public class BackgroundScreenshotCreatorTests
             RefreshIntervalInSeconds = 1, BackgroundProcessingEnabled = true, Width = 800, Height = 600, Activity = new Activity(activeFrom, activeTo, 90u)
         };
         var cancellationTokenSource = new CancellationTokenSource();
-        var screenshotCreatorMock = new Mock<IScreenshotCreator>();
-        var testee = new BackgroundScreenshotCreator(screenshotCreatorMock.Object,
+        var screenshotCreatorMock = Substitute.For<IScreenshotCreator>();
+        var testee = new BackgroundScreenshotCreator(screenshotCreatorMock,
                                                      Options.Create(screenshotOptions),
                                                      NullLogger<BackgroundScreenshotCreator>.Instance);
 
@@ -74,6 +75,6 @@ public class BackgroundScreenshotCreatorTests
         cancellationTokenSource.Cancel();
 
         // Assert
-        screenshotCreatorMock.Verify(creator => creator.CreateScreenshotAsync(800, 600), Times.Once);
+        await screenshotCreatorMock.Received(1).CreateScreenshotAsync(800, 600);
     }
 }
