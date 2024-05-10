@@ -83,11 +83,11 @@ public class ScreenshotCreatorTests
         await testee.CreateScreenshotAsync(800, 480);
 
         // Assert
-        await pageMock.Received(1).GetByPlaceholder("User Name").FillAsync(screenshotOptions.Username);
+        await pageMock.GetByPlaceholder("User Name").Received(1).FillAsync(screenshotOptions.Username);
         await pageMock.Received(1)
             .GetByPlaceholder("Password", Arg.Is<PageGetByPlaceholderOptions>(options => options.Exact == true))
             .FillAsync(screenshotOptions.Password);
-        await pageMock.Received(1).GetByRole(AriaRole.Button).ClickAsync();
+        await pageMock.GetByRole(AriaRole.Button).Received(1).ClickAsync();
         await pageMock.Received(1).SetViewportSizeAsync(800, 480);
         await pageMock.Received(expectedCallsOfGoto).GotoAsync(screenshotOptions.Url);
         await pageMock.Received(1)
@@ -120,8 +120,9 @@ public class ScreenshotCreatorTests
         await pageMock.Received(1)
             .ScreenshotAsync(Arg.Is<PageScreenshotOptions>(options => options.Path == screenshotOptions.ScreenshotFile &&
                                                                       options.Type == ScreenshotType.Png));
-        await pageMock.Received(1).GetByText("menu").ClickAsync();
-        await pageMock.Received(2).GetByText("lock_shield_fill").ClickAsync();
+        await pageMock.GetByText("menu").Received(1).ClickAsync();
+        pageMock.Received(2).GetByText("lock_shield_fill");
+        await pageMock.GetByText("lock_shield_fill").Received(1).ClickAsync();
     }
 
     [Test]
@@ -146,7 +147,7 @@ public class ScreenshotCreatorTests
         await pageMock.Received(1)
             .ScreenshotAsync(Arg.Is<PageScreenshotOptions>(options => options.Path == screenshotOptions.ScreenshotFile &&
                                                                       options.Type == ScreenshotType.Png));
-        await pageMock.DidNotReceive().GetByText("menu").ClickAsync();
+        await pageMock.GetByText("menu").DidNotReceive().ClickAsync();
         await pageMock.Received(1).GetByText("lock_shield_fill").ClickAsync();
     }
 
