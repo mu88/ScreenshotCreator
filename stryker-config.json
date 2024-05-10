@@ -13,6 +13,7 @@
         "test-case-filter": "TestCategory=Unit",
         "ignore-methods": [
             "logger.*"
-        ]
+        ],
+        "mutate": ["!**/ScreenshotOptions.cs"]
     }
 }
