@@ -39,16 +39,16 @@ jobs:
           echo "VERSION=$VERSION" >> $GITHUB_ENV
       - name: Restore dependencies
         run: dotnet restore ScreenshotCreator.sln
-      - name: Begin Sonar scan
-        run: |
-          dotnet tool install --global dotnet-sonarscanner
-          dotnet sonarscanner begin /k:mu88_ScreenshotCreator /o:mu88 /d:sonar.token=${{ secrets.SONAR_TOKEN }} /d:sonar.host.url=https://sonarcloud.io /d:sonar.cs.opencover.reportsPaths=tests/Tests/coverage.opencover.xml
+#      - name: Begin Sonar scan
+#        run: |
+#          dotnet tool install --global dotnet-sonarscanner
+#          dotnet sonarscanner begin /k:mu88_ScreenshotCreator /o:mu88 /d:sonar.token=${{ secrets.SONAR_TOKEN }} /d:sonar.host.url=https://sonarcloud.io /d:sonar.cs.opencover.reportsPaths=tests/Tests/coverage.opencover.xml
       - name: Build
         run: dotnet build --no-restore ScreenshotCreator.sln
       - name: Test and collect coverage
         run: dotnet test --no-build /p:CollectCoverage=true /p:CoverletOutputFormat=opencover '/p:ExcludeByFile=\"**/Log.Prefix.cs\"' --filter "TestCategory=Unit|TestCategory=Integration"
-      - name: End Sonar scan
-        run: dotnet sonarscanner end /d:sonar.token=${{ secrets.SONAR_TOKEN }}
+#      - name: End Sonar scan
+#        run: dotnet sonarscanner end /d:sonar.token=${{ secrets.SONAR_TOKEN }}
       - name: Run system and performance tests
         run: dotnet test --no-build --filter "TestCategory=System|TestCategory=Performance"
       - name: Login to DockerHub
