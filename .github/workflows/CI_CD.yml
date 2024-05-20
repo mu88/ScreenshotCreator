@@ -53,7 +53,6 @@ jobs:
         run: dotnet test --no-build --filter "TestCategory=System|TestCategory=Performance"
       - name: Login to DockerHub
         uses: docker/login-action@v3
-        if: ${{ env.IS_RELEASE == 'true' }}
         with:
           registry: registry.hub.docker.com
           username: ${{ secrets.DOCKERHUB_USERNAME }}
@@ -61,8 +60,8 @@ jobs:
       - name: Build Docker
         if: ${{ env.IS_RELEASE != 'true' }}
         run: |
-          dotnet publish src/ScreenshotCreator.Api/ScreenshotCreator.Api.csproj --os linux --arch arm64 /t:PublishContainer '-p:ContainerImageTags="dev"'
+          dotnet publish src/ScreenshotCreator.Api/ScreenshotCreator.Api.csproj /t:MultiArchPublish '-p:ContainerImageTags="dev"' -p:ContainerRegistry=registry.hub.docker.com
       - name: Push Docker
         if: ${{ env.IS_RELEASE == 'true' }}
         run: |
-          dotnet publish src/ScreenshotCreator.Api/ScreenshotCreator.Api.csproj --os linux --arch arm64 /t:PublishContainer '-p:ContainerImageTags="${{ env.VERSION }};latest"' -p:ContainerRegistry=registry.hub.docker.com
+          dotnet publish src/ScreenshotCreator.Api/ScreenshotCreator.Api.csproj /t:MultiArchPublish '-p:ContainerImageTags="${{ env.VERSION }};latest"' -p:ContainerRegistry=registry.hub.docker.com
