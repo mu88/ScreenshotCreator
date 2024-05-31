@@ -1,6 +1,7 @@
 name: Combined CI / Release
 
 on:
+  workflow_dispatch:
   push:
     tags:
       - '*'
