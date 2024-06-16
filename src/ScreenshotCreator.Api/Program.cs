@@ -1,9 +1,15 @@
 using Microsoft.Extensions.Options;
+using OpenTelemetry;
+using OpenTelemetry.Metrics;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
 using ScreenshotCreator.Api;
 using ScreenshotCreator.Logic;
 using Creator = ScreenshotCreator.Logic.ScreenshotCreator;
 
 var builder = WebApplication.CreateBuilder(args);
+
+ConfigureOpenTelemetry(builder);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -70,4 +76,27 @@ async Task<IResult> ReturnImageOrNotFoundAsync(HttpContext httpContext,
     if (addWaveshareInstructions) httpContext.Response.Headers.AddWaveshareInstructions(options.Value, options.Value.ScreenshotFile);
 
     return result;
+}
+
+static void ConfigureOpenTelemetry(IHostApplicationBuilder builder)
+{
+    builder.Logging.AddOpenTelemetry(logging =>
+    {
+        logging.IncludeFormattedMessage = true;
+        logging.IncludeScopes = true;
+    });
+
+    builder.Services
+        .AddOpenTelemetry()
+        .ConfigureResource(c => c.AddService("ScreenshotCreator"))
+        .WithMetrics(metrics =>
+        {
+            metrics
+                .AddAspNetCoreInstrumentation()
+                .AddRuntimeInstrumentation();
+        })
+        .WithTracing(tracing => { tracing.AddAspNetCoreInstrumentation(); });
+
+    var useOtlpExporter = !string.IsNullOrWhiteSpace(builder.Configuration["OTEL_EXPORTER_OTLP_ENDPOINT"]);
+    if (useOtlpExporter) builder.Services.AddOpenTelemetry().UseOtlpExporter();
 }
