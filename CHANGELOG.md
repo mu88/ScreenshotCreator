@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [versionize](https://github.com/versionize/versionize) for commit guidelines.
 
+<a name="2.3.0"></a>
+## [2.3.0](https://www.github.com/mu88/ScreenshotCreator/releases/tag/v2.3.0) (2024-06-16)
+
+### Features
+
+* add OpenTelemetry ([4255ad3](https://www.github.com/mu88/ScreenshotCreator/commit/4255ad3719234f33b77d8bef008678aba9662703))
+
 <a name="2.2.3"></a>
 ## [2.2.3](https://www.github.com/mu88/ScreenshotCreator/releases/tag/v2.2.3) (2024-02-09)
 
