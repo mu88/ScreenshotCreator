@@ -17,7 +17,7 @@ jobs:
     steps:
       - name: Workflow Dispatch and wait
         if: ${{ contains(github.ref, 'renovate/playwright') }}
-        uses: aurelien-baudet/workflow-dispatch@v2.1.1
+        uses: aurelien-baudet/workflow-dispatch@v4.0.0
         with:
           workflow: Playwright
           token: ${{ secrets.GITHUB_TOKEN }}
