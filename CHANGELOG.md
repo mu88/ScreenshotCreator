@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [versionize](https://github.com/versionize/versionize) for commit guidelines.
 
+<a name="2.4.0"></a>
+## [2.4.0](https://www.github.com/mu88/ScreenshotCreator/releases/tag/v2.4.0) (2024-07-07)
+
+### Features
+
+* keep background service running when exception occurs ([f2f9cef](https://www.github.com/mu88/ScreenshotCreator/commit/f2f9cefcb2051a757506aaf75be661deb1d029b2))
+
 <a name="2.3.1"></a>
 ## [2.3.1](https://www.github.com/mu88/ScreenshotCreator/releases/tag/v2.3.1) (2024-06-29)
 
