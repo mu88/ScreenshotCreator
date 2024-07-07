@@ -19,6 +19,7 @@
     <ProjectReference Include="..\ScreenshotCreator.Logic\ScreenshotCreator.Logic.csproj"/>
   </ItemGroup>
   <ItemGroup>
+    <InternalsVisibleTo Include="DynamicProxyGenAssembly2"/>
     <InternalsVisibleTo Include="Tests"/>
   </ItemGroup>
   <ItemGroup>
