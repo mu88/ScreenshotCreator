@@ -38,6 +38,10 @@ public class ScreenshotOptions
     [Required]
     public bool BackgroundProcessingEnabled { get; set; }
 
+    public bool BackgroundProcessingWithTryCatch { get; set; } = false;
+
+    public bool DoNotReusePlaywrightPage { get; set; } = false;
+
     public Activity? Activity { get; set; }
 
     public string CalculateSleepBetweenUpdates() =>
@@ -52,9 +56,10 @@ public enum UrlType
     OpenHab
 }
 
-public record Activity([Required]
-                       TimeOnly ActiveFrom,
-                       [Required]
-                       TimeOnly ActiveTo,
-                       [Range(1, uint.MaxValue)]
-                       uint RefreshIntervalWhenInactiveInSeconds);
+public record Activity(
+    [Required]
+    TimeOnly ActiveFrom,
+    [Required]
+    TimeOnly ActiveTo,
+    [Range(1, uint.MaxValue)]
+    uint RefreshIntervalWhenInactiveInSeconds);

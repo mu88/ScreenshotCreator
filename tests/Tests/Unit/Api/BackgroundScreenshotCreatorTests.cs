@@ -84,14 +84,16 @@ public class BackgroundScreenshotCreatorTests
     public async Task ProcessInBackground_ShouldLogExceptionButContinueWorking_WhenExceptionOccurs()
     {
         // Arrange
-        var screenshotOptions = new ScreenshotOptions { RefreshIntervalInSeconds = 1, BackgroundProcessingEnabled = true, Width = 800, Height = 600 };
+        var screenshotOptions = new ScreenshotOptions
+        {
+            RefreshIntervalInSeconds = 1, BackgroundProcessingEnabled = true, BackgroundProcessingWithTryCatch = true, Width = 800, Height = 600
+        };
         var cancellationTokenSource = new CancellationTokenSource();
         var screenshotCreatorMock = Substitute.For<IScreenshotCreator>();
         var invalidOperationException = new InvalidOperationException("Something went wrong");
         var counter = 0; // not relevant, just here to make xUnit in CallBack.First happy
         screenshotCreatorMock.When(creator => creator.CreateScreenshotAsync(800, 600))
             .Do(Callback.First(_ => counter++).ThenKeepThrowing(invalidOperationException));
-        // screenshotCreatorMock.CreateScreenshotAsync(Arg.Any<uint>(), Arg.Any<uint>()).ThrowsAsync(invalidOperationException);
         var loggerMock = Substitute.For<ILogger<BackgroundScreenshotCreator>>();
         var testee = new BackgroundScreenshotCreator(screenshotCreatorMock,
                                                      Options.Create(screenshotOptions),

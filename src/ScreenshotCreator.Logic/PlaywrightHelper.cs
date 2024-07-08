@@ -27,7 +27,7 @@ public sealed class PlaywrightHelper(IOptions<ScreenshotOptions> options, ILogge
     /// <inheritdoc />
     public async ValueTask<IPage> InitializePlaywrightAsync()
     {
-        if (_page != null)
+        if (!_screenshotOptions.DoNotReusePlaywrightPage && _page != null)
         {
             logger.ReusingPlaywrightPage();
             return _page;
