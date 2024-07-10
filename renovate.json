@@ -30,6 +30,13 @@
       "automergeType": "branch"
     },
     {
+      "description": "Disable major updates of certain .NET packages as this shall be done manually",
+      "matchPackagePrefixes": ["Microsoft.AspNetCore.", "Microsoft.Bcl.", "Microsoft.Extensions."],
+      "matchUpdateTypes": ["major"],
+      "enabled": false
+    },
+    {
+      "description": "Disable major updates of Docker-related components as this shall be done manually",
       "enabled": false,
       "matchDatasources": [
         "docker"
@@ -39,6 +46,7 @@
       ]
     },
     {
+      "description": "Disable major updates global.json as this shall be done manually",
       "matchFileNames": ["global.json"],
       "enabled": false
     }
