@@ -37,6 +37,10 @@
       "matchUpdateTypes": [
         "major"
       ]
+    },
+    {
+      "matchFileNames": ["global.json"],
+      "enabled": false
     }
   ]
 }
