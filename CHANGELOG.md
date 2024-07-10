@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [versionize](https://github.com/versionize/versionize) for commit guidelines.
 
+<a name="2.5.0"></a>
+## [2.5.0](https://www.github.com/mu88/ScreenshotCreator/releases/tag/v2.5.0) (2024-07-10)
+
+### Features
+
+* add options to configure page reuse and try-catch ([df65611](https://www.github.com/mu88/ScreenshotCreator/commit/df65611b39c0d6969383b55dd323ff422afae753))
+
 <a name="2.4.0"></a>
 ## [2.4.0](https://www.github.com/mu88/ScreenshotCreator/releases/tag/v2.4.0) (2024-07-07)
 
