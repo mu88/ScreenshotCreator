@@ -56,7 +56,7 @@ app.MapGet("createImageWithSizeNow",
                return await ReturnImageOrNotFoundAsync(httpContext, imageProcessor, options);
            });
 
-app.Run();
+await app.RunAsync();
 
 async Task<IResult> ReturnImageOrNotFoundAsync(HttpContext httpContext,
                                                ImageProcessor imageProcessor,
