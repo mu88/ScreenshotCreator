@@ -46,7 +46,16 @@
       ]
     },
     {
-      "description": "Disable major updates global.json as this shall be done manually",
+      "description": "Wait with non-major updates of global.json so that it is likely to be installed on all dev machines, too",
+      "matchUpdateTypes": ["minor", "patch", "digest"],
+      "matchFileNames": ["global.json"],
+      "minimumReleaseAge": "14 days",
+      "automerge": true,
+      "automergeType": "branch"
+    },
+    {
+      "description": "Major updates of global.json will be done manually.",
+      "matchUpdateTypes": ["major"],
       "matchFileNames": ["global.json"],
       "enabled": false
     }
