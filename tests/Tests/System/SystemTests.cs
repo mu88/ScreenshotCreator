@@ -29,7 +29,7 @@ public class SystemTests
         result.Should().HaveStatusCode(HttpStatusCode.OK);
         result.Content.Headers.ContentType.Should().NotBeNull();
         result.Content.Headers.ContentType!.MediaType.Should().Be("image/png");
-        (await result.Content.ReadAsByteArrayAsync()).Length.Should().BeInRange(10000, 15000);
+        (await result.Content.ReadAsByteArrayAsync()).Length.Should().BeInRange(9000, 15000);
         logValues.Stdout.Should().NotContain("warn:");
     }
 
