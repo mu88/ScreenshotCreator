@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file. See [versionize](https://github.com/versionize/versionize) for commit guidelines.
 
+<a name="2.5.1"></a>
+## [2.5.1](https://www.github.com/mu88/ScreenshotCreator/releases/tag/v2.5.1) (2024-07-15)
+
 <a name="2.5.0"></a>
 ## [2.5.0](https://www.github.com/mu88/ScreenshotCreator/releases/tag/v2.5.0) (2024-07-10)
 
