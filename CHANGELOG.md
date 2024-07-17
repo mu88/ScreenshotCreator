@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [versionize](https://github.com/versionize/versionize) for commit guidelines.
 
+<a name="2.5.2"></a>
+## [2.5.2](https://www.github.com/mu88/ScreenshotCreator/releases/tag/v2.5.2) (2024-07-17)
+
+### Bug Fixes
+
+* do not reuse Playwright session as this leaks memory ([0b4592f](https://www.github.com/mu88/ScreenshotCreator/commit/0b4592f3d14d1d346c65dfc27abbb77b69c19eba))
+
 <a name="2.5.1"></a>
 ## [2.5.1](https://www.github.com/mu88/ScreenshotCreator/releases/tag/v2.5.1) (2024-07-15)
 
