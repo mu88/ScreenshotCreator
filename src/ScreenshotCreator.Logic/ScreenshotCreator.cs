@@ -11,7 +11,8 @@ public sealed class ScreenshotCreator(IPlaywrightHelper playwrightHelper, IOptio
 
     public async Task CreateScreenshotAsync(uint width, uint height)
     {
-        var page = await playwrightHelper.InitializePlaywrightAsync();
+        await using var playwrightFacade = playwrightHelper.CreatePlaywrightFacade();
+        var page = await playwrightFacade.GetPlaywrightPageAsync();
 
         await page.SetViewportSizeAsync((int)width, (int)height);
         if (await NeedsLoginAsync(page)) { await LoginAsync(page); }

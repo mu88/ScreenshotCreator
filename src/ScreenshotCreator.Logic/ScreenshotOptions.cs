@@ -38,9 +38,7 @@ public class ScreenshotOptions
     [Required]
     public bool BackgroundProcessingEnabled { get; set; }
 
-    public bool BackgroundProcessingWithTryCatch { get; set; } = false;
-
-    public bool DoNotReusePlaywrightPage { get; set; } = false;
+    public bool BackgroundProcessingWithTryCatch { get; set; }
 
     public Activity? Activity { get; set; }
 

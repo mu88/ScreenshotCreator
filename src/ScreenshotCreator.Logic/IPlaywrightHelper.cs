@@ -1,10 +1,8 @@
-﻿using Microsoft.Playwright;
-
-namespace ScreenshotCreator.Logic;
+﻿namespace ScreenshotCreator.Logic;
 
 public interface IPlaywrightHelper
 {
-    ValueTask<IPage> InitializePlaywrightAsync();
+    IPlaywrightFacade CreatePlaywrightFacade();
 
     Task WaitAsync();
 }

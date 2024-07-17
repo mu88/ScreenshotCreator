@@ -17,9 +17,11 @@ public class ScreenshotCreatorTests
     {
         // Arrange
         var screenshotOptions = new ScreenshotOptions { Url = $"https://www.mysite.com{subresource}", UrlType = UrlType.Any };
-        var playwrightHelperMock = Substitute.For<IPlaywrightHelper>();
         var pageMock = Substitute.For<IPage>();
-        playwrightHelperMock.InitializePlaywrightAsync().Returns(pageMock);
+        var playwrightFacadeMock = Substitute.For<IPlaywrightFacade>();
+        playwrightFacadeMock.GetPlaywrightPageAsync().Returns(pageMock);
+        var playwrightHelperMock = Substitute.For<IPlaywrightHelper>();
+        playwrightHelperMock.CreatePlaywrightFacade().Returns(playwrightFacadeMock);
         var testee = new ScreenshotCreator.Logic.ScreenshotCreator(playwrightHelperMock,
                                                                    Options.Create(screenshotOptions),
                                                                    NullLogger<ScreenshotCreator.Logic.ScreenshotCreator>.Instance);
@@ -33,8 +35,9 @@ public class ScreenshotCreatorTests
         await pageMock.Received(1)
             .ScreenshotAsync(Arg.Is<PageScreenshotOptions>(options => options.Path == screenshotOptions.ScreenshotFile &&
                                                                       options.Type == ScreenshotType.Png));
-        await playwrightHelperMock.Received(1).InitializePlaywrightAsync();
+        playwrightHelperMock.Received(1).CreatePlaywrightFacade();
         await playwrightHelperMock.Received(1).WaitAsync();
+        await playwrightFacadeMock.Received(1).GetPlaywrightPageAsync();
     }
 
     [TestCase("")]
@@ -43,10 +46,12 @@ public class ScreenshotCreatorTests
     {
         // Arrange
         var screenshotOptions = new ScreenshotOptions { Url = $"https://www.mysite.com{subresource}", UrlType = UrlType.OpenHab };
-        var playwrightHelperMock = Substitute.For<IPlaywrightHelper>();
         var pageMock = Substitute.For<IPage>();
         pageMock.GetByText("You are not allowed to view this page because of visibility restrictions.").CountAsync().Returns(0);
-        playwrightHelperMock.InitializePlaywrightAsync().Returns(pageMock);
+        var playwrightFacadeMock = Substitute.For<IPlaywrightFacade>();
+        playwrightFacadeMock.GetPlaywrightPageAsync().Returns(pageMock);
+        var playwrightHelperMock = Substitute.For<IPlaywrightHelper>();
+        playwrightHelperMock.CreatePlaywrightFacade().Returns(playwrightFacadeMock);
         var testee = new ScreenshotCreator.Logic.ScreenshotCreator(playwrightHelperMock,
                                                                    Options.Create(screenshotOptions),
                                                                    NullLogger<ScreenshotCreator.Logic.ScreenshotCreator>.Instance);
@@ -60,8 +65,9 @@ public class ScreenshotCreatorTests
         await pageMock.Received(1)
             .ScreenshotAsync(Arg.Is<PageScreenshotOptions>(options => options.Path == screenshotOptions.ScreenshotFile &&
                                                                       options.Type == ScreenshotType.Png));
-        await playwrightHelperMock.Received(1).InitializePlaywrightAsync();
+        playwrightHelperMock.Received(1).CreatePlaywrightFacade();
         await playwrightHelperMock.Received(2).WaitAsync();
+        await playwrightFacadeMock.Received(1).GetPlaywrightPageAsync();
     }
 
     [TestCase("", 3)]
@@ -70,11 +76,13 @@ public class ScreenshotCreatorTests
     {
         // Arrange
         var screenshotOptions = new ScreenshotOptions { Url = $"https://www.mysite.com{subresource}", UrlType = UrlType.OpenHab };
-        var playwrightHelperMock = Substitute.For<IPlaywrightHelper>();
         var pageMock = Substitute.For<IPage>();
         pageMock.GetByText("You are not allowed to view this page because of visibility restrictions.").CountAsync().Returns(1);
         pageMock.GetByText("lock_shield_fill").IsVisibleAsync().Returns(true);
-        playwrightHelperMock.InitializePlaywrightAsync().Returns(pageMock);
+        var playwrightFacadeMock = Substitute.For<IPlaywrightFacade>();
+        playwrightFacadeMock.GetPlaywrightPageAsync().Returns(pageMock);
+        var playwrightHelperMock = Substitute.For<IPlaywrightHelper>();
+        playwrightHelperMock.CreatePlaywrightFacade().Returns(playwrightFacadeMock);
         var testee = new ScreenshotCreator.Logic.ScreenshotCreator(playwrightHelperMock,
                                                                    Options.Create(screenshotOptions),
                                                                    Substitute.For<ILogger<ScreenshotCreator.Logic.ScreenshotCreator>>());
@@ -94,8 +102,9 @@ public class ScreenshotCreatorTests
             .ScreenshotAsync(Arg.Is<PageScreenshotOptions>(options => options.Path == screenshotOptions.ScreenshotFile &&
                                                                       options.Type == ScreenshotType.Png));
         await pageMock.Received(2).GetByText("You are not allowed to view this page because of visibility restrictions.").CountAsync();
-        await playwrightHelperMock.Received(1).InitializePlaywrightAsync();
+        playwrightHelperMock.Received(1).CreatePlaywrightFacade();
         await playwrightHelperMock.Received(4).WaitAsync();
+        await playwrightFacadeMock.Received(1).GetPlaywrightPageAsync();
     }
 
     [Test]
@@ -103,12 +112,14 @@ public class ScreenshotCreatorTests
     {
         // Arrange
         var screenshotOptions = new ScreenshotOptions { Url = "https://www.mysite.com", UrlType = UrlType.OpenHab };
-        var playwrightHelperMock = Substitute.For<IPlaywrightHelper>();
         var pageMock = Substitute.For<IPage>();
         pageMock.GetByPlaceholder("User Name").IsVisibleAsync().Returns(false);
         pageMock.GetByText("You are not allowed to view this page because of visibility restrictions.").CountAsync().Returns(1);
         pageMock.GetByText("lock_shield_fill").IsVisibleAsync().Returns(false);
-        playwrightHelperMock.InitializePlaywrightAsync().Returns(pageMock);
+        var playwrightFacadeMock = Substitute.For<IPlaywrightFacade>();
+        playwrightFacadeMock.GetPlaywrightPageAsync().Returns(pageMock);
+        var playwrightHelperMock = Substitute.For<IPlaywrightHelper>();
+        playwrightHelperMock.CreatePlaywrightFacade().Returns(playwrightFacadeMock);
         var testee = new ScreenshotCreator.Logic.ScreenshotCreator(playwrightHelperMock,
                                                                    Options.Create(screenshotOptions),
                                                                    Substitute.For<ILogger<ScreenshotCreator.Logic.ScreenshotCreator>>());
@@ -130,12 +141,14 @@ public class ScreenshotCreatorTests
     {
         // Arrange
         var screenshotOptions = new ScreenshotOptions { Url = "https://www.mysite.com", UrlType = UrlType.OpenHab };
-        var playwrightHelperMock = Substitute.For<IPlaywrightHelper>();
         var pageMock = Substitute.For<IPage>();
         pageMock.GetByPlaceholder("User Name").IsVisibleAsync().Returns(true);
         pageMock.GetByText("You are not allowed to view this page because of visibility restrictions.").CountAsync().Returns(1);
         pageMock.GetByText("lock_shield_fill").IsVisibleAsync().Returns(false);
-        playwrightHelperMock.InitializePlaywrightAsync().Returns(pageMock);
+        var playwrightFacadeMock = Substitute.For<IPlaywrightFacade>();
+        playwrightFacadeMock.GetPlaywrightPageAsync().Returns(pageMock);
+        var playwrightHelperMock = Substitute.For<IPlaywrightHelper>();
+        playwrightHelperMock.CreatePlaywrightFacade().Returns(playwrightFacadeMock);
         var testee = new ScreenshotCreator.Logic.ScreenshotCreator(playwrightHelperMock,
                                                                    Options.Create(screenshotOptions),
                                                                    Substitute.For<ILogger<ScreenshotCreator.Logic.ScreenshotCreator>>());
@@ -156,12 +169,14 @@ public class ScreenshotCreatorTests
     {
         // Arrange
         var screenshotOptions = new ScreenshotOptions { Url = "https://www.mysite.com", UrlType = UrlType.OpenHab, AvailabilityIndicator = "Success" };
-        var playwrightHelperMock = Substitute.For<IPlaywrightHelper>();
         var pageMock = Substitute.For<IPage>();
         pageMock.GetByText("You are not allowed to view this page because of visibility restrictions.").CountAsync().Returns(1);
         pageMock.GetByText(screenshotOptions.AvailabilityIndicator).CountAsync().Returns(0);
         pageMock.GetByText("lock_shield_fill").IsVisibleAsync().Returns(true);
-        playwrightHelperMock.InitializePlaywrightAsync().Returns(pageMock);
+        var playwrightFacadeMock = Substitute.For<IPlaywrightFacade>();
+        playwrightFacadeMock.GetPlaywrightPageAsync().Returns(pageMock);
+        var playwrightHelperMock = Substitute.For<IPlaywrightHelper>();
+        playwrightHelperMock.CreatePlaywrightFacade().Returns(playwrightFacadeMock);
         var testee = new ScreenshotCreator.Logic.ScreenshotCreator(playwrightHelperMock,
                                                                    Options.Create(screenshotOptions),
                                                                    Substitute.For<ILogger<ScreenshotCreator.Logic.ScreenshotCreator>>());
@@ -180,12 +195,14 @@ public class ScreenshotCreatorTests
     {
         // Arrange
         var screenshotOptions = new ScreenshotOptions { Url = "https://www.mysite.com", UrlType = UrlType.OpenHab, AvailabilityIndicator = "Success" };
-        var playwrightHelperMock = Substitute.For<IPlaywrightHelper>();
         var pageMock = Substitute.For<IPage>();
         pageMock.GetByText("You are not allowed to view this page because of visibility restrictions.").CountAsync().Returns(1);
         pageMock.GetByText(screenshotOptions.AvailabilityIndicator).CountAsync().Returns(1);
         pageMock.GetByText("lock_shield_fill").IsVisibleAsync().Returns(true);
-        playwrightHelperMock.InitializePlaywrightAsync().Returns(pageMock);
+        var playwrightFacadeMock = Substitute.For<IPlaywrightFacade>();
+        playwrightFacadeMock.GetPlaywrightPageAsync().Returns(pageMock);
+        var playwrightHelperMock = Substitute.For<IPlaywrightHelper>();
+        playwrightHelperMock.CreatePlaywrightFacade().Returns(playwrightFacadeMock);
         var testee = new ScreenshotCreator.Logic.ScreenshotCreator(playwrightHelperMock,
                                                                    Options.Create(screenshotOptions),
                                                                    Substitute.For<ILogger<ScreenshotCreator.Logic.ScreenshotCreator>>());
