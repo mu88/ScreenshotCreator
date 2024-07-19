@@ -6,7 +6,6 @@ internal sealed class PlaywrightFacade : IPlaywrightFacade
 {
     private IBrowser? _browser;
     private bool _disposed;
-    private IPage? _page;
     private IPlaywright? _playwright;
 
     public async ValueTask DisposeAsync()
@@ -31,8 +30,7 @@ internal sealed class PlaywrightFacade : IPlaywrightFacade
         _playwright?.Dispose();
         _playwright = await Playwright.CreateAsync();
         _browser = await _playwright.Chromium.LaunchAsync();
-        _page = await _browser.NewPageAsync(new BrowserNewPageOptions { TimezoneId = Environment.GetEnvironmentVariable("TZ") });
 
-        return _page;
+        return await _browser.NewPageAsync(new BrowserNewPageOptions { TimezoneId = Environment.GetEnvironmentVariable("TZ") });
     }
 }
