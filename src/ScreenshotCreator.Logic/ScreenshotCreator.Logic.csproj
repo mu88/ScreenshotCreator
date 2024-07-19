@@ -4,13 +4,13 @@
         <MagickCopyNativeLinux>true</MagickCopyNativeLinux>
     </PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="13.9.1"/>
-        <PackageReference Include="Microsoft.Bcl.TimeProvider" Version="8.0.1"/>
-        <PackageReference Include="Microsoft.Playwright" Version="1.45.0"/>
-        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.1"/>
-        <PackageReference Include="Microsoft.Extensions.Options" Version="8.0.2"/>
+        <PackageReference Include="Magick.NET-Q16-AnyCPU" />
+        <PackageReference Include="Microsoft.Bcl.TimeProvider" />
+        <PackageReference Include="Microsoft.Playwright" />
+        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
+        <PackageReference Include="Microsoft.Extensions.Options" />
     </ItemGroup>
     <ItemGroup>
-        <InternalsVisibleTo Include="Tests"/>
+        <InternalsVisibleTo Include="Tests" />
     </ItemGroup>
 </Project>
