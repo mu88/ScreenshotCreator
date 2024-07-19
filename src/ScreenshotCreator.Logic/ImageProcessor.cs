@@ -40,7 +40,8 @@ public class ImageProcessor(ILogger<ImageProcessor> logger)
 
         var newWidth = image.Width / 8;
         var waveshareBytes = new byte[newWidth * image.Height];
-        var pixelByteSpan = image.GetPixelsUnsafe().ToByteArray("R").AsSpan();
+        using var unsafePixelCollection = image.GetPixelsUnsafe();
+        var pixelByteSpan = unsafePixelCollection.ToByteArray("R").AsSpan();
         var array = new BitArray(8);
         for (var finalBytePosition = 0; finalBytePosition < pixelByteSpan.Length / 8; finalBytePosition++)
         {

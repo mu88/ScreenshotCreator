@@ -1,0 +1,25 @@
+﻿[*]
+indent_size = 2
+
+[*.cs]
+indent_size = 4
+dotnet_diagnostic.MA0003.severity = none
+dotnet_diagnostic.MA0004.severity = none
+dotnet_diagnostic.MA0007.severity = none
+dotnet_diagnostic.MA0038.severity = none
+dotnet_diagnostic.MA0048.severity = none
+dotnet_diagnostic.MA0053.severity = none
+dotnet_diagnostic.SA0001.severity = none
+dotnet_diagnostic.SA1000.severity = none
+dotnet_diagnostic.SA1009.severity = none
+dotnet_diagnostic.SA1101.severity = none
+dotnet_diagnostic.SA1116.severity = none
+dotnet_diagnostic.SA1200.severity = none
+dotnet_diagnostic.SA1309.severity = none
+dotnet_diagnostic.SA1313.severity = none
+dotnet_diagnostic.SA1413.severity = none
+dotnet_diagnostic.SA1516.severity = none
+dotnet_diagnostic.SA1600.severity = none
+dotnet_diagnostic.SA1601.severity = none
+dotnet_diagnostic.SA1602.severity = none
+dotnet_diagnostic.SA1633.severity = none

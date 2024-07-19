@@ -21,8 +21,8 @@ public class ScreenshotOptions
     public string ScreenshotFile { get; set; } = "/home/app/Screenshot.png";
 
     public string? AvailabilityIndicator { get; set; } = string.Empty;
-    // Stryker restore all
 
+    // Stryker restore all
     [Range(1, uint.MaxValue)]
     public uint Width { get; set; }
 

@@ -9,7 +9,6 @@ internal class BackgroundScreenshotCreator : BackgroundService
     private readonly ILogger<BackgroundScreenshotCreator> _logger;
     private readonly ScreenshotOptions _screenshotOptions;
 
-    /// <inheritdoc />
     public BackgroundScreenshotCreator(IScreenshotCreator screenshotCreator, IOptions<ScreenshotOptions> options, ILogger<BackgroundScreenshotCreator> logger)
     {
         _screenshotCreator = screenshotCreator;
@@ -26,7 +25,7 @@ internal class BackgroundScreenshotCreator : BackgroundService
             return;
         }
 
-        PeriodicTimer timer = new(TimeSpan.FromSeconds(_screenshotOptions.RefreshIntervalInSeconds));
+        using PeriodicTimer timer = new(TimeSpan.FromSeconds(_screenshotOptions.RefreshIntervalInSeconds));
 
         // There should always be at least one image present in case the background processor is enabled
         await _screenshotCreator.CreateScreenshotAsync(_screenshotOptions.Width, _screenshotOptions.Height);
@@ -38,11 +37,19 @@ internal class BackgroundScreenshotCreator : BackgroundService
             {
                 if (_screenshotOptions.BackgroundProcessingWithTryCatch)
                 {
-                    try { await _screenshotCreator.CreateScreenshotAsync(_screenshotOptions.Width, _screenshotOptions.Height); }
-                    catch (Exception e) { _logger.LogError(e, "Background processing failed"); }
+                    try
+                    {
+                        await _screenshotCreator.CreateScreenshotAsync(_screenshotOptions.Width, _screenshotOptions.Height);
+                    }
+                    catch (Exception e)
+                    {
+                        _logger.LogError(e, "Background processing failed");
+                    }
                 }
                 else
+                {
                     await _screenshotCreator.CreateScreenshotAsync(_screenshotOptions.Width, _screenshotOptions.Height);
+                }
             }
         }
     }

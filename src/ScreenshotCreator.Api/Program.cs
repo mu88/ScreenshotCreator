@@ -65,7 +65,10 @@ async Task<IResult> ReturnImageOrNotFoundAsync(HttpContext httpContext,
                                                bool asWaveshareBytes = false,
                                                bool addWaveshareInstructions = false)
 {
-    if (!File.Exists(options.Value.ScreenshotFile)) return Results.NotFound();
+    if (!File.Exists(options.Value.ScreenshotFile))
+    {
+        return Results.NotFound();
+    }
 
     var processingResult = await imageProcessor.ProcessAsync(options.Value.ScreenshotFile, blackAndWhite, asWaveshareBytes);
 
@@ -73,7 +76,10 @@ async Task<IResult> ReturnImageOrNotFoundAsync(HttpContext httpContext,
                      ? Results.Bytes(processingResult.Data, processingResult.MediaType)
                      : Results.File(processingResult.Data, processingResult.MediaType);
 
-    if (addWaveshareInstructions) httpContext.Response.Headers.AddWaveshareInstructions(options.Value, options.Value.ScreenshotFile);
+    if (addWaveshareInstructions)
+    {
+        httpContext.Response.Headers.AddWaveshareInstructions(options.Value, options.Value.ScreenshotFile);
+    }
 
     return result;
 }
@@ -95,8 +101,14 @@ static void ConfigureOpenTelemetry(IHostApplicationBuilder builder)
                 .AddAspNetCoreInstrumentation()
                 .AddRuntimeInstrumentation();
         })
-        .WithTracing(tracing => { tracing.AddAspNetCoreInstrumentation(); });
+        .WithTracing(tracing =>
+        {
+            tracing.AddAspNetCoreInstrumentation();
+        });
 
     var useOtlpExporter = !string.IsNullOrWhiteSpace(builder.Configuration["OTEL_EXPORTER_OTLP_ENDPOINT"]);
-    if (useOtlpExporter) builder.Services.AddOpenTelemetry().UseOtlpExporter();
+    if (useOtlpExporter)
+    {
+        builder.Services.AddOpenTelemetry().UseOtlpExporter();
+    }
 }

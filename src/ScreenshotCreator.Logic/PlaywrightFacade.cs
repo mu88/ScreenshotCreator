@@ -2,7 +2,7 @@
 
 namespace ScreenshotCreator.Logic;
 
-internal class PlaywrightFacade : IPlaywrightFacade
+internal sealed class PlaywrightFacade : IPlaywrightFacade
 {
     private IBrowser? _browser;
     private bool _disposed;
@@ -11,9 +11,16 @@ internal class PlaywrightFacade : IPlaywrightFacade
 
     public async ValueTask DisposeAsync()
     {
-        if (_disposed) return;
+        if (_disposed)
+        {
+            return;
+        }
 
-        if (_browser != null) await _browser.DisposeAsync();
+        if (_browser != null)
+        {
+            await _browser.DisposeAsync();
+        }
+
         _playwright?.Dispose();
 
         _disposed = true;
@@ -21,6 +28,7 @@ internal class PlaywrightFacade : IPlaywrightFacade
 
     public async ValueTask<IPage> GetPlaywrightPageAsync()
     {
+        _playwright?.Dispose();
         _playwright = await Playwright.CreateAsync();
         _browser = await _playwright.Chromium.LaunchAsync();
         _page = await _browser.NewPageAsync(new BrowserNewPageOptions { TimezoneId = Environment.GetEnvironmentVariable("TZ") });

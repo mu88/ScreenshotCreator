@@ -15,7 +15,10 @@ public sealed class ScreenshotCreator(IPlaywrightHelper playwrightHelper, IOptio
         var page = await playwrightFacade.GetPlaywrightPageAsync();
 
         await page.SetViewportSizeAsync((int)width, (int)height);
-        if (await NeedsLoginAsync(page)) { await LoginAsync(page); }
+        if (await NeedsLoginAsync(page))
+        {
+            await LoginAsync(page);
+        }
 
         if (await PageIsAvailableAsync(page))
         {
@@ -27,7 +30,10 @@ public sealed class ScreenshotCreator(IPlaywrightHelper playwrightHelper, IOptio
     private async Task<bool> PageIsAvailableAsync(IPage page)
     {
         await NavigateToUrlAsync(page);
-        if (string.IsNullOrWhiteSpace(_screenshotOptions.AvailabilityIndicator)) return true;
+        if (string.IsNullOrWhiteSpace(_screenshotOptions.AvailabilityIndicator))
+        {
+            return true;
+        }
 
         return await page.GetByText(_screenshotOptions.AvailabilityIndicator).CountAsync() > 0;
     }
@@ -49,7 +55,10 @@ public sealed class ScreenshotCreator(IPlaywrightHelper playwrightHelper, IOptio
         if (!await usernameTextfield.IsVisibleAsync())
         {
             var loginButton = page.GetByText("lock_shield_fill");
-            if (!await loginButton.IsVisibleAsync()) await page.GetByText("menu").ClickAsync();
+            if (!await loginButton.IsVisibleAsync())
+            {
+                await page.GetByText("menu").ClickAsync();
+            }
 
             await loginButton.ClickAsync();
         }
