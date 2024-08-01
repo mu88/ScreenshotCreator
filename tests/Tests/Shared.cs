@@ -9,7 +9,7 @@ public static class Shared
 {
     public static IContainer CreateOpenHabContainer(INetwork network, string? containerName = null) =>
         new ContainerBuilder()
-            .WithImage("openhab/openhab:latest")
+            .WithImage("openhab/openhab:4.2.0")
             .WithNetwork(network)
             .WithNetworkAliases(containerName)
             .WithPortBinding(8080, true)
@@ -18,7 +18,7 @@ public static class Shared
             .WithWaitStrategy(Wait.ForUnixContainer()
                                   .UntilPortIsAvailable(8080)
                                   .UntilHttpRequestIsSucceeded(strategy => strategy
-                                                                   .ForPort(8080)
-                                                                   .ForStatusCode(HttpStatusCode.OK)))
+                                                                           .ForPort(8080)
+                                                                           .ForStatusCode(HttpStatusCode.OK)))
             .Build();
 }
