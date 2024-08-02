@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [versionize](https://github.com/versionize/versionize) for commit guidelines.
 
+<a name="2.7.0"></a>
+## [2.7.0](https://www.github.com/mu88/ScreenshotCreator/releases/tag/v2.7.0) (2024-08-02)
+
+### Features
+
+* use MSBuild targets for building multi-arch Docker images from NuGet package mu88.Shared ([b352582](https://www.github.com/mu88/ScreenshotCreator/commit/b352582d698bb11f1a668a53391311b133866aa1))
+
 <a name="2.6.2"></a>
 ## [2.6.2](https://www.github.com/mu88/ScreenshotCreator/releases/tag/v2.6.2) (2024-08-02)
 
