@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [versionize](https://github.com/versionize/versionize) for commit guidelines.
 
+<a name="2.6.0"></a>
+## [2.6.0](https://www.github.com/mu88/ScreenshotCreator/releases/tag/v2.6.0) (2024-08-02)
+
+### Features
+
+* replace OpenTelemetry and multi-manifest Docker image logic with NuGet package mu88.Shared ([4be013c](https://www.github.com/mu88/ScreenshotCreator/commit/4be013cd041236e0c419de3f64e1acb476465325))
+
 <a name="2.5.2"></a>
 ## [2.5.2](https://www.github.com/mu88/ScreenshotCreator/releases/tag/v2.5.2) (2024-07-17)
 
