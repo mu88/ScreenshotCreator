@@ -19,7 +19,7 @@
     <PackageVersion Include="Microsoft.Extensions.Options.DataAnnotations" Version="8.0.0" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.10.0" />
     <PackageVersion Include="Microsoft.Playwright" Version="1.45.1" />
-    <PackageVersion Include="mu88.Shared" Version="0.1.2" />
+    <PackageVersion Include="mu88.Shared" Version="0.2.1" />
     <PackageVersion Include="NSubstitute" Version="5.1.0" />
     <PackageVersion Include="NUnit" Version="4.1.0" />
     <PackageVersion Include="NUnit.Analyzers" Version="4.2.0" />
