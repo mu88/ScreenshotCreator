@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [versionize](https://github.com/versionize/versionize) for commit guidelines.
 
+<a name="2.6.2"></a>
+## [2.6.2](https://www.github.com/mu88/ScreenshotCreator/releases/tag/v2.6.2) (2024-08-02)
+
+### Bug Fixes
+
+* readd multi-arch Docker target again ([5743d93](https://www.github.com/mu88/ScreenshotCreator/commit/5743d936e02b0dae3c7fc08b96a1609d40a0a3a1))
+
 <a name="2.6.1"></a>
 ## [2.6.1](https://www.github.com/mu88/ScreenshotCreator/releases/tag/v2.6.1) (2024-08-02)
 
