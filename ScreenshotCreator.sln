@@ -17,6 +17,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solutions Items", "Solution
 		README.md = README.md
 		renovate.json = renovate.json
 		stryker-config.json = stryker-config.json
+		.github\workflows\CI_CD.yml = .github\workflows\CI_CD.yml
 	EndProjectSection
 EndProject
 Global
