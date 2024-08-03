@@ -56,11 +56,11 @@ jobs:
           registry: registry.hub.docker.com
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: Build Docker
+      - name: Build and push Docker non-release
         if: ${{ env.IS_RELEASE != 'true' }}
         run: |
           dotnet publish src/ScreenshotCreator.Api/ScreenshotCreator.Api.csproj /t:MultiArchPublish '-p:ContainerImageTags="dev"' -p:ContainerRegistry=registry.hub.docker.com
-      - name: Push Docker
+      - name: Build and push Docker release
         if: ${{ env.IS_RELEASE == 'true' }}
         run: |
           dotnet publish src/ScreenshotCreator.Api/ScreenshotCreator.Api.csproj /t:MultiArchPublish '-p:ContainerImageTags="${{ env.VERSION }};latest"' -p:ContainerRegistry=registry.hub.docker.com
