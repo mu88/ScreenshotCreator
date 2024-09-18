@@ -34,7 +34,7 @@ public class ImageProcessor(ILogger<ImageProcessor> logger)
     {
         if (image.Width != 800 || image.Height != 480)
         {
-            logger.InvalidDimensions(image.Width, 800, image.Height, 480);
+            logger.InvalidDimensions(Convert.ToInt32(image.Width), 800, Convert.ToInt32(image.Height), 480);
             return Array.Empty<byte>();
         }
 
