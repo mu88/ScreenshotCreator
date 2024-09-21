@@ -10,7 +10,7 @@
     <PackageVersion Include="FluentAssertions" Version="6.12.1" />
     <PackageVersion Include="IDisposableAnalyzers" Version="4.0.8" />
     <PackageVersion Include="Magick.NET-Q16-AnyCPU" Version="14.0.0" />
-    <PackageVersion Include="Meziantou.Analyzer" Version="2.0.163" />
+    <PackageVersion Include="Meziantou.Analyzer" Version="2.0.168" />
     <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.8" />
     <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="8.0.8" />
     <PackageVersion Include="Microsoft.Bcl.TimeProvider" Version="8.0.1" />
