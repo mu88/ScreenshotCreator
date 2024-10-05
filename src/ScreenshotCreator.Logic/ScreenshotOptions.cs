@@ -38,8 +38,6 @@ public class ScreenshotOptions
     [Required]
     public bool BackgroundProcessingEnabled { get; set; }
 
-    public bool BackgroundProcessingWithTryCatch { get; set; }
-
     public Activity? Activity { get; set; }
 
     public string CalculateSleepBetweenUpdates() =>

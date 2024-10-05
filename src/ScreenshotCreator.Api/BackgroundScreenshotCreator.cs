@@ -33,24 +33,7 @@ internal class BackgroundScreenshotCreator : BackgroundService
         while (await timer.WaitForNextTickAsync(stoppingToken))
         {
             _logger.BackgroundServiceTriggered();
-            if (_screenshotOptions.Activity.DisplayShouldBeActive())
-            {
-                if (_screenshotOptions.BackgroundProcessingWithTryCatch)
-                {
-                    try
-                    {
-                        await _screenshotCreator.CreateScreenshotAsync(_screenshotOptions.Width, _screenshotOptions.Height);
-                    }
-                    catch (Exception e)
-                    {
-                        _logger.LogError(e, "Background processing failed");
-                    }
-                }
-                else
-                {
-                    await _screenshotCreator.CreateScreenshotAsync(_screenshotOptions.Width, _screenshotOptions.Height);
-                }
-            }
+            await _screenshotCreator.CreateScreenshotAsync(_screenshotOptions.Width, _screenshotOptions.Height);
         }
     }
 }
