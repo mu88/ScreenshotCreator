@@ -1,7 +1,9 @@
-﻿using Microsoft.Playwright;
+﻿using System.Diagnostics.CodeAnalysis;
+using Microsoft.Playwright;
 
 namespace ScreenshotCreator.Logic;
 
+[ExcludeFromCodeCoverage(Justification = "Testing the dispose implementation offers no real value")]
 internal sealed class PlaywrightFacade : IPlaywrightFacade
 {
     private IBrowser? _browser;
