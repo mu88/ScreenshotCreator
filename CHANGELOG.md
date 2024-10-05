@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [versionize](https://github.com/versionize/versionize) for commit guidelines.
 
+<a name="2.8.0"></a>
+## [2.8.0](https://www.github.com/mu88/ScreenshotCreator/releases/tag/v2.8.0) (2024-10-05)
+
+### Features
+
+* remove config option "BackgroundProcessingWithTryCatch" ([3c4252f](https://www.github.com/mu88/ScreenshotCreator/commit/3c4252fec193b1223b7276ba6c41549031856bd2))
+
 <a name="2.7.1"></a>
 ## [2.7.1](https://www.github.com/mu88/ScreenshotCreator/releases/tag/v2.7.1) (2024-08-03)
 
