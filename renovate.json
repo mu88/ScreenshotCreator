@@ -30,33 +30,32 @@
       "automergeType": "branch"
     },
     {
-      "description": "Disable major updates of certain .NET packages as this shall be done manually",
-      "matchPackagePrefixes": ["Microsoft.AspNetCore.", "Microsoft.Bcl.", "Microsoft.Extensions."],
-      "matchUpdateTypes": ["major"],
-      "enabled": false
-    },
-    {
-      "description": "Disable major updates of Docker-related components as this shall be done manually",
-      "enabled": false,
-      "matchDatasources": [
-        "docker"
-      ],
-      "matchUpdateTypes": [
-        "major"
-      ]
-    },
-    {
-      "description": "Wait with non-major updates of global.json so that it is likely to be installed on all dev machines, too",
+      "description": "Wait with non-major updates of .NET SDK and runtime (global.json and Docker images) so that it is likely to be installed on all dev machines, too",
       "matchUpdateTypes": ["minor", "patch", "digest"],
-      "matchFileNames": ["global.json"],
+      "matchPackageNames": [
+        "dotnet-sdk",
+        "mcr.microsoft.com/dotnet/sdk",
+        "mcr.microsoft.com/dotnet/aspnet",
+        "mcr.microsoft.com/dotnet/runtime",
+        "mcr.microsoft.com/dotnet/runtime-deps"
+      ],
       "minimumReleaseAge": "14 days",
       "automerge": true,
       "automergeType": "branch"
     },
     {
-      "description": "Major updates of global.json will be done manually.",
+      "description": "Major updates of .NET SDK and runtime (global.json and Docker images) will be done manually",
       "matchUpdateTypes": ["major"],
-      "matchFileNames": ["global.json"],
+      "matchPackageNames": [
+        "dotnet-sdk",
+        "mcr.microsoft.com/dotnet/sdk",
+        "mcr.microsoft.com/dotnet/aspnet",
+        "mcr.microsoft.com/dotnet/runtime",
+        "mcr.microsoft.com/dotnet/runtime-deps",
+        "Microsoft.AspNetCore.*",
+        "Microsoft.Bcl.*",
+        "Microsoft.Extensions.*"
+      ],
       "enabled": false
     }
   ]
