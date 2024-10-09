@@ -1,11 +1,6 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "config:base",
-    "group:all",
-    ":semanticCommitTypeAll(chore)",
-    "schedule:earlyMondays"
-  ],
+  "extends": ["github>mu88/renovate-config"],
   "ignorePresets": [":ignoreModulesAndTests"],
   "ignorePaths": [
     "**/node_modules/**",
@@ -22,41 +17,6 @@
       "groupName": "Playwright",
       "automerge": true,
       "automergeType": "branch"
-    },
-    {
-      "description": "Automatically merge minor and patch-level updates",
-      "matchUpdateTypes": ["minor", "patch", "digest"],
-      "automerge": true,
-      "automergeType": "branch"
-    },
-    {
-      "description": "Wait with non-major updates of .NET SDK and runtime (global.json and Docker images) so that it is likely to be installed on all dev machines, too",
-      "matchUpdateTypes": ["minor", "patch", "digest"],
-      "matchPackageNames": [
-        "dotnet-sdk",
-        "mcr.microsoft.com/dotnet/sdk",
-        "mcr.microsoft.com/dotnet/aspnet",
-        "mcr.microsoft.com/dotnet/runtime",
-        "mcr.microsoft.com/dotnet/runtime-deps"
-      ],
-      "minimumReleaseAge": "14 days",
-      "automerge": true,
-      "automergeType": "branch"
-    },
-    {
-      "description": "Major updates of .NET SDK and runtime (global.json and Docker images) will be done manually",
-      "matchUpdateTypes": ["major"],
-      "matchPackageNames": [
-        "dotnet-sdk",
-        "mcr.microsoft.com/dotnet/sdk",
-        "mcr.microsoft.com/dotnet/aspnet",
-        "mcr.microsoft.com/dotnet/runtime",
-        "mcr.microsoft.com/dotnet/runtime-deps",
-        "Microsoft.AspNetCore.*",
-        "Microsoft.Bcl.*",
-        "Microsoft.Extensions.*"
-      ],
-      "enabled": false
     }
   ]
 }
