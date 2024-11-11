@@ -3,13 +3,13 @@
   "isRoot": true,
   "tools": {
     "dotnet-stryker": {
-      "version": "4.3.0",
+      "version": "4.4.0",
       "commands": [
         "dotnet-stryker"
       ]
     },
     "versionize": {
-      "version": "2.2.0",
+      "version": "2.3.0",
       "commands": [
         "versionize"
       ]
