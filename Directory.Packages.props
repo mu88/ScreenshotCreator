@@ -9,8 +9,8 @@
     <PackageVersion Include="coverlet.msbuild" Version="6.0.2" />
     <PackageVersion Include="FluentAssertions" Version="6.12.2" />
     <PackageVersion Include="IDisposableAnalyzers" Version="4.0.8" />
-    <PackageVersion Include="Magick.NET-Q16-AnyCPU" Version="14.0.0" />
-    <PackageVersion Include="Meziantou.Analyzer" Version="2.0.177" />
+    <PackageVersion Include="Magick.NET-Q16-AnyCPU" Version="14.2.0" />
+    <PackageVersion Include="Meziantou.Analyzer" Version="2.0.179" />
     <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.10" />
     <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="8.0.10" />
     <PackageVersion Include="Microsoft.Bcl.TimeProvider" Version="8.0.1" />
@@ -22,10 +22,10 @@
     <PackageVersion Include="mu88.Shared" Version="0.5.1"/>
     <PackageVersion Include="NSubstitute" Version="5.3.0" />
     <PackageVersion Include="NUnit" Version="4.2.2" />
-    <PackageVersion Include="NUnit.Analyzers" Version="4.3.0" />
+    <PackageVersion Include="NUnit.Analyzers" Version="4.4.0" />
     <PackageVersion Include="NUnit3TestAdapter" Version="4.6.0" />
     <PackageVersion Include="StyleCop.Analyzers" Version="1.1.118" />
-    <PackageVersion Include="Swashbuckle.AspNetCore" Version="6.9.0" />
+    <PackageVersion Include="Swashbuckle.AspNetCore" Version="7.0.0" />
     <PackageVersion Include="Testcontainers" Version="4.0.0" />
   </ItemGroup>
 </Project>
