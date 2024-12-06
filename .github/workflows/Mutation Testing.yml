@@ -17,7 +17,7 @@ jobs:
       - name: Build
         run: dotnet build --no-restore ScreenshotCreator.sln
       - name: Install Playwright for tests
-        run: 'src/ScreenshotCreator.Api/bin/Debug/net8.0/playwright.ps1 install chromium'
+        run: 'src/ScreenshotCreator.Api/bin/Debug/net9.0/playwright.ps1 install chromium'
         shell: pwsh
       - name: Restore tools
         run: dotnet tool restore

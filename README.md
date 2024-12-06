@@ -144,3 +144,12 @@ That's why I'm thinking about creating my own dashboard being purely black and w
 ![](public_assets/image3.jpg)
 ![](public_assets/image4.jpg)
 ![](public_assets/image5.jpg)
+
+## Working with this repo
+
+### Major upgrades of .NET
+
+As long as my Playwright base image is not properly versionized, the following steps must be done:
+
+1. Update versions in `Dockerfile-Playwright`, push it and thereby create new version of the Playwright image.
+2. Update everything else and run the tests. Due to the new Playwright base image, everything should pass.

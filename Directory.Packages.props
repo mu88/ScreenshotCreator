@@ -11,15 +11,15 @@
     <PackageVersion Include="IDisposableAnalyzers" Version="4.0.8" />
     <PackageVersion Include="Magick.NET-Q16-AnyCPU" Version="14.2.0" />
     <PackageVersion Include="Meziantou.Analyzer" Version="2.0.182" />
-    <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.10" />
-    <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="8.0.10" />
-    <PackageVersion Include="Microsoft.Bcl.TimeProvider" Version="8.0.1" />
-    <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.2" />
-    <PackageVersion Include="Microsoft.Extensions.Options" Version="8.0.2" />
-    <PackageVersion Include="Microsoft.Extensions.Options.DataAnnotations" Version="8.0.0" />
+    <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="9.0.0"/>
+    <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="9.0.0"/>
+    <PackageVersion Include="Microsoft.Bcl.TimeProvider" Version="9.0.0"/>
+    <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.0"/>
+    <PackageVersion Include="Microsoft.Extensions.Options" Version="9.0.0"/>
+    <PackageVersion Include="Microsoft.Extensions.Options.DataAnnotations" Version="9.0.0"/>
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
     <PackageVersion Include="Microsoft.Playwright" Version="1.49.0" />
-    <PackageVersion Include="mu88.Shared" Version="0.5.1"/>
+    <PackageVersion Include="mu88.Shared" Version="1.0.0"/>
     <PackageVersion Include="NSubstitute" Version="5.3.0" />
     <PackageVersion Include="NUnit" Version="4.2.2" />
     <PackageVersion Include="NUnit.Analyzers" Version="4.4.0" />
@@ -27,5 +27,8 @@
     <PackageVersion Include="StyleCop.Analyzers" Version="1.1.118" />
     <PackageVersion Include="Swashbuckle.AspNetCore" Version="7.1.0" />
     <PackageVersion Include="Testcontainers" Version="4.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <NuGetAuditSuppress Include="https://github.com/advisories/GHSA-8g4q-xg66-9fp4"/> <!-- Since it's an internal app only, I consider this okay -->
   </ItemGroup>
 </Project>
