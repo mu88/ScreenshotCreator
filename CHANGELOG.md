@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [versionize](https://github.com/versionize/versionize) for commit guidelines.
 
+<a name="3.0.0"></a>
+## [3.0.0](https://www.github.com/mu88/ScreenshotCreator/releases/tag/v3.0.0) (2024-12-06)
+
+### Features
+
+* **deps:** upgrade to .NET 9 ([f240edc](https://www.github.com/mu88/ScreenshotCreator/commit/f240edcd3c39bf46a9c945085836b9b2aebfe5df))
+
+### Breaking Changes
+
+* **deps:** upgrade to .NET 9 ([f240edc](https://www.github.com/mu88/ScreenshotCreator/commit/f240edcd3c39bf46a9c945085836b9b2aebfe5df))
+
 <a name="2.8.0"></a>
 ## [2.8.0](https://www.github.com/mu88/ScreenshotCreator/releases/tag/v2.8.0) (2024-10-05)
 
