@@ -2,6 +2,9 @@ name: Playwright
 
 on: workflow_dispatch
 
+env:
+  MAJOR_VERSION: 9
+
 jobs:
   playwright:
     runs-on: ubuntu-latest
@@ -23,5 +26,5 @@ jobs:
           push: true
           provenance: false
           platforms: linux/arm64,linux/amd64
-          tags: mu88/screenshotcreator-playwright:latest
+          tags: mu88/screenshotcreator-playwright:latest,mu88/screenshotcreator-playwright:${{ env.MAJOR_VERSION }}.0.${{ github.run_number }}
           file: src/ScreenshotCreator.Api/Dockerfile-Playwright
