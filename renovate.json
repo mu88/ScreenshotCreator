@@ -17,6 +17,14 @@
       "groupName": "Playwright",
       "automerge": true,
       "automergeType": "branch"
+    },
+    {
+      "description": "Major updates of Playwright Docker image refer to major .NET upgrade and will be done manually",
+      "matchUpdateTypes": ["major"],
+      "matchPackageNames": [
+        "docker.io/mu88/screenshotcreator-playwright"
+      ],
+      "enabled": false
     }
   ]
 }
