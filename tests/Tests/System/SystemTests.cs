@@ -17,20 +17,23 @@ public class SystemTests
         // Arrange
         await BuildDockerImageOfScreenshotCreatorAsync();
         var screenshotCreatorContainer = await StartScreenshotCreatorAndOpenHabInContainersAsync();
+        var httpClient = new HttpClient { BaseAddress = GetScreenshotCreatorBaseAddress(screenshotCreatorContainer) };
 
         // Act
-        var result = await new HttpClient { BaseAddress = GetScreenshotCreatorBaseAddress(screenshotCreatorContainer) }
-                         .GetAsync("createImageNow");
+        var healthCheckResponse = await httpClient.GetAsync("healthz");
+        var appResponse = await httpClient.GetAsync("createImageNow");
 
         // Assert
         var logValues = await screenshotCreatorContainer.GetLogsAsync();
         Console.WriteLine($"Stderr:{Environment.NewLine}{logValues.Stderr}");
         Console.WriteLine($"Stdout:{Environment.NewLine}{logValues.Stdout}");
-        result.Should().HaveStatusCode(HttpStatusCode.OK);
-        result.Content.Headers.ContentType.Should().NotBeNull();
-        result.Content.Headers.ContentType!.MediaType.Should().Be("image/png");
-        (await result.Content.ReadAsByteArrayAsync()).Length.Should().BeInRange(9000, 15000);
         logValues.Stdout.Should().NotContain("warn:");
+        healthCheckResponse.Should().BeSuccessful();
+        (await healthCheckResponse.Content.ReadAsStringAsync()).Should().Be("Healthy");
+        appResponse.Should().HaveStatusCode(HttpStatusCode.OK);
+        appResponse.Content.Headers.ContentType.Should().NotBeNull();
+        appResponse.Content.Headers.ContentType!.MediaType.Should().Be("image/png");
+        (await appResponse.Content.ReadAsByteArrayAsync()).Length.Should().BeInRange(9000, 15000);
     }
 
     private static async Task BuildDockerImageOfScreenshotCreatorAsync()
@@ -49,7 +52,10 @@ public class SystemTests
             }
         };
         process.Start();
-        while (!process.StandardOutput.EndOfStream) { Console.WriteLine(await process.StandardOutput.ReadLineAsync()); }
+        while (!process.StandardOutput.EndOfStream)
+        {
+            Console.WriteLine(await process.StandardOutput.ReadLineAsync());
+        }
 
         await process.WaitForExitAsync();
         process.ExitCode.Should().Be(0);
