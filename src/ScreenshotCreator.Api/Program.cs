@@ -8,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.ConfigureOpenTelemetry("ScreenshotCreator");
 
+builder.Services.AddHealthChecks();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -52,6 +53,7 @@ app.MapGet("createImageWithSizeNow",
         await creator.CreateScreenshotAsync(width, height);
         return await ReturnImageOrNotFoundAsync(httpContext, imageProcessor, options);
     });
+app.MapHealthChecks("/healthz");
 
 await app.RunAsync();
 
