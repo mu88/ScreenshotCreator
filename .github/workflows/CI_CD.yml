@@ -19,6 +19,7 @@ jobs:
           workflow: Playwright
           token: ${{ secrets.GITHUB_TOKEN }}
           wait-for-completion: true
+      - uses: actions/checkout@v4
       - name: CI/CD
         id: mu88-ci-cd
         uses: mu88/github-actions/ci-cd@0.1
