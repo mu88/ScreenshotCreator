@@ -13,6 +13,13 @@
       "commands": [
         "versionize"
       ]
+    },
+    "dotnet-sonarscanner": {
+      "version": "9.0.2",
+      "commands": [
+        "dotnet-sonarscanner"
+      ],
+      "rollForward": false
     }
   }
 }
