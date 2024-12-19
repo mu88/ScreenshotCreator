@@ -15,28 +15,33 @@ public class SystemTests
     public async Task CreateImageNowForOpenHabAndScreenshotCreatorBothRunningInDocker()
     {
         // Arrange
-        await BuildDockerImageOfScreenshotCreatorAsync();
-        var screenshotCreatorContainer = await StartScreenshotCreatorAndOpenHabInContainersAsync();
-        var httpClient = new HttpClient { BaseAddress = GetScreenshotCreatorBaseAddress(screenshotCreatorContainer) };
+        CancellationToken cancellationToken = CreateCancellationToken(TimeSpan.FromMinutes(2));
+        await BuildDockerImageOfScreenshotCreatorAsync(cancellationToken);
+        var container = await StartScreenshotCreatorAndOpenHabInContainersAsync(cancellationToken);
+        var httpClient = new HttpClient { BaseAddress = GetScreenshotCreatorBaseAddress(container) };
 
         // Act
-        var healthCheckResponse = await httpClient.GetAsync("healthz");
-        var appResponse = await httpClient.GetAsync("createImageNow");
+        var healthCheckResponse = await httpClient.GetAsync("healthz", cancellationToken);
+        var appResponse = await httpClient.GetAsync("createImageNow", cancellationToken);
+        ExecResult healthCheckToolResult = await container.ExecAsync(["dotnet", "/app/mu88.HealthCheck.dll", "http://localhost:8080/screenshotCreator/healthz"], cancellationToken);
 
         // Assert
-        var logValues = await screenshotCreatorContainer.GetLogsAsync();
-        Console.WriteLine($"Stderr:{Environment.NewLine}{logValues.Stderr}");
-        Console.WriteLine($"Stdout:{Environment.NewLine}{logValues.Stdout}");
-        logValues.Stdout.Should().NotContain("warn:");
-        healthCheckResponse.Should().BeSuccessful();
-        (await healthCheckResponse.Content.ReadAsStringAsync()).Should().Be("Healthy");
-        appResponse.Should().HaveStatusCode(HttpStatusCode.OK);
-        appResponse.Content.Headers.ContentType.Should().NotBeNull();
-        appResponse.Content.Headers.ContentType!.MediaType.Should().Be("image/png");
-        (await appResponse.Content.ReadAsByteArrayAsync()).Length.Should().BeInRange(9000, 15000);
+        await LogsShouldNotContainWarningsAsync(container, cancellationToken);
+        await HealthCheckShouldBeHealthyAsync(healthCheckResponse, cancellationToken);
+        await AppShouldRunAsync(appResponse, cancellationToken);
+        healthCheckToolResult.ExitCode.Should().Be(0);
+    }
+    
+    private static CancellationToken CreateCancellationToken(TimeSpan timeout)
+    {
+        var timeoutCts = new CancellationTokenSource();
+        timeoutCts.CancelAfter(timeout);
+        CancellationToken cancellationToken = timeoutCts.Token;
+        
+        return cancellationToken;
     }
 
-    private static async Task BuildDockerImageOfScreenshotCreatorAsync()
+    private static async Task BuildDockerImageOfScreenshotCreatorAsync(CancellationToken cancellationToken)
     {
         var rootDirectory = Directory.GetParent(Environment.CurrentDirectory)?.Parent?.Parent?.Parent?.Parent ?? throw new NullReferenceException();
         var apiProjectFile = Path.Join(rootDirectory.FullName, "src", "ScreenshotCreator.Api", "ScreenshotCreator.Api.csproj");
@@ -54,14 +59,14 @@ public class SystemTests
         process.Start();
         while (!process.StandardOutput.EndOfStream)
         {
-            Console.WriteLine(await process.StandardOutput.ReadLineAsync());
+            Console.WriteLine(await process.StandardOutput.ReadLineAsync(cancellationToken));
         }
 
-        await process.WaitForExitAsync();
+        await process.WaitForExitAsync(cancellationToken);
         process.ExitCode.Should().Be(0);
     }
 
-    private static async Task<IContainer> StartScreenshotCreatorAndOpenHabInContainersAsync()
+    private static async Task<IContainer> StartScreenshotCreatorAndOpenHabInContainersAsync(CancellationToken cancellationToken)
     {
         Console.WriteLine("Building network and openHAB container");
         var network = new NetworkBuilder().Build();
@@ -70,14 +75,14 @@ public class SystemTests
         Console.WriteLine("OpenHAB container created");
 
         Console.WriteLine("Starting network and openHAB container");
-        await network.CreateAsync();
-        await openHabContainer.StartAsync();
+        await network.CreateAsync(cancellationToken);
+        await openHabContainer.StartAsync(cancellationToken);
         Console.WriteLine("Network and openHAB container started");
 
         Console.WriteLine("Building and starting ScreenshotCreator container");
         var screenshotCreatorContainer = BuildScreenshotCreatorContainer(network);
-        await screenshotCreatorContainer.StartAsync();
-        await screenshotCreatorContainer.GetLogsAsync();
+        await screenshotCreatorContainer.StartAsync(cancellationToken);
+        await screenshotCreatorContainer.GetLogsAsync(ct: cancellationToken);
         Console.WriteLine("ScreenshotCreator container started");
 
         return screenshotCreatorContainer;
@@ -101,4 +106,26 @@ public class SystemTests
 
     private static Uri GetScreenshotCreatorBaseAddress(IContainer screenshotCreatorContainer) =>
         new($"http://{screenshotCreatorContainer.Hostname}:{screenshotCreatorContainer.GetMappedPublicPort(8080)}/screenshotCreator");
+    
+    private static async Task AppShouldRunAsync(HttpResponseMessage appResponse, CancellationToken cancellationToken)
+    {
+        appResponse.Should().HaveStatusCode(HttpStatusCode.OK);
+        appResponse.Content.Headers.ContentType.Should().NotBeNull();
+        appResponse.Content.Headers.ContentType!.MediaType.Should().Be("image/png");
+        (await appResponse.Content.ReadAsByteArrayAsync(cancellationToken)).Length.Should().BeInRange(9000, 15000);
+    }
+
+    private static async Task HealthCheckShouldBeHealthyAsync(HttpResponseMessage healthCheckResponse, CancellationToken cancellationToken)
+    {
+        healthCheckResponse.Should().BeSuccessful();
+        (await healthCheckResponse.Content.ReadAsStringAsync(cancellationToken)).Should().Be("Healthy");
+    }
+
+    private static async Task LogsShouldNotContainWarningsAsync(IContainer container, CancellationToken cancellationToken)
+    {
+        (string Stdout, string Stderr) logValues = await container.GetLogsAsync(ct: cancellationToken);
+        Console.WriteLine($"Stderr:{Environment.NewLine}{logValues.Stderr}");
+        Console.WriteLine($"Stdout:{Environment.NewLine}{logValues.Stdout}");
+        logValues.Stdout.Should().NotContain("warn:");
+    }
 }
