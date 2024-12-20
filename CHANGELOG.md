@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [versionize](https://github.com/versionize/versionize) for commit guidelines.
 
+<a name="3.1.0"></a>
+## [3.1.0](https://www.github.com/mu88/ScreenshotCreator/releases/tag/v3.1.0) (2024-12-20)
+
+### Features
+
+* add health check ([ef587a7](https://www.github.com/mu88/ScreenshotCreator/commit/ef587a77d61fe6313ed674ffdc463f6bd9bbf978))
+* add reusable workflow ([4a1d6b3](https://www.github.com/mu88/ScreenshotCreator/commit/4a1d6b35be222619618fc61ce77d11a9c3be54d1))
+* embed health check tool ([e5f8fec](https://www.github.com/mu88/ScreenshotCreator/commit/e5f8fec6d5bd7d78a3b56830d75490e827e43c19))
+
 <a name="3.0.0"></a>
 ## [3.0.0](https://www.github.com/mu88/ScreenshotCreator/releases/tag/v3.0.0) (2024-12-06)
 
