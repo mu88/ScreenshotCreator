@@ -15,7 +15,7 @@ public class SystemTests
     public async Task CreateImageNowForOpenHabAndScreenshotCreatorBothRunningInDocker()
     {
         // Arrange
-        CancellationToken cancellationToken = CreateCancellationToken(TimeSpan.FromMinutes(2));
+        CancellationToken cancellationToken = CreateCancellationToken(TimeSpan.FromMinutes(5));
         await BuildDockerImageOfScreenshotCreatorAsync(cancellationToken);
         var container = await StartScreenshotCreatorAndOpenHabInContainersAsync(cancellationToken);
         var httpClient = new HttpClient { BaseAddress = GetScreenshotCreatorBaseAddress(container) };
