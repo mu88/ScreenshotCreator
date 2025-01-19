@@ -109,7 +109,7 @@ public class SystemTests
     
     private static async Task AppShouldRunAsync(HttpResponseMessage appResponse, CancellationToken cancellationToken)
     {
-        appResponse.Should().HaveStatusCode(HttpStatusCode.OK);
+        appResponse.StatusCode.Should().Be(HttpStatusCode.OK);
         appResponse.Content.Headers.ContentType.Should().NotBeNull();
         appResponse.Content.Headers.ContentType!.MediaType.Should().Be("image/png");
         (await appResponse.Content.ReadAsByteArrayAsync(cancellationToken)).Length.Should().BeInRange(9000, 15000);
@@ -117,7 +117,7 @@ public class SystemTests
 
     private static async Task HealthCheckShouldBeHealthyAsync(HttpResponseMessage healthCheckResponse, CancellationToken cancellationToken)
     {
-        healthCheckResponse.Should().BeSuccessful();
+        healthCheckResponse.StatusCode.Should().Be(HttpStatusCode.OK);
         (await healthCheckResponse.Content.ReadAsStringAsync(cancellationToken)).Should().Be("Healthy");
     }
 
