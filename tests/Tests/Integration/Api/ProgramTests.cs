@@ -26,7 +26,7 @@ public class ProgramTests : PlaywrightTests
         var result = await _clientForAny.GetAsync("createImageNow");
 
         // Assert
-        result.StatusCode.Should().Be(HttpStatusCode.OK);
+        result.Should().Be200Ok();
         result.Content.Headers.ContentType.Should().NotBeNull();
         result.Content.Headers.ContentType!.MediaType.Should().Be("image/png");
     }
@@ -41,7 +41,7 @@ public class ProgramTests : PlaywrightTests
         var result = await new WebApplicationFactoryForOpenHab(openHabContainer).CreateClient().GetAsync("createImageNow");
 
         // Assert
-        result.StatusCode.Should().Be(HttpStatusCode.OK);
+        result.Should().Be200Ok();
         result.Content.Headers.ContentType.Should().NotBeNull();
         result.Content.Headers.ContentType!.MediaType.Should().Be("image/png");
         (await result.Content.ReadAsByteArrayAsync()).Length.Should().BeInRange(7000, 15000);
@@ -55,7 +55,7 @@ public class ProgramTests : PlaywrightTests
                                                                               new Dictionary<string, string?> { { "width", "1024" }, { "height", "768" } }));
 
         // Assert
-        result.StatusCode.Should().Be(HttpStatusCode.OK);
+        result.Should().Be200Ok();
         result.Content.Headers.ContentType.Should().NotBeNull();
         result.Content.Headers.ContentType!.MediaType.Should().Be("image/png");
     }
@@ -70,7 +70,7 @@ public class ProgramTests : PlaywrightTests
         var result = await _clientForAny.GetAsync("latestImage");
 
         // Assert
-        result.StatusCode.Should().Be(HttpStatusCode.OK);
+        result.Should().Be200Ok();
         result.Content.Headers.ContentType.Should().NotBeNull();
         result.Content.Headers.ContentType!.MediaType.Should().Be("image/png");
     }
@@ -86,7 +86,7 @@ public class ProgramTests : PlaywrightTests
                                                                               new Dictionary<string, string?> { { "blackAndWhite", "true" } }));
 
         // Assert
-        result.StatusCode.Should().Be(HttpStatusCode.OK);
+        result.Should().Be200Ok();
         result.Content.Headers.ContentType.Should().NotBeNull();
         result.Content.Headers.ContentType!.MediaType.Should().Be("image/png");
     }
@@ -102,7 +102,7 @@ public class ProgramTests : PlaywrightTests
                                                                               new Dictionary<string, string?> { { "asWaveshareBytes", "true" } }));
 
         // Assert
-        result.StatusCode.Should().Be(HttpStatusCode.OK);
+        result.Should().Be200Ok();
         result.Content.Headers.ContentType.Should().NotBeNull();
         result.Content.Headers.ContentType!.MediaType.Should().Be("application/octet-stream");
     }
@@ -118,7 +118,7 @@ public class ProgramTests : PlaywrightTests
                                                                               new Dictionary<string, string?> { { "addWaveshareInstructions", "true" } }));
 
         // Assert
-        result.StatusCode.Should().Be(HttpStatusCode.OK);
+        result.Should().Be200Ok();
         result.Headers.Should().ContainKeys("waveshare-update-screen", "waveshare-sleep-between-updates", "waveshare-last-modified-local-time");
     }
 
@@ -129,7 +129,7 @@ public class ProgramTests : PlaywrightTests
         var result = await _clientForAny.GetAsync("latestImage");
 
         // Assert
-        result.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        result.Should().Be404NotFound();
     }
 
     [Test]
@@ -153,7 +153,7 @@ public class ProgramTests : PlaywrightTests
         var result = await httpClient.GetAsync("latestImage");
 
         // Assert
-        result.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        result.Should().Be404NotFound();
     }
 
     private static async Task<IContainer> StartLocalOpenHabContainerAndGetPortAsync()

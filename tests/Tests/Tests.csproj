@@ -10,6 +10,7 @@
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
         <PackageReference Include="FluentAssertions" />
+        <PackageReference Include="FluentAssertions.Web.v8"/>
         <PackageReference Include="Magick.NET-Q16-AnyCPU" />
         <PackageReference Include="Microsoft.Bcl.TimeProvider" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" />
