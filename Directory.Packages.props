@@ -12,12 +12,12 @@
     <PackageVersion Include="IDisposableAnalyzers" Version="4.0.8" />
     <PackageVersion Include="Magick.NET-Q16-AnyCPU" Version="14.4.0" />
     <PackageVersion Include="Meziantou.Analyzer" Version="2.0.187" />
-    <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="9.0.1"/>
-    <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="9.0.1"/>
-    <PackageVersion Include="Microsoft.Bcl.TimeProvider" Version="9.0.1"/>
-    <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.1"/>
-    <PackageVersion Include="Microsoft.Extensions.Options" Version="9.0.1"/>
-    <PackageVersion Include="Microsoft.Extensions.Options.DataAnnotations" Version="9.0.1"/>
+    <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="9.0.2"/>
+    <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="9.0.2"/>
+    <PackageVersion Include="Microsoft.Bcl.TimeProvider" Version="9.0.2"/>
+    <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.2"/>
+    <PackageVersion Include="Microsoft.Extensions.Options" Version="9.0.2"/>
+    <PackageVersion Include="Microsoft.Extensions.Options.DataAnnotations" Version="9.0.2"/>
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.13.0" />
     <PackageVersion Include="Microsoft.Playwright" Version="1.50.0" />
     <PackageVersion Include="mu88.Shared" Version="1.1.1"/>
@@ -27,7 +27,7 @@
     <PackageVersion Include="NUnit3TestAdapter" Version="5.0.0" />
     <PackageVersion Include="StyleCop.Analyzers" Version="1.1.118" />
     <PackageVersion Include="Swashbuckle.AspNetCore" Version="7.2.0" />
-    <PackageVersion Include="Testcontainers" Version="4.1.0" />
+    <PackageVersion Include="Testcontainers" Version="4.2.0" />
   </ItemGroup>
   <ItemGroup>
     <NuGetAuditSuppress Include="https://github.com/advisories/GHSA-8g4q-xg66-9fp4"/> <!-- Since it's an internal app only, I consider this okay -->
