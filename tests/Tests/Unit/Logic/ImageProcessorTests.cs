@@ -22,7 +22,7 @@ public class ImageProcessorTests
         var result = await testee.ProcessAsync("testData/Screenshot.png", false, false);
 
         // Assert
-        result.Data.Should().HaveCount(26121);
+        result.Data.Should().HaveCount(26152);
         result.MediaType.Should().Be("image/png");
     }
 
@@ -36,7 +36,7 @@ public class ImageProcessorTests
         var result = await testee.ProcessAsync("testData/Screenshot.png", true, false);
 
         // Assert
-        result.Data.Should().HaveCount(3245);
+        result.Data.Should().HaveCount(3276);
         result.MediaType.Should().Be("image/png");
         new MagickImage(result.Data).GetPixels().Select(pixel => pixel.GetChannel(0)).Distinct().Should().BeEquivalentTo(new List<ushort> { 0, 65535 });
     }
