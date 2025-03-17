@@ -26,7 +26,7 @@ jobs:
     with:
       github-ref-name: ${{ github.ref }}
       sonar-key: 'mu88_ScreenshotCreator'
-      sonar-additional-params: '/d:sonar.cs.opencover.reportsPaths=tests/Tests/coverage.opencover.xml'
+      sonar-additional-params: '/d:sonar.cs.opencover.reportsPaths=tests/Tests/coverage.opencover.xml /s:$GITHUB_WORKSPACE/SonarQube.Analysis.xml'
       dotnet-test-additional-params-unit-integration-tests: '/p:ExcludeByFile=\"**/Log.Prefix.cs\"'
       docker-publish-mode: regular
       docker-publish-project: 'src/ScreenshotCreator.Api/ScreenshotCreator.Api.csproj'
