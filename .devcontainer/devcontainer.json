@@ -1,0 +1,4 @@
+{
+  "name": "C# (.NET)",
+  "image": "registry.hub.docker.com/mu88/devcontainers-dotnet:latest"
+}
