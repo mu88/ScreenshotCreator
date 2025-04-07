@@ -36,7 +36,7 @@ public class ImageProcessorTests
         var result = await testee.ProcessAsync("testData/Screenshot.png", true, false);
 
         // Assert
-        result.Data.Should().HaveCount(3276);
+        result.Data.Length.Should().BeGreaterThan(3000, "because there is a certain variance in the size with every Magick version");
         result.MediaType.Should().Be("image/png");
         new MagickImage(result.Data).GetPixels().Select(pixel => pixel.GetChannel(0)).Distinct().Should().BeEquivalentTo(new List<ushort> { 0, 65535 });
     }
