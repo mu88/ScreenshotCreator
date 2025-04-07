@@ -1,4 +1,4 @@
 {
   "name": "C# (.NET)",
-  "image": "registry.hub.docker.com/mu88/devcontainers-dotnet-playwright:sdk-202"
+  "image": "registry.hub.docker.com/mu88/devcontainers-dotnet-playwright:sdk-9.0.202"
 }
