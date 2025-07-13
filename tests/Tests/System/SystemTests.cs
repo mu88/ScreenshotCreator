@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using System.Net;
 using DotNet.Testcontainers.Builders;
 using DotNet.Testcontainers.Containers;
 using DotNet.Testcontainers.Networks;
@@ -15,7 +14,7 @@ public class SystemTests
     public async Task CreateImageNowForOpenHabAndScreenshotCreatorBothRunningInDocker()
     {
         // Arrange
-        CancellationToken cancellationToken = CreateCancellationToken(TimeSpan.FromMinutes(5));
+        var cancellationToken = CreateCancellationToken(TimeSpan.FromMinutes(5));
         await BuildDockerImageOfScreenshotCreatorAsync(cancellationToken);
         var container = await StartScreenshotCreatorAndOpenHabInContainersAsync(cancellationToken);
         var httpClient = new HttpClient { BaseAddress = GetScreenshotCreatorBaseAddress(container) };
@@ -23,7 +22,8 @@ public class SystemTests
         // Act
         var healthCheckResponse = await httpClient.GetAsync("healthz", cancellationToken);
         var appResponse = await httpClient.GetAsync("createImageNow", cancellationToken);
-        ExecResult healthCheckToolResult = await container.ExecAsync(["dotnet", "/app/mu88.HealthCheck.dll", "http://localhost:8080/screenshotCreator/healthz"], cancellationToken);
+        var healthCheckToolResult =
+            await container.ExecAsync(["dotnet", "/app/mu88.HealthCheck.dll", "http://localhost:8080/screenshotCreator/healthz"], cancellationToken);
 
         // Assert
         await LogsShouldNotContainWarningsAsync(container, cancellationToken);
@@ -31,13 +31,13 @@ public class SystemTests
         await AppShouldRunAsync(appResponse, cancellationToken);
         healthCheckToolResult.ExitCode.Should().Be(0);
     }
-    
+
     private static CancellationToken CreateCancellationToken(TimeSpan timeout)
     {
         var timeoutCts = new CancellationTokenSource();
         timeoutCts.CancelAfter(timeout);
-        CancellationToken cancellationToken = timeoutCts.Token;
-        
+        var cancellationToken = timeoutCts.Token;
+
         return cancellationToken;
     }
 
@@ -50,7 +50,7 @@ public class SystemTests
             StartInfo = new ProcessStartInfo
             {
                 FileName = "dotnet",
-                Arguments = $"publish {apiProjectFile} --os linux --arch amd64 /t:PublishContainer",
+                Arguments = $"publish {apiProjectFile} --os linux --arch amd64 /t:PublishContainer -p:ContainerImageTags=local-system-test-chiseled",
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
                 CreateNoWindow = true
@@ -90,7 +90,7 @@ public class SystemTests
 
     private static IContainer BuildScreenshotCreatorContainer(INetwork network) =>
         new ContainerBuilder()
-            .WithImage("mu88/screenshotcreator:latest")
+            .WithImage("mu88/screenshotcreator:local-system-test-chiseled")
             .WithNetwork(network)
             .WithEnvironment("ScreenshotOptions__Url", "http://openhab:8080/page/page_28d2e71d84") // must be hardcoded (both name and port)
             .WithEnvironment("ScreenshotOptions__UrlType", "OpenHab")
@@ -106,7 +106,7 @@ public class SystemTests
 
     private static Uri GetScreenshotCreatorBaseAddress(IContainer screenshotCreatorContainer) =>
         new($"http://{screenshotCreatorContainer.Hostname}:{screenshotCreatorContainer.GetMappedPublicPort(8080)}/screenshotCreator");
-    
+
     private static async Task AppShouldRunAsync(HttpResponseMessage appResponse, CancellationToken cancellationToken)
     {
         appResponse.Should().Be200Ok();
