@@ -3,7 +3,7 @@
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <RuntimeIdentifiers>linux-x64;linux-arm64</RuntimeIdentifiers>
     <ContainerRepository>mu88/screenshotcreator</ContainerRepository>
-    <ContainerBaseImage>docker.io/mu88/screenshotcreator-playwright:9.0.20</ContainerBaseImage>
+    <ContainerBaseImage>docker.io/mu88/screenshotcreator-playwright:9.0.21</ContainerBaseImage>
     <PlaywrightPlatform>all</PlaywrightPlatform>
   </PropertyGroup>
   <ItemGroup>
