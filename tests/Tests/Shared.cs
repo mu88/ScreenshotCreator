@@ -9,7 +9,7 @@ public static class Shared
 {
     public static IContainer CreateOpenHabContainer(INetwork network, string? containerName = null) =>
         new ContainerBuilder()
-            .WithImage("openhab/openhab:4.3.2")
+            .WithImage("openhab/openhab:5.0.0")
             .WithNetwork(network)
             .WithNetworkAliases(containerName)
             .WithPortBinding(8080, true)
