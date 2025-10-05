@@ -11,6 +11,7 @@ on:
 jobs:
   ci_cd:
     runs-on: ubuntu-latest
+
     steps:
       - name: Workflow Dispatch and wait
         if: ${{ contains(github.ref, 'renovate/playwright') }}
@@ -21,7 +22,14 @@ jobs:
           wait-for-completion: true
 
   shared_ci_cd:
+    permissions:
+      contents: read
+      packages: write
+      attestations: write
+      id-token: write
+
     needs: ci_cd
+
     uses: mu88/github-actions/.github/workflows/ci-cd.yml@main
     with:
       github-ref-name: ${{ github.ref }}
@@ -33,5 +41,3 @@ jobs:
       requires-docker-login: true
     secrets:
       sonar-token: ${{ secrets.SONAR_TOKEN }}
-      docker-username: ${{ secrets.DOCKERHUB_USERNAME }}
-      docker-token: ${{ secrets.DOCKERHUB_TOKEN }}

@@ -3,7 +3,6 @@
 ![Combined CI / Release](https://github.com/mu88/ScreenshotCreator/actions/workflows/CI_CD.yml/badge.svg)
 ![Mutation testing](https://github.com/mu88/ScreenshotCreator/actions/workflows/Mutation%20Testing.yml/badge.svg)
 ![Playwright](https://github.com/mu88/ScreenshotCreator/actions/workflows/Playwright.yml/badge.svg)
-![Docker Image Version (latest semver)](https://img.shields.io/docker/v/mu88/screenshotcreator?logo=docker&sort=semver)    
 [![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=mu88_ScreenshotCreator&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=mu88_ScreenshotCreator)
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=mu88_ScreenshotCreator&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=mu88_ScreenshotCreator)
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=mu88_ScreenshotCreator&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=mu88_ScreenshotCreator)
@@ -80,12 +79,12 @@ ScreenshotCreator provides various configuration options to customize the screen
 If an environment variable `TZ` is set, this timezone will be used as local time (e. g. browser timezone in Playwright, activity detection, last refresh time transferred to the frontend).
 
 ## Docker Image
-A Docker image for ScreenshotCreator is available at `mu88/screenshotcreator`. You can easily consume the image to run ScreenshotCreator in a containerized environment.
+A Docker image for ScreenshotCreator is available at `ghcr.io/mu88/screenshotcreator`. You can easily consume the image to run ScreenshotCreator in a containerized environment.
 
 To use the Docker image, follow these steps:
 1 Pull the Docker image from the Docker Hub repository:
 ```bash
-docker pull mu88/screenshotcreator:latest
+docker pull ghcr.io/mu88/screenshotcreator:latest
 ```
 2. Run the Docker container using the pulled image:
 ```bash
