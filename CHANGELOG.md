@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [versionize](https://github.com/versionize/versionize) for commit guidelines.
 
+<a name="4.0.0"></a>
+## [4.0.0](https://www.github.com/mu88/ScreenshotCreator/releases/tag/v4.0.0) (2025-10-05)
+
+### Bug Fixes
+
+* **deps:** use correct .NET SDK version within dev container ([f65e153](https://www.github.com/mu88/ScreenshotCreator/commit/f65e153da65a03c4080a743f3e8ea31146a495ef))
+
+### Breaking Changes
+
+* use GitHub Container Registry instead of Docker Hub ([59ad9d8](https://www.github.com/mu88/ScreenshotCreator/commit/59ad9d8d8fae5618a5de078e56a0a95727ecdbe6))
+
 <a name="3.1.0"></a>
 ## [3.1.0](https://www.github.com/mu88/ScreenshotCreator/releases/tag/v3.1.0) (2024-12-20)
 
