@@ -2,9 +2,6 @@ name: Playwright
 
 on: workflow_dispatch
 
-env:
-  MAJOR_VERSION: 9
-
 jobs:
   playwright:
     runs-on: ubuntu-latest
@@ -32,6 +29,15 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Extract .NET major version
+        id: extract_version
+        shell: pwsh
+        run: |
+          [xml]$xml = Get-Content 'Directory.Build.props'
+          $tfm = $xml.Project.PropertyGroup.TargetFramework
+          $majorVersion = [regex]::Match($tfm, '\d+').Value
+          Write-Output "major_version=$majorVersion" >> $env:GITHUB_OUTPUT
+
       - name: Build and push Docker image for Playwright
         id: docker_build
         uses: docker/build-push-action@v6
@@ -39,5 +45,5 @@ jobs:
           push: true
           provenance: false
           platforms: linux/arm64,linux/amd64
-          tags: ghcr.io/mu88/screenshotcreator-playwright:latest,ghcr.io/mu88/screenshotcreator-playwright:${{ env.MAJOR_VERSION }}.0.${{ github.run_number }}
+          tags: ghcr.io/mu88/screenshotcreator-playwright:latest,ghcr.io/mu88/screenshotcreator-playwright:${{ steps.extract_version.outputs.major_version }}.0.${{ github.run_number }}
           file: src/ScreenshotCreator.Api/Dockerfile-Playwright
