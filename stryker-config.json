@@ -1,19 +1,24 @@
 {
-    "stryker-config":
-    {
-        "project": "ScreenshotCreator.Logic",
-        "reporters": [
-            "html",
-            "progress",
-            "dashboard"
-        ],
-        "project-info": {
-            "name": "github.com/mu88/ScreenshotCreator"
-        },
-        "test-case-filter": "TestCategory=Unit",
-        "ignore-methods": [
-            "logger.*"
-        ],
-        "mutate": ["!**/ScreenshotOptions.cs"]
-    }
+  "stryker-config":
+  {
+    "project": "ScreenshotCreator.Logic.csproj",
+    "test-projects": [
+      "../../tests/Tests/Tests.csproj"
+    ],
+    "reporters": [
+      "html",
+      "progress",
+      "dashboard"
+    ],
+    "project-info": {
+      "name": "github.com/mu88/ScreenshotCreator"
+    },
+    "test-case-filter": "TestCategory=Unit",
+    "ignore-methods": [
+      "logger.*"
+    ],
+    "mutate": [
+      "!**/ScreenshotOptions.cs"
+    ]
+  }
 }

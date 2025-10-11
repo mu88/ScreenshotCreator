@@ -10,19 +10,30 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
+
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
+
       - name: Restore dependencies
-        run: dotnet restore ScreenshotCreator.sln
+        run: dotnet restore
+
       - name: Build
-        run: dotnet build --no-restore ScreenshotCreator.sln
+        run: dotnet build --no-restore
+
       - name: Install Playwright for tests
-        run: 'src/ScreenshotCreator.Api/bin/Debug/net9.0/playwright.ps1 install chromium'
         shell: pwsh
+        run: |
+          $playwrightInstallationScript = (Get-ChildItem -Path "src/ScreenshotCreator.Api/bin/Debug/net*/" -Filter 'playwright.ps1' -Recurse | Select-Object -First 1).FullName
+          & $playwrightInstallationScript install chromium
+
       - name: Restore tools
         run: dotnet tool restore
+
       - name: Run mutation testing
-        run: dotnet stryker --dashboard-api-key "${{ secrets.STRYKER_DASHBOARD_API_KEY }}" --version "${{ github.ref_name }}" --config-file stryker-config.json
+        run: |
+          cd src/ScreenshotCreator.Logic
+          dotnet stryker --dashboard-api-key "${{ secrets.STRYKER_DASHBOARD_API_KEY }}" --version "${{ github.ref_name }}" --config-file ../../stryker-config.json
+
       - name: Archive mutation testing results
         uses: actions/upload-artifact@v4
         with:
