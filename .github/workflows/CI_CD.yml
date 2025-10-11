@@ -30,7 +30,7 @@ jobs:
 
     needs: ci_cd
 
-    uses: mu88/github-actions/.github/workflows/ci-cd.yml@main
+    uses: mu88/github-actions/.github/workflows/ci-cd.yml@26dd40f4b32f300fc5d95ed070d45fe847808a84
     with:
       github-ref-name: ${{ github.ref }}
       sonar-key: 'mu88_ScreenshotCreator'
