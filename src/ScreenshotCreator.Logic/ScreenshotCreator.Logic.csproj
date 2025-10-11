@@ -1,16 +1,17 @@
 <Project Sdk="Microsoft.NET.Sdk">
-    <PropertyGroup>
-        <MagickCopyNativeWindows>true</MagickCopyNativeWindows>
-        <MagickCopyNativeLinux>true</MagickCopyNativeLinux>
-    </PropertyGroup>
-    <ItemGroup>
-        <PackageReference Include="Magick.NET-Q16-AnyCPU" />
-        <PackageReference Include="Microsoft.Bcl.TimeProvider" />
-        <PackageReference Include="Microsoft.Playwright" />
-        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
-        <PackageReference Include="Microsoft.Extensions.Options" />
-    </ItemGroup>
-    <ItemGroup>
-        <InternalsVisibleTo Include="Tests" />
-    </ItemGroup>
+  <PropertyGroup>
+    <MagickCopyNativeWindows>true</MagickCopyNativeWindows>
+    <MagickCopyNativeLinux>true</MagickCopyNativeLinux>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Magick.NET-Q16-AnyCPU"/>
+    <PackageReference Include="Microsoft.Bcl.TimeProvider"/>
+    <PackageReference Include="Microsoft.Playwright"/>
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions"/>
+    <PackageReference Include="Microsoft.Extensions.Options"/>
+    <PackageReference Include="mu88.Shared"/>
+  </ItemGroup>
+  <ItemGroup>
+    <InternalsVisibleTo Include="Tests"/>
+  </ItemGroup>
 </Project>

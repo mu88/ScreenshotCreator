@@ -70,7 +70,7 @@ public class SystemTests
     {
         Console.WriteLine("Building network and openHAB container");
         var network = new NetworkBuilder().Build();
-        // when running in the same network and for container-to-container communication, the name 'openhab' MUST be used 
+        // when running in the same network and for container-to-container communication, the name 'openhab' MUST be used
         var openHabContainer = Shared.CreateOpenHabContainer(network, "openhab");
         Console.WriteLine("OpenHAB container created");
 

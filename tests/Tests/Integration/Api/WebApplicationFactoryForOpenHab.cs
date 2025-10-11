@@ -5,7 +5,6 @@ namespace Tests.Integration.Api;
 
 internal class WebApplicationFactoryForOpenHab : WebApplicationFactory
 {
-    /// <inheritdoc />
     public WebApplicationFactoryForOpenHab(IContainer openHabContainer, Action<ScreenshotOptions>? configureOptions = null)
         : base(configureOptions ?? (options =>
                                        {

@@ -3,8 +3,6 @@ name: Combined CI / Release
 on:
   workflow_dispatch:
   push:
-    tags:
-      - '*'
     branches:
       - '**'
 
@@ -17,9 +15,9 @@ jobs:
         if: ${{ contains(github.ref, 'renovate/playwright') }}
         uses: aurelien-baudet/workflow-dispatch@v4.0.0
         with:
-          workflow: Playwright
           token: ${{ secrets.GITHUB_TOKEN }}
           wait-for-completion: true
+          workflow: Playwright
 
   shared_ci_cd:
     permissions:
@@ -30,14 +28,13 @@ jobs:
 
     needs: ci_cd
 
-    uses: mu88/github-actions/.github/workflows/ci-cd.yml@26dd40f4b32f300fc5d95ed070d45fe847808a84
+    uses: mu88/github-actions/.github/workflows/ci-cd.yml@f252e7d1c94652b5e51996174f6e2977ef88f1a5
     with:
-      github-ref-name: ${{ github.ref }}
-      sonar-key: 'mu88_ScreenshotCreator'
-      sonar-additional-params: '/d:sonar.cs.opencover.reportsPaths=tests/Tests/coverage.opencover.xml /s:$GITHUB_WORKSPACE/SonarQube.Analysis.xml'
-      dotnet-test-additional-params-unit-integration-tests: '/p:ExcludeByFile=\"**/Log.Prefix.cs\"'
       docker-publish-mode: regular
-      docker-publish-project: 'src/ScreenshotCreator.Api/ScreenshotCreator.Api.csproj'
+      docker-publish-project: src/ScreenshotCreator.Api/ScreenshotCreator.Api.csproj
+      dotnet-test-additional-params-unit-integration-tests: '/p:ExcludeByFile=\"**/Log.Prefix.cs\"'
       requires-docker-login: true
+      sonar-additional-params: '/d:sonar.cs.opencover.reportsPaths=tests/Tests/coverage.opencover.xml /s:$GITHUB_WORKSPACE/SonarQube.Analysis.xml'
+      sonar-key: mu88_ScreenshotCreator
     secrets:
       sonar-token: ${{ secrets.SONAR_TOKEN }}

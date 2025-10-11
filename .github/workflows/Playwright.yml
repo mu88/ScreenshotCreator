@@ -16,7 +16,8 @@ jobs:
       id-token: write
 
     steps:
-      - uses: actions/checkout@v5
+      - name: Check out code
+        uses: actions/checkout@v5
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3

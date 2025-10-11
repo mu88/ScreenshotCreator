@@ -4,7 +4,6 @@ namespace Tests.Integration.Api;
 
 internal class WebApplicationFactoryForAny : WebApplicationFactory
 {
-    /// <inheritdoc />
     public WebApplicationFactoryForAny(Action<ScreenshotOptions>? configureOptions = null)
         : base(configureOptions ?? (options =>
                                        {

@@ -1,38 +1,40 @@
 <Project Sdk="Microsoft.NET.Sdk">
-    <PropertyGroup>
-        <IsPackable>false</IsPackable>
-        <IsTestProject>true</IsTestProject>
-    </PropertyGroup>
-    <ItemGroup>
-        <PackageReference Include="BenchmarkDotNet" />
-        <PackageReference Include="coverlet.msbuild">
-            <PrivateAssets>all</PrivateAssets>
-            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        </PackageReference>
-        <PackageReference Include="FluentAssertions" />
-        <PackageReference Include="FluentAssertions.Web.v8"/>
-        <PackageReference Include="Magick.NET-Q16-AnyCPU" />
-        <PackageReference Include="Microsoft.Bcl.TimeProvider" />
-        <PackageReference Include="Microsoft.NET.Test.Sdk" />
-        <PackageReference Include="NSubstitute" />
-        <PackageReference Include="NUnit" />
-        <PackageReference Include="NUnit3TestAdapter" />
-        <PackageReference Include="NUnit.Analyzers">
-            <PrivateAssets>all</PrivateAssets>
-            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        </PackageReference>
-        <PackageReference Include="Testcontainers" />
-        <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
-    </ItemGroup>
-    <ItemGroup>
-        <ProjectReference Include="..\..\src\ScreenshotCreator.Api\ScreenshotCreator.Api.csproj" />
-        <ProjectReference Include="..\..\src\ScreenshotCreator.Logic\ScreenshotCreator.Logic.csproj" />
-    </ItemGroup>
-    <ItemGroup>
-        <None Remove="testData\**\*.*" />
-        <Content Include="testData\**\*.*">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </Content>
-        <None Remove="coverage.*.xml" />
-    </ItemGroup>
+  <PropertyGroup>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+    <NoWarn>$(NoWarn);IDISP001;IDISP004;SA1515;MA0002;MA0011;MA0012;MA0132</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="BenchmarkDotNet"/>
+    <PackageReference Include="coverlet.msbuild">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="FluentAssertions"/>
+    <PackageReference Include="FluentAssertions.Web.v8"/>
+    <PackageReference Include="Magick.NET-Q16-AnyCPU"/>
+    <PackageReference Include="Microsoft.Bcl.TimeProvider"/>
+    <PackageReference Include="Microsoft.NET.Test.Sdk"/>
+    <PackageReference Include="mu88.Shared"/>
+    <PackageReference Include="NSubstitute"/>
+    <PackageReference Include="NUnit"/>
+    <PackageReference Include="NUnit3TestAdapter"/>
+    <PackageReference Include="NUnit.Analyzers">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Testcontainers"/>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing"/>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\ScreenshotCreator.Api\ScreenshotCreator.Api.csproj"/>
+    <ProjectReference Include="..\..\src\ScreenshotCreator.Logic\ScreenshotCreator.Logic.csproj"/>
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="testData\**\*.*"/>
+    <Content Include="testData\**\*.*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Remove="coverage.*.xml"/>
+  </ItemGroup>
 </Project>
