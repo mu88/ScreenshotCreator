@@ -1,0 +1,52 @@
+{
+  "changelog": {
+    "sections": [
+      {
+        "type": "feat",
+        "section": "✨ Features",
+        "hidden": false
+      },
+      {
+        "type": "fix",
+        "section": "🐛 Bug Fixes",
+        "hidden": false
+      },
+      {
+        "type": "refactor",
+        "section": "♻️ Refactors",
+        "hidden": false
+      },
+      {
+        "type": "perf",
+        "section": "🚀 Performance",
+        "hidden": false
+      },
+      {
+        "type": "test",
+        "section": "✅ Tests",
+        "hidden": false
+      },
+      {
+        "type": "chore",
+        "section": "🔧 Chores",
+        "hidden": false
+      },
+      {
+        "type": "build",
+        "hidden": true
+      },
+      {
+        "type": "ci",
+        "hidden": true
+      },
+      {
+        "type": "docs",
+        "hidden": true
+      },
+      {
+        "type": "style",
+        "hidden": true
+      }
+    ]
+  }
+}
