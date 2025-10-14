@@ -65,10 +65,20 @@
           "StyleCop.Analyzers": "1.1.118"
         }
       },
+      "IDisposableAnalyzers": {
+        "type": "Transitive",
+        "resolved": "4.0.8",
+        "contentHash": "vNi4NMG0CcJyjXxiNDcQ21FwV/whM9o9OEZKD+oP7tuxAqFEzX/x5OhC3OZJqW/w+8GOtCmJPBquYgMWgz0rfQ=="
+      },
       "Magick.NET.Core": {
         "type": "Transitive",
         "resolved": "14.8.1",
         "contentHash": "XkfFOOpak9Rsj6El18x3z+4Gr/W71uDQvoHz3WvEfZUUh32G2X6HC+r1VzR/DgUssvsbkDLr5a82/QCf7Xrbxw=="
+      },
+      "Meziantou.Analyzer": {
+        "type": "Transitive",
+        "resolved": "2.0.221",
+        "contentHash": "NwSwKqhCvkXCbyYRiQZ8fJ82lWA8Fd+ySYyetiekZfDs9qOKEaY4pAdWw91qGkh9WI+/dp4uBpSpNTm3Me8PrQ=="
       },
       "Microsoft.Bcl.AsyncInterfaces": {
         "type": "Transitive",
@@ -261,6 +271,11 @@
           "OpenTelemetry.Api": "[1.12.0, 2.0.0)"
         }
       },
+      "StyleCop.Analyzers": {
+        "type": "Transitive",
+        "resolved": "1.1.118",
+        "contentHash": "Onx6ovGSqXSK07n/0eM3ZusiNdB6cIlJdabQhWGgJp3Vooy9AaLS/tigeybOJAobqbtggTamoWndz72JscZBvw=="
+      },
       "System.ComponentModel.Annotations": {
         "type": "Transitive",
         "resolved": "5.0.0",
@@ -292,24 +307,6 @@
           "System.Runtime.CompilerServices.Unsafe": "6.0.0",
           "System.Text.Encodings.Web": "6.0.0"
         }
-      },
-      "IDisposableAnalyzers": {
-        "type": "CentralTransitive",
-        "requested": "[4.0.8, )",
-        "resolved": "4.0.8",
-        "contentHash": "vNi4NMG0CcJyjXxiNDcQ21FwV/whM9o9OEZKD+oP7tuxAqFEzX/x5OhC3OZJqW/w+8GOtCmJPBquYgMWgz0rfQ=="
-      },
-      "Meziantou.Analyzer": {
-        "type": "CentralTransitive",
-        "requested": "[2.0.212, )",
-        "resolved": "2.0.221",
-        "contentHash": "NwSwKqhCvkXCbyYRiQZ8fJ82lWA8Fd+ySYyetiekZfDs9qOKEaY4pAdWw91qGkh9WI+/dp4uBpSpNTm3Me8PrQ=="
-      },
-      "StyleCop.Analyzers": {
-        "type": "CentralTransitive",
-        "requested": "[1.1.118, )",
-        "resolved": "1.1.118",
-        "contentHash": "Onx6ovGSqXSK07n/0eM3ZusiNdB6cIlJdabQhWGgJp3Vooy9AaLS/tigeybOJAobqbtggTamoWndz72JscZBvw=="
       }
     }
   }

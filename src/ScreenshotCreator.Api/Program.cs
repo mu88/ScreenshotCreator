@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Options;
 using mu88.Shared.OpenTelemetry;
+using Scalar.AspNetCore;
 using ScreenshotCreator.Api;
 using ScreenshotCreator.Logic;
 using Creator = ScreenshotCreator.Logic.ScreenshotCreator;
@@ -10,8 +11,7 @@ builder.ConfigureOpenTelemetry("ScreenshotCreator");
 
 builder.Services.AddHealthChecks();
 builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddOpenApi();
 builder.Configuration
        .AddJsonFile("appsettings.secret.json", true)
        .AddKeyPerFile("/run/secrets", true);
@@ -29,8 +29,9 @@ var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    app.MapOpenApi();
+    app.MapScalarApiReference();
+    app.UseDeveloperExceptionPage();
 }
 
 app.UsePathBase("/screenshotCreator");

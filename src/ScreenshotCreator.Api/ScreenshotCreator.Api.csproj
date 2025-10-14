@@ -5,12 +5,13 @@
     <ContainerRepository>mu88/screenshotcreator</ContainerRepository>
     <ContainerBaseImage>ghcr.io/mu88/screenshotcreator-playwright:9.0.27</ContainerBaseImage>
     <PlaywrightPlatform>all</PlaywrightPlatform>
+    <IncludeOpenAPIAnalyzers>true</IncludeOpenAPIAnalyzers>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi"/>
     <PackageReference Include="Microsoft.Extensions.Options.DataAnnotations"/>
     <PackageReference Include="mu88.Shared"/>
-    <PackageReference Include="Swashbuckle.AspNetCore" />
+    <PackageReference Include="Scalar.AspNetCore"/>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ScreenshotCreator.Logic\ScreenshotCreator.Logic.csproj" />
