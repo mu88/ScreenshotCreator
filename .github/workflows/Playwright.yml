@@ -1,6 +1,12 @@
 name: Playwright
 
-on: workflow_dispatch
+on:
+  workflow_dispatch:
+  push:
+    paths: 
+      - '.github/workflows/Playwright.yml'
+      - 'src/ScreenshotCreator.Api/Dockerfile-Playwright'
+      - 'src/ScreenshotCreator.Api/install-powershell-*.sh'
 
 jobs:
   playwright:
@@ -9,8 +15,9 @@ jobs:
     permissions:
       contents: read
       packages: write
-      attestations: write
-      id-token: write
+
+    outputs:
+      digests: ${{ steps.extract-digests.outputs.digests }}
 
     steps:
       - name: Check out code
@@ -47,3 +54,79 @@ jobs:
           platforms: linux/arm64,linux/amd64
           tags: ghcr.io/mu88/screenshotcreator-playwright:latest,ghcr.io/mu88/screenshotcreator-playwright:${{ steps.extract_version.outputs.major_version }}.0.${{ github.run_number }}
           file: src/ScreenshotCreator.Api/Dockerfile-Playwright
+
+      - name: Extract generated Docker image digests
+        id: extract-digests
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+          $PSNativeCommandUseErrorActionPreference = $true
+
+          $digests = @()
+          $manifest = docker manifest inspect ghcr.io/mu88/screenshotcreator-playwright:${{ steps.extract_version.outputs.major_version }}.0.${{ github.run_number }} | ConvertFrom-Json
+
+          # Collect digests from all manifests (for multi-arch images)
+          foreach ($item in $manifest.manifests) {
+              $digest = $item.digest
+              if ($digest -notin $digests) {
+                  $digests += $digest
+              }
+          }
+
+          # Add the digest for the image itself
+          $imageDigest = "${{ steps.docker_build.outputs.digest }}"
+          if ($imageDigest -notin $digests) {
+              $digests += $imageDigest
+          }
+
+          $json = $digests | ConvertTo-Json -Compress
+          Write-Host "Extracted digests: $json"
+          Write-Output "digests=$json" >> $env:GITHUB_OUTPUT
+
+  attest_provenance_sbom:
+    name: 'Attest Docker image build provenance and SBOM'
+    runs-on: ubuntu-latest
+
+    needs: playwright
+
+    permissions:
+      contents: read
+      packages: write
+      attestations: write
+      id-token: write
+
+    strategy:
+      matrix:
+        digest: ${{ fromJson(needs.playwright.outputs.digests) }}
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v5
+
+      - name: Login to Container registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Attest build provenance
+        uses: actions/attest-build-provenance@v3
+        with:
+          push-to-registry: true
+          subject-name: ghcr.io/mu88/screenshotcreator-playwright
+          subject-digest: ${{ matrix.digest }}
+
+      - name: Generate SBOM
+        uses: anchore/sbom-action@v0
+        with:
+          image: ghcr.io/mu88/screenshotcreator-playwright@${{ matrix.digest }}
+          output-file: sbom.json
+
+      - name: Attest SBOM
+        uses: actions/attest-sbom@v2
+        with:
+          push-to-registry: true
+          sbom-path: sbom.json
+          subject-name: ghcr.io/mu88/screenshotcreator-playwright
+          subject-digest: ${{ matrix.digest }}
