@@ -21,14 +21,14 @@ jobs:
 
   shared_ci_cd:
     permissions:
-      contents: read
-      packages: write
       attestations: write
+      contents: read
       id-token: write
+      packages: write
 
     needs: ci_cd
 
-    uses: mu88/github-actions/.github/workflows/ci-cd.yml@6fadf871961391f55b53bdf815d8a7315fa470fe
+    uses: mu88/github-actions/.github/workflows/ci-cd.yml@5abbf0ac2dd5f5a4fbf4ab7f816ff85eca8f196a
     with:
       docker-publish-mode: regular
       docker-publish-project: src/ScreenshotCreator.Api/ScreenshotCreator.Api.csproj
