@@ -3,13 +3,11 @@
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <RuntimeIdentifiers>linux-x64;linux-arm64</RuntimeIdentifiers>
     <ContainerRepository>mu88/screenshotcreator</ContainerRepository>
-    <ContainerBaseImage>ghcr.io/mu88/screenshotcreator-playwright:9.0.27</ContainerBaseImage>
+    <ContainerBaseImage>ghcr.io/mu88/screenshotcreator-playwright:10.0.42</ContainerBaseImage>
     <PlaywrightPlatform>all</PlaywrightPlatform>
-    <IncludeOpenAPIAnalyzers>true</IncludeOpenAPIAnalyzers>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi"/>
-    <PackageReference Include="Microsoft.Extensions.Options.DataAnnotations"/>
     <PackageReference Include="mu88.Shared"/>
     <PackageReference Include="Scalar.AspNetCore"/>
   </ItemGroup>
