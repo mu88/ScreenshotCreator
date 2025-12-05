@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.Extensions.Options;
 using mu88.Shared.OpenTelemetry;
 using Scalar.AspNetCore;
@@ -58,7 +59,7 @@ app.MapHealthChecks("/healthz");
 
 await app.RunAsync();
 
-async Task<IResult> ReturnImageOrNotFoundAsync(HttpContext httpContext,
+async Task<Results<FileContentHttpResult, NotFound>> ReturnImageOrNotFoundAsync(HttpContext httpContext,
                                                ImageProcessor imageProcessor,
                                                IOptions<ScreenshotOptions> options,
                                                bool blackAndWhite = false,
@@ -67,14 +68,14 @@ async Task<IResult> ReturnImageOrNotFoundAsync(HttpContext httpContext,
 {
     if (!File.Exists(options.Value.ScreenshotFile))
     {
-        return Results.NotFound();
+        return TypedResults.NotFound();
     }
 
     var processingResult = await imageProcessor.ProcessAsync(options.Value.ScreenshotFile, blackAndWhite, asWaveshareBytes);
 
     var result = asWaveshareBytes
-                     ? Results.Bytes(processingResult.Data, processingResult.MediaType)
-                     : Results.File(processingResult.Data, processingResult.MediaType);
+                     ? TypedResults.Bytes(processingResult.Data, processingResult.MediaType)
+                     : TypedResults.File(processingResult.Data, processingResult.MediaType);
 
     if (addWaveshareInstructions)
     {

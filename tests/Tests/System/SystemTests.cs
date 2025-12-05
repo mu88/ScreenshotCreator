@@ -57,9 +57,9 @@ public class SystemTests
             }
         };
         process.Start();
-        while (!process.StandardOutput.EndOfStream)
+        while (await process.StandardOutput.ReadLineAsync(cancellationToken) is { } line)
         {
-            Console.WriteLine(await process.StandardOutput.ReadLineAsync(cancellationToken));
+            Console.WriteLine(line);
         }
 
         await process.WaitForExitAsync(cancellationToken);
@@ -101,7 +101,7 @@ public class SystemTests
             .WithEnvironment("ScreenshotOptions__AvailabilityIndicator", "Wohnzimmer")
             .WithPortBinding(8080, true)
             .WithWaitStrategy(Wait.ForUnixContainer()
-                                  .UntilPortIsAvailable(8080))
+                                  .UntilExternalTcpPortIsAvailable(8080))
             .Build();
 
     private static Uri GetScreenshotCreatorBaseAddress(IContainer screenshotCreatorContainer) =>

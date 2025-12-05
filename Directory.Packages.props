@@ -4,29 +4,30 @@
     <CentralPackageTransitivePinningEnabled>false</CentralPackageTransitivePinningEnabled>
   </PropertyGroup>
   <ItemGroup>
-    <PackageVersion Include="BenchmarkDotNet" Version="0.15.2" />
+    <PackageVersion Include="BenchmarkDotNet" Version="0.15.8" />
     <PackageVersion Include="coverlet.msbuild" Version="6.0.4" />
-    <PackageVersion Include="FluentAssertions" Version="8.6.0" />
-    <PackageVersion Include="FluentAssertions.Web.v8" Version="1.9.5"/>
-    <PackageVersion Include="Magick.NET-Q16-AnyCPU" Version="14.9.0"/>
-    <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="9.0.9"/>
-    <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="9.0.9"/>
-    <PackageVersion Include="Microsoft.Bcl.TimeProvider" Version="9.0.9"/>
-    <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.9"/>
-    <PackageVersion Include="Microsoft.Extensions.Options" Version="9.0.9"/>
-    <PackageVersion Include="Microsoft.Extensions.Options.DataAnnotations" Version="9.0.9"/>
-    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
-    <PackageVersion Include="Microsoft.Playwright" Version="1.56.0"/>
-    <PackageVersion Include="mu88.Shared" Version="3.1.0"/>
+    <PackageVersion Include="FluentAssertions" Version="8.8.0" />
+    <PackageVersion Include="FluentAssertions.Web.v8" Version="1.9.5" />
+    <PackageVersion Include="Magick.NET-Q16-AnyCPU" Version="14.9.1" />
+    <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="10.0.0" />
+    <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="10.0.0" />
+    <PackageVersion Include="Microsoft.Bcl.TimeProvider" Version="10.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.Options" Version="10.0.0" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.0.1" />
+    <PackageVersion Include="Microsoft.Playwright" Version="1.56.0" />
+    <PackageVersion Include="mu88.Shared" Version="4.0.0" />
     <PackageVersion Include="NSubstitute" Version="5.3.0" />
     <PackageVersion Include="NUnit" Version="4.4.0" />
-    <PackageVersion Include="NUnit.Analyzers" Version="4.10.0" />
-    <PackageVersion Include="NUnit3TestAdapter" Version="5.1.0" />
-    <PackageVersion Include="Scalar.AspNetCore" Version="2.8.11"/>
-    <PackageVersion Include="Testcontainers" Version="4.6.0" />
+    <PackageVersion Include="NUnit.Analyzers" Version="4.11.2" />
+    <PackageVersion Include="NUnit3TestAdapter" Version="5.2.0" />
+    <PackageVersion Include="Scalar.AspNetCore" Version="2.11.0" />
+    <PackageVersion Include="Testcontainers" Version="4.9.0" />
   </ItemGroup>
   <ItemGroup>
-    <NuGetAuditSuppress Include="https://github.com/advisories/GHSA-8g4q-xg66-9fp4"/>
     <!-- Since it's an internal app only, I consider this okay -->
+    <NuGetAuditSuppress Include="https://github.com/advisories/GHSA-8g4q-xg66-9fp4" />
+    <NuGetAuditSuppress Include="https://github.com/advisories/GHSA-6hjr-v6g4-3fm8"/>
+    <NuGetAuditSuppress Include="https://github.com/advisories/GHSA-q3hc-j9x5-mp9m"/>
   </ItemGroup>
 </Project>

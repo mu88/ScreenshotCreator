@@ -16,7 +16,7 @@ public static class Shared
             .WithResourceMapping(new DirectoryInfo(Path.Combine(Environment.CurrentDirectory, "testData", "openhab", "conf")), "/openhab/conf")
             .WithResourceMapping(new DirectoryInfo(Path.Combine(Environment.CurrentDirectory, "testData", "openhab", "userdata")), "/openhab/userdata")
             .WithWaitStrategy(Wait.ForUnixContainer()
-                                  .UntilPortIsAvailable(8080)
+                                  .UntilExternalTcpPortIsAvailable(8080)
                                   .UntilHttpRequestIsSucceeded(strategy => strategy
                                                                            .ForPort(8080)
                                                                            .ForStatusCode(HttpStatusCode.OK)))
