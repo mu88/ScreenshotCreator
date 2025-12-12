@@ -8,6 +8,7 @@ on:
 jobs:
   mutation-testing:
     runs-on: ubuntu-latest
+    if: false # broken due to https://github.com/stryker-mutator/stryker-net/issues/3351
     steps:
       - name: Check out code
         uses: actions/checkout@v5

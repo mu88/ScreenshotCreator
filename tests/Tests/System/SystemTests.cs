@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using DotNet.Testcontainers.Builders;
 using DotNet.Testcontainers.Containers;
 using DotNet.Testcontainers.Networks;
@@ -14,9 +15,10 @@ public class SystemTests
     public async Task CreateImageNowForOpenHabAndScreenshotCreatorBothRunningInDocker()
     {
         // Arrange
+        var containerImageTag = GenerateContainerImageTag();
         var cancellationToken = CreateCancellationToken(TimeSpan.FromMinutes(5));
-        await BuildDockerImageOfScreenshotCreatorAsync(cancellationToken);
-        var container = await StartScreenshotCreatorAndOpenHabInContainersAsync(cancellationToken);
+        await BuildDockerImageOfScreenshotCreatorAsync(containerImageTag, cancellationToken);
+        var container = await StartScreenshotCreatorAndOpenHabInContainersAsync(containerImageTag, cancellationToken);
         var httpClient = new HttpClient { BaseAddress = GetScreenshotCreatorBaseAddress(container) };
 
         // Act
@@ -41,7 +43,7 @@ public class SystemTests
         return cancellationToken;
     }
 
-    private static async Task BuildDockerImageOfScreenshotCreatorAsync(CancellationToken cancellationToken)
+    private static async Task BuildDockerImageOfScreenshotCreatorAsync(string containerImageTag, CancellationToken cancellationToken)
     {
         var rootDirectory = Directory.GetParent(Environment.CurrentDirectory)?.Parent?.Parent?.Parent?.Parent ?? throw new NullReferenceException();
         var apiProjectFile = Path.Join(rootDirectory.FullName, "src", "ScreenshotCreator.Api", "ScreenshotCreator.Api.csproj");
@@ -50,7 +52,13 @@ public class SystemTests
             StartInfo = new ProcessStartInfo
             {
                 FileName = "dotnet",
-                Arguments = $"publish {apiProjectFile} --os linux --arch amd64 /t:PublishContainer -p:ContainerImageTags=local-system-test-chiseled",
+                Arguments =
+                    $"publish {apiProjectFile} --os linux --arch amd64 " +
+                    $"/t:PublishContainersForMultipleFamilies " +
+                    $"-p:ReleaseVersion={containerImageTag} " +
+                    "-p:IsRelease=false " +
+                    "-p:ContainerRegistry=\"\" " + // image shall not be pushed
+                    "-p:ContainerRepository=\"me/screenshotcreator\" ",
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
                 CreateNoWindow = true
@@ -66,7 +74,7 @@ public class SystemTests
         process.ExitCode.Should().Be(0);
     }
 
-    private static async Task<IContainer> StartScreenshotCreatorAndOpenHabInContainersAsync(CancellationToken cancellationToken)
+    private static async Task<IContainer> StartScreenshotCreatorAndOpenHabInContainersAsync(string containerImageTag, CancellationToken cancellationToken)
     {
         Console.WriteLine("Building network and openHAB container");
         var network = new NetworkBuilder().Build();
@@ -80,7 +88,7 @@ public class SystemTests
         Console.WriteLine("Network and openHAB container started");
 
         Console.WriteLine("Building and starting ScreenshotCreator container");
-        var screenshotCreatorContainer = BuildScreenshotCreatorContainer(network);
+        var screenshotCreatorContainer = BuildScreenshotCreatorContainer(network, containerImageTag);
         await screenshotCreatorContainer.StartAsync(cancellationToken);
         await screenshotCreatorContainer.GetLogsAsync(ct: cancellationToken);
         Console.WriteLine("ScreenshotCreator container started");
@@ -88,9 +96,9 @@ public class SystemTests
         return screenshotCreatorContainer;
     }
 
-    private static IContainer BuildScreenshotCreatorContainer(INetwork network) =>
+    private static IContainer BuildScreenshotCreatorContainer(INetwork network, string containerImageTag) =>
         new ContainerBuilder()
-            .WithImage("mu88/screenshotcreator:local-system-test-chiseled")
+            .WithImage($"me/screenshotcreator:{containerImageTag}")
             .WithNetwork(network)
             .WithEnvironment("ScreenshotOptions__Url", "http://openhab:8080/page/page_28d2e71d84") // must be hardcoded (both name and port)
             .WithEnvironment("ScreenshotOptions__UrlType", "OpenHab")
@@ -128,4 +136,7 @@ public class SystemTests
         Console.WriteLine($"Stdout:{Environment.NewLine}{logValues.Stdout}");
         logValues.Stdout.Should().NotContain("warn:");
     }
+
+    [SuppressMessage("Design", "MA0076:Do not use implicit culture-sensitive ToString in interpolated strings", Justification = "Okay for me")]
+    private static string GenerateContainerImageTag() => $"system-test-{DateTimeOffset.UtcNow.ToUnixTimeSeconds()}";
 }
