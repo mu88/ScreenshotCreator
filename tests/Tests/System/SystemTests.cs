@@ -93,6 +93,8 @@ public class SystemTests
         await screenshotCreatorContainer.GetLogsAsync(ct: cancellationToken);
         Console.WriteLine("ScreenshotCreator container started");
 
+        await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken); // give containers some time to settle
+
         return screenshotCreatorContainer;
     }
 
