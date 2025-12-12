@@ -2,6 +2,31 @@
 
 All notable changes to this project will be documented in this file. See [versionize](https://github.com/versionize/versionize) for commit guidelines.
 
+<a name="5.0.0"></a>
+## [5.0.0](https://www.github.com/mu88/ScreenshotCreator/releases/tag/v5.0.0) (2025-12-12)
+
+### ✨ Features
+
+* upgrade to .NET 10 ([d191c56](https://www.github.com/mu88/ScreenshotCreator/commit/d191c5637f5d7a3f6502fdaccc717dd3d3b8a238))
+
+### ♻️ Refactors
+
+* replace Swashbuckle with Microsoft's OpenAPI package and use Scalar for UI ([07e8554](https://www.github.com/mu88/ScreenshotCreator/commit/07e8554ac19ac6f87abe2a900030be7107ec4b13))
+
+### ✅ Tests
+
+* fix system test ([30494ae](https://www.github.com/mu88/ScreenshotCreator/commit/30494ae7c5be6e36ac8ec2fb48ad053ad9ef78c4))
+
+### 🔧 Chores
+
+* switch to new SLNX format ([97c9c8e](https://www.github.com/mu88/ScreenshotCreator/commit/97c9c8ec2e81ab8ee6a490c52a57d6007bead847))
+* **deps:** patch Magick due to security vulnerability ([19ff6c0](https://www.github.com/mu88/ScreenshotCreator/commit/19ff6c054651341cf25056955c90c9db36afa98c))
+* **deps:** update dependency microsoft.playwright to 1.56.0 ([f29c2aa](https://www.github.com/mu88/ScreenshotCreator/commit/f29c2aaf7a2678ed50f83898b7b2848941e849cd))
+
+### Breaking Changes
+
+* upgrade to .NET 10 ([d191c56](https://www.github.com/mu88/ScreenshotCreator/commit/d191c5637f5d7a3f6502fdaccc717dd3d3b8a238))
+
 <a name="4.0.0"></a>
 ## [4.0.0](https://www.github.com/mu88/ScreenshotCreator/releases/tag/v4.0.0) (2025-10-05)
 
