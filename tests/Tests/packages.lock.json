@@ -45,11 +45,11 @@
       },
       "Magick.NET-Q16-AnyCPU": {
         "type": "Direct",
-        "requested": "[14.9.1, )",
-        "resolved": "14.9.1",
-        "contentHash": "cRsHiS/uIx8xyDzwN0UJ8zPcxQWzh1SPNgMu/cBZHJ4h6z5K6e1fjGkROGyny13QJ/vLVMP+hZGOjqzoxqpLRQ==",
+        "requested": "[14.10.0, )",
+        "resolved": "14.10.0",
+        "contentHash": "yqUoE/2GUPVu8NCbDhl6qmgXXKh2xUpvI22HO0nEf0oZNZ6TadcX3SO0FF3UIKgrBRCyXBx5SJwjrjc4auTcTg==",
         "dependencies": {
-          "Magick.NET.Core": "14.9.1"
+          "Magick.NET.Core": "14.10.0"
         }
       },
       "Microsoft.AspNetCore.Mvc.Testing": {
@@ -197,8 +197,8 @@
       },
       "Magick.NET.Core": {
         "type": "Transitive",
-        "resolved": "14.9.1",
-        "contentHash": "kj3zurCDo9GvcDLbps+enS9Mjm2zltsevicZWxPDcfw5y6LnbGiOG2UpAkB//938zDhiUsubMPs6ZhJd+bRCzQ=="
+        "resolved": "14.10.0",
+        "contentHash": "MgL24O4CWdPB3VOzsJF/npYjv1frFd43R4HsCGVA3QZc6UkMZNtXf8y8ecUIi62EkCtZR2nvN/fu3Yqdwi6uxQ=="
       },
       "Meziantou.Analyzer": {
         "type": "Transitive",
@@ -771,14 +771,14 @@
         "dependencies": {
           "Microsoft.AspNetCore.OpenApi": "[10.0.0, )",
           "Scalar.AspNetCore": "[2.11.0, )",
-          "ScreenshotCreator.Logic": "[4.0.0, )",
+          "ScreenshotCreator.Logic": "[5.0.0, )",
           "mu88.Shared": "[4.1.0, )"
         }
       },
       "screenshotcreator.logic": {
         "type": "Project",
         "dependencies": {
-          "Magick.NET-Q16-AnyCPU": "[14.9.1, )",
+          "Magick.NET-Q16-AnyCPU": "[14.10.0, )",
           "Microsoft.Bcl.TimeProvider": "[10.0.0, )",
           "Microsoft.Extensions.Logging.Abstractions": "[10.0.0, )",
           "Microsoft.Extensions.Options": "[10.0.0, )",
