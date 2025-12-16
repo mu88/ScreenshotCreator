@@ -1,4 +1,5 @@
 {
+  "tagTemplate": "{version}",
   "changelog": {
     "sections": [
       {
