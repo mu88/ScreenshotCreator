@@ -55,10 +55,9 @@ public class SystemTests
                 Arguments =
                     $"publish {apiProjectFile} --os linux --arch amd64 " +
                     $"/t:PublishContainersForMultipleFamilies " +
-                    $"-p:ReleaseVersion={containerImageTag} " +
-                    "-p:IsRelease=false " +
-                    "-p:ContainerRegistry=\"\" " + // image shall not be pushed
-                    "-p:ContainerRepository=\"me/screenshotcreator\" ",
+                    $"/p:ReleaseVersion={containerImageTag} " +
+                    "/p:IsRelease=false " +
+                    "/p:DoNotApplyGitHubScope=true", // ensures same behavior when run locally or in GitHub Actions
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
                 CreateNoWindow = true
@@ -100,7 +99,7 @@ public class SystemTests
 
     private static IContainer BuildScreenshotCreatorContainer(INetwork network, string containerImageTag) =>
         new ContainerBuilder()
-            .WithImage($"me/screenshotcreator:{containerImageTag}")
+            .WithImage($"screenshotcreator-api:{containerImageTag}")
             .WithNetwork(network)
             .WithEnvironment("ScreenshotOptions__Url", "http://openhab:8080/page/page_28d2e71d84") // must be hardcoded (both name and port)
             .WithEnvironment("ScreenshotOptions__UrlType", "OpenHab")

@@ -28,9 +28,9 @@ jobs:
 
     needs: ci_cd
 
-    uses: mu88/github-actions/.github/workflows/ci-cd.yml@a27cb31c1879dcec13765ac01bb315041dc5ad86
+    uses: mu88/github-actions/.github/workflows/ci-cd.yml@a40175e6c3fc8b190b649073f86305c1d57e2946
     with:
-      docker-attest-provenance-and-sbom: false
+      docker-attest-provenance-and-sbom: true
       docker-publish-project: src/ScreenshotCreator.Api/ScreenshotCreator.Api.csproj
       dotnet-test-additional-params-unit-integration-tests: '/p:ExcludeByFile=\"**/Log.Prefix.cs\"'
       requires-docker-login: true
