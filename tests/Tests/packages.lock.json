@@ -782,7 +782,7 @@
           "Microsoft.Bcl.TimeProvider": "[10.0.0, )",
           "Microsoft.Extensions.Logging.Abstractions": "[10.0.0, )",
           "Microsoft.Extensions.Options": "[10.0.0, )",
-          "Microsoft.Playwright": "[1.56.0, )",
+          "Microsoft.Playwright": "[1.57.0, )",
           "mu88.Shared": "[4.3.0, )"
         }
       },
@@ -816,9 +816,9 @@
       },
       "Microsoft.Playwright": {
         "type": "CentralTransitive",
-        "requested": "[1.56.0, )",
-        "resolved": "1.56.0",
-        "contentHash": "DswyjEbhkTkQSyGnx2x1xhzwAztu/ckfOPZsT/fCA0HZVGdLkEWmf2u1FmUBWdT61do02VoMzp0dvA+oq7hKDg==",
+        "requested": "[1.57.0, )",
+        "resolved": "1.57.0",
+        "contentHash": "DJXmZ64wwgakSrVZxsFJS8/epLEfac2Xfij66a0xY/ggfKqHIOeWeRaQQ97qxwA3FdyVwU1nWjAqeZhOZFxYMw==",
         "dependencies": {
           "Microsoft.Bcl.AsyncInterfaces": "6.0.0",
           "System.ComponentModel.Annotations": "5.0.0"
