@@ -8,7 +8,7 @@ using Creator = ScreenshotCreator.Logic.ScreenshotCreator;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.ConfigureOpenTelemetry("ScreenshotCreator");
+builder.ConfigureOpenTelemetryMetrics("screenshotcreator");
 
 builder.Services.AddHealthChecks();
 builder.Services.AddControllers();
