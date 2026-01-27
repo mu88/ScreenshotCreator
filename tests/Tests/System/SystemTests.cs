@@ -1,9 +1,12 @@
 ﻿using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using Docker.DotNet;
+using Docker.DotNet.Models;
 using DotNet.Testcontainers.Builders;
 using DotNet.Testcontainers.Containers;
 using DotNet.Testcontainers.Networks;
 using FluentAssertions;
+using NUnit.Framework.Interfaces;
 
 namespace Tests.System;
 
@@ -11,36 +14,60 @@ namespace Tests.System;
 [Category("System")]
 public class SystemTests
 {
+    private CancellationTokenSource? _cancellationTokenSource;
+    private CancellationToken _cancellationToken;
+    private DockerClient? _dockerClient;
+    private IContainer? _container;
+
+    [SetUp]
+    public void Setup()
+    {
+        _cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromMinutes(5));
+        _cancellationToken = _cancellationTokenSource.Token;
+        _dockerClient = new DockerClientConfiguration().CreateClient();
+    }
+
+    [TearDown]
+    public async Task Teardown()
+    {
+        if (!string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("GITHUB_ACTIONS")))
+        {
+            return; // no need to clean up on GitHub Actions runners
+        }
+
+        // If the test passed, clean up the container and image. Otherwise, keep them for investigation.
+        if (TestContext.CurrentContext.Result.Outcome.Status == TestStatus.Passed && _container is not null && _dockerClient is not null)
+        {
+            await _container.StopAsync(_cancellationToken);
+            await _container.DisposeAsync();
+            await _dockerClient.Images.DeleteImageAsync(_container.Image.FullName, new ImageDeleteParameters { Force = true }, _cancellationToken);
+        }
+
+        _dockerClient?.Dispose();
+        _cancellationTokenSource?.Dispose();
+    }
+
     [Test]
+    [SuppressMessage("IDisposableAnalyzers.Correctness", "IDISP014:Use a single instance of HttpClient", Justification = "Just a single test, not a perf issue")]
     public async Task CreateImageNowForOpenHabAndScreenshotCreatorBothRunningInDocker()
     {
         // Arrange
         var containerImageTag = GenerateContainerImageTag();
-        var cancellationToken = CreateCancellationToken(TimeSpan.FromMinutes(5));
-        await BuildDockerImageOfScreenshotCreatorAsync(containerImageTag, cancellationToken);
-        var container = await StartScreenshotCreatorAndOpenHabInContainersAsync(containerImageTag, cancellationToken);
-        var httpClient = new HttpClient { BaseAddress = GetScreenshotCreatorBaseAddress(container) };
+        await BuildDockerImageOfScreenshotCreatorAsync(containerImageTag, _cancellationToken);
+        _container = await StartScreenshotCreatorAndOpenHabInContainersAsync(containerImageTag, _cancellationToken);
+        var httpClient = new HttpClient { BaseAddress = GetScreenshotCreatorBaseAddress(_container) };
 
         // Act
-        var healthCheckResponse = await httpClient.GetAsync("healthz", cancellationToken);
-        var appResponse = await httpClient.GetAsync("createImageNow", cancellationToken);
+        var healthCheckResponse = await httpClient.GetAsync("healthz", _cancellationToken);
+        var appResponse = await httpClient.GetAsync("createImageNow", _cancellationToken);
         var healthCheckToolResult =
-            await container.ExecAsync(["dotnet", "/app/mu88.HealthCheck.dll", "http://127.0.0.1:8080/screenshotCreator/healthz"], cancellationToken);
+            await _container.ExecAsync(["dotnet", "/app/mu88.HealthCheck.dll", "http://127.0.0.1:8080/screenshotCreator/healthz"], _cancellationToken);
 
         // Assert
-        await LogsShouldNotContainWarningsAsync(container, cancellationToken);
-        await HealthCheckShouldBeHealthyAsync(healthCheckResponse, cancellationToken);
-        await AppShouldRunAsync(appResponse, cancellationToken);
+        await LogsShouldNotContainWarningsAsync(_container, _cancellationToken);
+        await HealthCheckShouldBeHealthyAsync(healthCheckResponse, _cancellationToken);
+        await AppShouldRunAsync(appResponse, _cancellationToken);
         healthCheckToolResult.ExitCode.Should().Be(0);
-    }
-
-    private static CancellationToken CreateCancellationToken(TimeSpan timeout)
-    {
-        var timeoutCts = new CancellationTokenSource();
-        timeoutCts.CancelAfter(timeout);
-        var cancellationToken = timeoutCts.Token;
-
-        return cancellationToken;
     }
 
     private static async Task BuildDockerImageOfScreenshotCreatorAsync(string containerImageTag, CancellationToken cancellationToken)
@@ -98,8 +125,7 @@ public class SystemTests
     }
 
     private static IContainer BuildScreenshotCreatorContainer(INetwork network, string containerImageTag) =>
-        new ContainerBuilder()
-            .WithImage($"screenshotcreator-api:{containerImageTag}")
+        new ContainerBuilder($"screenshotcreator-api:{containerImageTag}")
             .WithNetwork(network)
             .WithEnvironment("ScreenshotOptions__Url", "http://openhab:8080/page/page_28d2e71d84") // must be hardcoded (both name and port)
             .WithEnvironment("ScreenshotOptions__UrlType", "OpenHab")
@@ -109,8 +135,7 @@ public class SystemTests
             .WithEnvironment("ScreenshotOptions__RefreshIntervalInSeconds", "300")
             .WithEnvironment("ScreenshotOptions__AvailabilityIndicator", "Wohnzimmer")
             .WithPortBinding(8080, true)
-            .WithWaitStrategy(Wait.ForUnixContainer()
-                                  .UntilExternalTcpPortIsAvailable(8080))
+            .WithWaitStrategy(Wait.ForUnixContainer().UntilExternalTcpPortIsAvailable(8080))
             .Build();
 
     private static Uri GetScreenshotCreatorBaseAddress(IContainer screenshotCreatorContainer) =>
