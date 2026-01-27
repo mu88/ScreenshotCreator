@@ -45,11 +45,11 @@
       },
       "Magick.NET-Q16-AnyCPU": {
         "type": "Direct",
-        "requested": "[14.10.0, )",
-        "resolved": "14.10.0",
-        "contentHash": "yqUoE/2GUPVu8NCbDhl6qmgXXKh2xUpvI22HO0nEf0oZNZ6TadcX3SO0FF3UIKgrBRCyXBx5SJwjrjc4auTcTg==",
+        "requested": "[14.10.2, )",
+        "resolved": "14.10.2",
+        "contentHash": "w0D2wDTlZprAoBN9CY+mzwPG7ao8AaksUTiUrehDu1j3FmiVf8xR5ojWMIFXHuikt7i828CezaK7sJJ7QJjexQ==",
         "dependencies": {
-          "Magick.NET.Core": "14.10.0"
+          "Magick.NET.Core": "14.10.2"
         }
       },
       "Microsoft.AspNetCore.Mvc.Testing": {
@@ -197,8 +197,8 @@
       },
       "Magick.NET.Core": {
         "type": "Transitive",
-        "resolved": "14.10.0",
-        "contentHash": "MgL24O4CWdPB3VOzsJF/npYjv1frFd43R4HsCGVA3QZc6UkMZNtXf8y8ecUIi62EkCtZR2nvN/fu3Yqdwi6uxQ=="
+        "resolved": "14.10.2",
+        "contentHash": "22zhy2QO7GrMPFZZEN5X+oAoBi7IWhq8fqH0dQy/d6jzScLeTfZV0a69CRzmf7LbiRPwPSeguHvpfgrNaAGmeQ=="
       },
       "Meziantou.Analyzer": {
         "type": "Transitive",
@@ -778,7 +778,7 @@
       "screenshotcreator.logic": {
         "type": "Project",
         "dependencies": {
-          "Magick.NET-Q16-AnyCPU": "[14.10.0, )",
+          "Magick.NET-Q16-AnyCPU": "[14.10.2, )",
           "Microsoft.Bcl.TimeProvider": "[10.0.0, )",
           "Microsoft.Extensions.Logging.Abstractions": "[10.0.0, )",
           "Microsoft.Extensions.Options": "[10.0.0, )",
