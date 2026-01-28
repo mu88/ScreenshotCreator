@@ -1,4 +1,4 @@
 {
   "name": "C# (.NET)",
-  "image": "ghcr.io/mu88/devcontainers-dotnet-playwright:sdk-10.0.100"
+  "image": "ghcr.io/mu88/devcontainers-dotnet-playwright:sdk-10.0.102"
 }
