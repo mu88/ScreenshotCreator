@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Set up .NET
         uses: actions/setup-dotnet@v5
@@ -41,7 +41,7 @@ jobs:
             --output ${{ runner.temp }}/Stryker/
 
       - name: Archive mutation testing results
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: mutation-testing-report
           path: ${{ runner.temp }}/Stryker/**/*.*
