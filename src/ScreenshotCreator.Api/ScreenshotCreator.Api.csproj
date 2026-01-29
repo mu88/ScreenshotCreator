@@ -2,7 +2,7 @@
   <PropertyGroup>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <RuntimeIdentifiers>linux-x64;linux-arm64</RuntimeIdentifiers>
-    <ContainerBaseImage>ghcr.io/mu88/screenshotcreator-playwright:10.0.42</ContainerBaseImage>
+    <ContainerBaseImage>ghcr.io/mu88/screenshotcreator-playwright:10.0.54</ContainerBaseImage>
     <PublishRegularContainer>true</PublishRegularContainer>
     <PlaywrightPlatform>all</PlaywrightPlatform>
   </PropertyGroup>
