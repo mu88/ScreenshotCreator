@@ -8,7 +8,7 @@ using Creator = ScreenshotCreator.Logic.ScreenshotCreator;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.ConfigureOpenTelemetryMetrics("screenshotcreator");
+builder.ConfigureOpenTelemetry("screenshotcreator");
 
 builder.Services.AddHealthChecks();
 builder.Services.AddControllers();
@@ -60,11 +60,11 @@ app.MapHealthChecks("/healthz");
 await app.RunAsync();
 
 async Task<Results<FileContentHttpResult, NotFound>> ReturnImageOrNotFoundAsync(HttpContext httpContext,
-                                               ImageProcessor imageProcessor,
-                                               IOptions<ScreenshotOptions> options,
-                                               bool blackAndWhite = false,
-                                               bool asWaveshareBytes = false,
-                                               bool addWaveshareInstructions = false)
+                                                                                ImageProcessor imageProcessor,
+                                                                                IOptions<ScreenshotOptions> options,
+                                                                                bool blackAndWhite = false,
+                                                                                bool asWaveshareBytes = false,
+                                                                                bool addWaveshareInstructions = false)
 {
     if (!File.Exists(options.Value.ScreenshotFile))
     {

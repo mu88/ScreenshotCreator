@@ -81,9 +81,9 @@
       },
       "mu88.Shared": {
         "type": "Direct",
-        "requested": "[5.0.1, )",
-        "resolved": "5.0.1",
-        "contentHash": "j7KteEFjBYrpDgRZQ3UuNmY3gO+Hs/WntN6FF0ShmW3ZeM+88P72+Qbmw94ngaFiOsXCasJnY5VdcLVwnpVN4g==",
+        "requested": "[5.2.0, )",
+        "resolved": "5.2.0",
+        "contentHash": "n0WTDGdMgqyPvrhjdt53VE1CKKNRC9UtUtrc0QXoIIhwie68Cy9FybWT5fYbdcP94/D77FygW8Kwy/NByOumQw==",
         "dependencies": {
           "IDisposableAnalyzers": "4.0.8",
           "Meziantou.Analyzer": "2.0.277",
@@ -772,7 +772,7 @@
           "Microsoft.AspNetCore.OpenApi": "[10.0.2, )",
           "Scalar.AspNetCore": "[2.12.7, )",
           "ScreenshotCreator.Logic": "[5.0.0, )",
-          "mu88.Shared": "[5.0.1, )"
+          "mu88.Shared": "[5.2.0, )"
         }
       },
       "screenshotcreator.logic": {
@@ -783,7 +783,7 @@
           "Microsoft.Extensions.Logging.Abstractions": "[10.0.2, )",
           "Microsoft.Extensions.Options": "[10.0.2, )",
           "Microsoft.Playwright": "[1.57.0, )",
-          "mu88.Shared": "[5.0.1, )"
+          "mu88.Shared": "[5.2.0, )"
         }
       },
       "Microsoft.AspNetCore.OpenApi": {
