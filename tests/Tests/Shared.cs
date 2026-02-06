@@ -8,7 +8,7 @@ namespace Tests;
 public static class Shared
 {
     public static IContainer CreateOpenHabContainer(INetwork network, string? containerName = null) =>
-        new ContainerBuilder("openhab/openhab:5.0.0")
+        new ContainerBuilder("openhab/openhab:5.1.1")
             .WithNetwork(network)
             .WithNetworkAliases(containerName)
             .WithPortBinding(8080, true)
