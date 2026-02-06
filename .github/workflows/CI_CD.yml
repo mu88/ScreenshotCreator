@@ -28,7 +28,7 @@ jobs:
 
     needs: ci_cd
 
-    uses: mu88/github-actions/.github/workflows/ci-cd.yml@2f49bee4a144cd0c47a463e737c1ba50887d3924
+    uses: mu88/github-actions/.github/workflows/ci-cd.yml@0213ed5565c48d2c19f9d2588dc49a79c4339a33
     with:
       docker-attest-provenance-and-sbom: true
       docker-publish-project: src/ScreenshotCreator.Api/ScreenshotCreator.Api.csproj
