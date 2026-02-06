@@ -48,9 +48,9 @@
       },
       "mu88.Shared": {
         "type": "Direct",
-        "requested": "[6.0.0, )",
-        "resolved": "6.0.0",
-        "contentHash": "xvb+32IUuUPCBlNCyPON6sa9FkCoiRRaEX9psEbg+OMJBJ4dsVNNJnpqHS3MYYOjrm//xLY70dkaRQzT+Qs29g==",
+        "requested": "[7.0.0, )",
+        "resolved": "7.0.0",
+        "contentHash": "eXGSYxD4n2wMx2OCgYH32bKJHD3/i5GCk5qVpI47/dbc6Mj1TGKDqZ1PAPdYpA7Nda/scB8ELn7Px5qxi3h8hQ==",
         "dependencies": {
           "IDisposableAnalyzers": "4.0.8",
           "Meziantou.Analyzer": "2.0.277",
