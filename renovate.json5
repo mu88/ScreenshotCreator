@@ -1,7 +1,11 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["github>mu88/renovate-config"],
-  "ignorePresets": [":ignoreModulesAndTests"],
+  "extends": [
+    "github>mu88/common//renovate/default.json5"
+  ],
+  "ignorePresets": [
+    ":ignoreModulesAndTests"
+  ],
   "ignorePaths": [
     "**/node_modules/**",
     "**/bower_components/**",
@@ -13,14 +17,18 @@
   ],
   "packageRules": [
     {
-      "matchPackageNames": ["Microsoft.Playwright"],
+      "matchPackageNames": [
+        "Microsoft.Playwright"
+      ],
       "groupName": "Playwright",
       "automerge": true,
       "automergeType": "branch"
     },
     {
       "description": "Major updates of Playwright Docker image refer to major .NET upgrade and will be done manually",
-      "matchUpdateTypes": ["major"],
+      "matchUpdateTypes": [
+        "major"
+      ],
       "matchPackageNames": [
         "*mu88/screenshotcreator-playwright"
       ],
