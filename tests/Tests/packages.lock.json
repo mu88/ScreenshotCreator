@@ -770,7 +770,7 @@
         "type": "Project",
         "dependencies": {
           "Microsoft.AspNetCore.OpenApi": "[10.0.2, )",
-          "Scalar.AspNetCore": "[2.12.7, )",
+          "Scalar.AspNetCore": "[2.12.30, )",
           "ScreenshotCreator.Logic": "[5.0.0, )",
           "mu88.Shared": "[7.0.0, )"
         }
@@ -826,9 +826,9 @@
       },
       "Scalar.AspNetCore": {
         "type": "CentralTransitive",
-        "requested": "[2.12.7, )",
-        "resolved": "2.12.7",
-        "contentHash": "uHhcKCbVH3x5lXT7AtQOWELuOEUOR3ponDCCpvRX8KPYuoE2QZcUChHNjT/HvyTGC/puDReOgQjQJ7JA7c7FeA=="
+        "requested": "[2.12.30, )",
+        "resolved": "2.12.30",
+        "contentHash": "tG+i8CN7Ub26z1GkjK0Zo4aDa9Omh5I5xQGDYN1O23DByMxH8jXz0Qd9/yHYczqi6+bDXgpSAYDfn1VkbupqCw=="
       }
     }
   }
