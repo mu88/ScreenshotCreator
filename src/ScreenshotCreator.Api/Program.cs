@@ -14,13 +14,13 @@ builder.Services.AddHealthChecks();
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 builder.Configuration
-       .AddJsonFile("appsettings.secret.json", true)
-       .AddKeyPerFile("/run/secrets", true);
+    .AddJsonFile("appsettings.secret.json", true)
+    .AddKeyPerFile("/run/secrets", true);
 builder.Services
-       .AddOptions<ScreenshotOptions>()
-       .Bind(builder.Configuration.GetSection(ScreenshotOptions.SectionName))
-       .ValidateDataAnnotations()
-       .ValidateOnStart();
+    .AddOptions<ScreenshotOptions>()
+    .Bind(builder.Configuration.GetSection(ScreenshotOptions.SectionName))
+    .ValidateDataAnnotations()
+    .ValidateOnStart();
 builder.Services.AddSingleton<IScreenshotCreator, Creator>();
 builder.Services.AddSingleton<IPlaywrightHelper, PlaywrightHelper>();
 builder.Services.AddSingleton<ImageProcessor>();
@@ -45,12 +45,13 @@ app.MapGet("createImageNow",
         return await ReturnImageOrNotFoundAsync(httpContext, imageProcessor, options);
     });
 app.MapGet("createImageWithSizeNow",
-    async (uint width,
-           uint height,
-           HttpContext httpContext,
-           ImageProcessor imageProcessor,
-           IOptions<ScreenshotOptions> options,
-           IScreenshotCreator creator) =>
+    async (
+        uint width,
+        uint height,
+        HttpContext httpContext,
+        ImageProcessor imageProcessor,
+        IOptions<ScreenshotOptions> options,
+        IScreenshotCreator creator) =>
     {
         await creator.CreateScreenshotAsync(width, height);
         return await ReturnImageOrNotFoundAsync(httpContext, imageProcessor, options);
@@ -59,12 +60,13 @@ app.MapHealthChecks("/healthz");
 
 await app.RunAsync();
 
-async Task<Results<FileContentHttpResult, NotFound>> ReturnImageOrNotFoundAsync(HttpContext httpContext,
-                                                                                ImageProcessor imageProcessor,
-                                                                                IOptions<ScreenshotOptions> options,
-                                                                                bool blackAndWhite = false,
-                                                                                bool asWaveshareBytes = false,
-                                                                                bool addWaveshareInstructions = false)
+async Task<Results<FileContentHttpResult, NotFound>> ReturnImageOrNotFoundAsync(
+    HttpContext httpContext,
+    ImageProcessor imageProcessor,
+    IOptions<ScreenshotOptions> options,
+    bool blackAndWhite = false,
+    bool asWaveshareBytes = false,
+    bool addWaveshareInstructions = false)
 {
     if (!File.Exists(options.Value.ScreenshotFile))
     {
@@ -74,8 +76,8 @@ async Task<Results<FileContentHttpResult, NotFound>> ReturnImageOrNotFoundAsync(
     var processingResult = await imageProcessor.ProcessAsync(options.Value.ScreenshotFile, blackAndWhite, asWaveshareBytes);
 
     var result = asWaveshareBytes
-                     ? TypedResults.Bytes(processingResult.Data, processingResult.MediaType)
-                     : TypedResults.File(processingResult.Data, processingResult.MediaType);
+        ? TypedResults.Bytes(processingResult.Data, processingResult.MediaType)
+        : TypedResults.File(processingResult.Data, processingResult.MediaType);
 
     if (addWaveshareInstructions)
     {

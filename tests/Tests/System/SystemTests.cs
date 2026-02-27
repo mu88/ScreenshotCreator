@@ -124,8 +124,8 @@ public class SystemTests
         return screenshotCreatorContainer;
     }
 
-    private static IContainer BuildScreenshotCreatorContainer(INetwork network, string containerImageTag) =>
-        new ContainerBuilder($"screenshotcreator-api:{containerImageTag}")
+    private static IContainer BuildScreenshotCreatorContainer(INetwork network, string containerImageTag)
+        => new ContainerBuilder($"screenshotcreator-api:{containerImageTag}")
             .WithNetwork(network)
             .WithEnvironment("ScreenshotOptions__Url", "http://openhab:8080/page/page_28d2e71d84") // must be hardcoded (both name and port)
             .WithEnvironment("ScreenshotOptions__UrlType", "OpenHab")
@@ -138,8 +138,8 @@ public class SystemTests
             .WithWaitStrategy(Wait.ForUnixContainer().UntilExternalTcpPortIsAvailable(8080))
             .Build();
 
-    private static Uri GetScreenshotCreatorBaseAddress(IContainer screenshotCreatorContainer) =>
-        new($"http://{screenshotCreatorContainer.Hostname}:{screenshotCreatorContainer.GetMappedPublicPort(8080)}/screenshotCreator");
+    private static Uri GetScreenshotCreatorBaseAddress(IContainer screenshotCreatorContainer)
+        => new($"http://{screenshotCreatorContainer.Hostname}:{screenshotCreatorContainer.GetMappedPublicPort(8080)}/screenshotCreator");
 
     private static async Task AppShouldRunAsync(HttpResponseMessage appResponse, CancellationToken cancellationToken)
     {

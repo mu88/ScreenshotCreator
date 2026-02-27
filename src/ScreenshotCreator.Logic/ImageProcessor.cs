@@ -20,8 +20,8 @@ public class ImageProcessor(ILogger<ImageProcessor> logger)
         }
 
         var bytes = asWaveshareBytes
-                        ? ToWaveshareBytes(image)
-                        : image.ToByteArray();
+            ? ToWaveshareBytes(image)
+            : image.ToByteArray();
         var contentType = asWaveshareBytes ? MediaTypeNames.Application.Octet : GetImageMimeType(image);
 
         return new ProcessingResult(bytes, contentType);

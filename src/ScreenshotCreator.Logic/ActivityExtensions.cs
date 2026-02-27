@@ -15,8 +15,8 @@ public static class ActivityExtensions
         return activity.ActiveFrom <= currentLocalTime && currentLocalTime <= activity.ActiveTo;
     }
 
-    private static TimeOnly GetCurrentLocalTime(TimeProvider timeProvider) =>
-        TimeOnly.FromDateTime(TimeZoneInfo
-                                  .ConvertTimeFromUtc(timeProvider.GetUtcNow().UtcDateTime,
-                                                      TimeZoneInfo.FindSystemTimeZoneById(Environment.GetEnvironmentVariable("TZ") ?? TimeZoneInfo.Local.Id)));
+    private static TimeOnly GetCurrentLocalTime(TimeProvider timeProvider)
+        => TimeOnly.FromDateTime(TimeZoneInfo
+            .ConvertTimeFromUtc(timeProvider.GetUtcNow().UtcDateTime,
+                TimeZoneInfo.FindSystemTimeZoneById(Environment.GetEnvironmentVariable("TZ") ?? TimeZoneInfo.Local.Id)));
 }

@@ -40,8 +40,8 @@ public class ScreenshotOptions
 
     public Activity? Activity { get; set; }
 
-    public string CalculateSleepBetweenUpdates() =>
-        Activity.DisplayShouldBeActive()
+    public string CalculateSleepBetweenUpdates()
+        => Activity.DisplayShouldBeActive()
             ? RefreshIntervalInSeconds.ToString()
             : Activity.RefreshIntervalWhenInactiveInSeconds.ToString();
 }

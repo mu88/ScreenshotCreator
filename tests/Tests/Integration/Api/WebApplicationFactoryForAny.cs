@@ -6,14 +6,14 @@ internal class WebApplicationFactoryForAny : WebApplicationFactory
 {
     public WebApplicationFactoryForAny(Action<ScreenshotOptions>? configureOptions = null)
         : base(configureOptions ?? (options =>
-                                       {
-                                           options.Url = "https://www.google.com";
-                                           options.UrlType = UrlType.Any;
-                                           options.BackgroundProcessingEnabled = false;
-                                           options.ScreenshotFile = $"Screenshot_{Guid.NewGuid()}.png";
-                                           options.Activity = null;
-                                           options.RefreshIntervalInSeconds = 1953;
-                                       }))
+        {
+            options.Url = "https://www.google.com";
+            options.UrlType = UrlType.Any;
+            options.BackgroundProcessingEnabled = false;
+            options.ScreenshotFile = $"Screenshot_{Guid.NewGuid()}.png";
+            options.Activity = null;
+            options.RefreshIntervalInSeconds = 1953;
+        }))
     {
     }
 }

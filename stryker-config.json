@@ -1,6 +1,5 @@
 {
-  "stryker-config":
-  {
+  "stryker-config": {
     "project": "ScreenshotCreator.Logic.csproj",
     "test-projects": [
       "../../tests/Tests/Tests.csproj"

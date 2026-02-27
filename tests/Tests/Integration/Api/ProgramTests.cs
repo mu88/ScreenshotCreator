@@ -1,5 +1,4 @@
-﻿using System.Net;
-using DotNet.Testcontainers.Builders;
+﻿using DotNet.Testcontainers.Builders;
 using DotNet.Testcontainers.Containers;
 using FluentAssertions;
 using Microsoft.AspNetCore.WebUtilities;
@@ -52,7 +51,7 @@ public class ProgramTests : PlaywrightTests
     {
         // Arrange & Act
         var result = await _clientForAny.GetAsync(QueryHelpers.AddQueryString("createImageWithSizeNow",
-                                                                              new Dictionary<string, string?> { { "width", "1024" }, { "height", "768" } }));
+            new Dictionary<string, string?> { { "width", "1024" }, { "height", "768" } }));
 
         // Assert
         result.Should().Be200Ok();
@@ -83,7 +82,7 @@ public class ProgramTests : PlaywrightTests
 
         // Act
         var result = await _clientForAny.GetAsync(QueryHelpers.AddQueryString("latestImage",
-                                                                              new Dictionary<string, string?> { { "blackAndWhite", "true" } }));
+            new Dictionary<string, string?> { { "blackAndWhite", "true" } }));
 
         // Assert
         result.Should().Be200Ok();
@@ -99,7 +98,7 @@ public class ProgramTests : PlaywrightTests
 
         // Act
         var result = await _clientForAny.GetAsync(QueryHelpers.AddQueryString("latestImage",
-                                                                              new Dictionary<string, string?> { { "asWaveshareBytes", "true" } }));
+            new Dictionary<string, string?> { { "asWaveshareBytes", "true" } }));
 
         // Assert
         result.Should().Be200Ok();
@@ -115,7 +114,7 @@ public class ProgramTests : PlaywrightTests
 
         // Act
         var result = await _clientForAny.GetAsync(QueryHelpers.AddQueryString("latestImage",
-                                                                              new Dictionary<string, string?> { { "addWaveshareInstructions", "true" } }));
+            new Dictionary<string, string?> { { "addWaveshareInstructions", "true" } }));
 
         // Assert
         result.Should().Be200Ok();

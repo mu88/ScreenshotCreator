@@ -7,9 +7,9 @@
     <PlaywrightPlatform>all</PlaywrightPlatform>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.OpenApi"/>
-    <PackageReference Include="mu88.Shared"/>
-    <PackageReference Include="Scalar.AspNetCore"/>
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" />
+    <PackageReference Include="mu88.Shared" />
+    <PackageReference Include="Scalar.AspNetCore" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ScreenshotCreator.Logic\ScreenshotCreator.Logic.csproj" />

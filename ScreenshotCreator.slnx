@@ -8,7 +8,7 @@
     <File Path="global.json" />
     <File Path="LICENSE.md" />
     <File Path="README.md" />
-    <File Path="renovate.json" />
+    <File Path="renovate.json5" />
     <File Path="stryker-config.json" />
   </Folder>
   <Project Path="src/ScreenshotCreator.Api/ScreenshotCreator.Api.csproj" />

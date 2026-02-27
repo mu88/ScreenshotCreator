@@ -12,23 +12,24 @@ namespace Tests.Unit.Api;
 public class HeaderDictionaryExtensionsTests
 {
     [TestCase(true,
-                 "",
-                 "",
-                 "15:00",
-                 true,
-                 "1953")]
+        "",
+        "",
+        "15:00",
+        true,
+        "1953")]
     [TestCase(false,
-                 "16:00",
-                 "13:00",
-                 "15:00",
-                 false,
-                 "15")]
-    public void AddWaveshareInstructions(bool isNull,
-                                         string activeFrom,
-                                         string activeTo,
-                                         string now,
-                                         bool expectedDisplayState,
-                                         string expectedSleep)
+        "16:00",
+        "13:00",
+        "15:00",
+        false,
+        "15")]
+    public void AddWaveshareInstructions(
+        bool isNull,
+        string activeFrom,
+        string activeTo,
+        string now,
+        bool expectedDisplayState,
+        string expectedSleep)
     {
         // Arrange
         Environment.SetEnvironmentVariable("TZ", null);

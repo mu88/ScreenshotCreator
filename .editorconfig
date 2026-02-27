@@ -2,13 +2,19 @@
 
 [*]
 indent_size = 2
+indent_style = space
+insert_final_newline = true
+max_line_length = 180
+trim_trailing_whitespace = true
 
-[*.cs]
+[*.{cs,cshtml,razor,razor.cs}]
 indent_size = 4
 dotnet_diagnostic.MA0003.severity = none
 dotnet_diagnostic.MA0004.severity = none
 dotnet_diagnostic.MA0007.severity = none
+dotnet_diagnostic.MA0036.severity = none
 dotnet_diagnostic.MA0038.severity = none
+dotnet_diagnostic.MA0041.severity = none
 dotnet_diagnostic.MA0048.severity = none
 dotnet_diagnostic.MA0053.severity = none
 dotnet_diagnostic.SA0001.severity = none
@@ -20,8 +26,14 @@ dotnet_diagnostic.SA1200.severity = none
 dotnet_diagnostic.SA1309.severity = none
 dotnet_diagnostic.SA1313.severity = none
 dotnet_diagnostic.SA1413.severity = none
+dotnet_diagnostic.SA1500.severity = none
+dotnet_diagnostic.SA1502.severity = none
+dotnet_diagnostic.SA1508.severity = none
 dotnet_diagnostic.SA1516.severity = none
 dotnet_diagnostic.SA1600.severity = none
 dotnet_diagnostic.SA1601.severity = none
 dotnet_diagnostic.SA1602.severity = none
 dotnet_diagnostic.SA1633.severity = none
+
+[{*.markdown,*.md}]
+max_line_length = 999
