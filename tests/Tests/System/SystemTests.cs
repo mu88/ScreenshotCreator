@@ -1,5 +1,6 @@
-﻿using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
+using CliWrap;
+using CliWrap.Buffered;
 using Docker.DotNet;
 using Docker.DotNet.Models;
 using DotNet.Testcontainers.Builders;
@@ -74,30 +75,22 @@ public class SystemTests
     {
         var rootDirectory = Directory.GetParent(Environment.CurrentDirectory)?.Parent?.Parent?.Parent?.Parent ?? throw new NullReferenceException();
         var apiProjectFile = Path.Join(rootDirectory.FullName, "src", "ScreenshotCreator.Api", "ScreenshotCreator.Api.csproj");
-        var process = new Process
-        {
-            StartInfo = new ProcessStartInfo
-            {
-                FileName = "dotnet",
-                Arguments =
-                    $"publish {apiProjectFile} --os linux --arch amd64 " +
-                    $"/t:PublishContainersForMultipleFamilies " +
-                    $"/p:ReleaseVersion={containerImageTag} " +
-                    "/p:IsRelease=false " +
-                    "/p:DoNotApplyGitHubScope=true", // ensures same behavior when run locally or in GitHub Actions
-                UseShellExecute = false,
-                RedirectStandardOutput = true,
-                CreateNoWindow = true
-            }
-        };
-        process.Start();
-        while (await process.StandardOutput.ReadLineAsync(cancellationToken) is { } line)
-        {
-            Console.WriteLine(line);
-        }
-
-        await process.WaitForExitAsync(cancellationToken);
-        process.ExitCode.Should().Be(0);
+        var buildResult = await Cli.Wrap("dotnet")
+            .WithArguments([
+                "publish",
+                $"{apiProjectFile}",
+                "--os",
+                "linux",
+                "--arch",
+                "amd64",
+                "/t:PublishContainersForMultipleFamilies",
+                $"/p:ReleaseVersion={containerImageTag}",
+                "/p:IsRelease=false",
+                "/p:DoNotApplyGitHubScope=true"
+            ])
+            .ExecuteBufferedAsync(cancellationToken);
+        buildResult.IsSuccess.Should().BeTrue();
+        Console.WriteLine(buildResult.StandardOutput);
     }
 
     private static async Task<IContainer> StartScreenshotCreatorAndOpenHabInContainersAsync(string containerImageTag, CancellationToken cancellationToken)
