@@ -17,6 +17,15 @@
   ],
   "packageRules": [
     {
+      "description": "Unfortunately, these packages do not return a release timestamp. To prevent Renovate from skipping updates for these packages, we set the minimum release age behavior to 'timestamp-optional' so that updates will be created even without a release timestamp.",
+      "matchPackageNames": [
+        "mcr.microsoft.com/dotnet/aspnet",
+        "mcr.microsoft.com/dotnet/sdk",
+        "ghcr.io/mu88/screenshotcreator-playwright"
+      ],
+      "minimumReleaseAgeBehaviour": "timestamp-optional"
+    },
+    {
       "matchPackageNames": [
         "Microsoft.Playwright"
       ],
