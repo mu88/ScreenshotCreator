@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Options;
+﻿using System.Diagnostics.CodeAnalysis;
+using Microsoft.Extensions.Options;
 using ScreenshotCreator.Logic;
 
 namespace ScreenshotCreator.Api;
@@ -30,6 +31,7 @@ internal class BackgroundScreenshotCreator : BackgroundService
         // There should always be at least one image present in case the background processor is enabled
         await _screenshotCreator.CreateScreenshotAsync(_screenshotOptions.Width, _screenshotOptions.Height);
 
+        // Code coverage false positive
         while (await timer.WaitForNextTickAsync(stoppingToken))
         {
             _logger.BackgroundServiceTriggered();

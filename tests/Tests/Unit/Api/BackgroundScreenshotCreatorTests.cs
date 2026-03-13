@@ -25,8 +25,8 @@ public class BackgroundScreenshotCreatorTests
 
         // Act
         testee.StartAsync(cancellationTokenSource.Token);
-        await Task.Delay(TimeSpan.FromSeconds(1.5));
-        cancellationTokenSource.Cancel();
+        await Task.Delay(TimeSpan.FromSeconds(1.5), cancellationTokenSource.Token);
+        await cancellationTokenSource.CancelAsync();
 
         // Assert
         await screenshotCreatorMock.Received(2).CreateScreenshotAsync(800, 600);
@@ -46,8 +46,8 @@ public class BackgroundScreenshotCreatorTests
 
         // Act
         testee.StartAsync(cancellationTokenSource.Token);
-        await Task.Delay(TimeSpan.FromSeconds(1.5));
-        cancellationTokenSource.Cancel();
+        await Task.Delay(TimeSpan.FromSeconds(1.5), cancellationTokenSource.Token);
+        await cancellationTokenSource.CancelAsync();
 
         // Assert
         await screenshotCreatorMock.DidNotReceive().CreateScreenshotAsync(800, 600);
@@ -71,8 +71,8 @@ public class BackgroundScreenshotCreatorTests
 
         // Act
         testee.StartAsync(cancellationTokenSource.Token);
-        await Task.Delay(TimeSpan.FromSeconds(1.5));
-        cancellationTokenSource.Cancel();
+        await Task.Delay(TimeSpan.FromSeconds(1.5), cancellationTokenSource.Token);
+        await cancellationTokenSource.CancelAsync();
 
         // Assert
         await screenshotCreatorMock.Received(2).CreateScreenshotAsync(800, 600);

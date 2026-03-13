@@ -31,14 +31,24 @@ public class ImageProcessorTests
     {
         // Arrange
         var testee = new ImageProcessor(NullLogger<ImageProcessor>.Instance);
+        var screenshotFile = Path.GetTempFileName() + ".png";
+        using (var imageWithAlpha = new MagickImage(await File.ReadAllBytesAsync("testData/Screenshot.png")))
+        {
+            imageWithAlpha.Alpha(AlphaOption.Opaque);
+            await imageWithAlpha.WriteAsync(screenshotFile);
+        }
 
         // Act
-        var result = await testee.ProcessAsync("testData/Screenshot.png", true, false);
+        var result = await testee.ProcessAsync(screenshotFile, true, false);
 
         // Assert
         result.Data.Length.Should().BeGreaterThan(3000, "because there is a certain variance in the size with every Magick version");
         result.MediaType.Should().Be("image/png");
-        new MagickImage(result.Data).GetPixels().Select(pixel => pixel.GetChannel(0)).Distinct().Should().BeEquivalentTo(new List<ushort> { 0, 65535 });
+        var image = new MagickImage(result.Data);
+        image.HasAlpha.Should().BeFalse("because the alpha channel should be removed for black and white images");
+        image.GetPixels().Select(pixel => pixel.GetChannel(0)).Distinct().Should().BeEquivalentTo(new List<ushort> { 0, 65535 });
+
+        File.Delete(screenshotFile);
     }
 
     [Test]
