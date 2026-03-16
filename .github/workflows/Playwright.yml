@@ -111,7 +111,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Attest build provenance
-        uses: actions/attest-build-provenance@v3
+        uses: actions/attest-build-provenance@v4
         with:
           push-to-registry: true
           subject-name: ghcr.io/mu88/screenshotcreator-playwright
@@ -124,7 +124,7 @@ jobs:
           output-file: sbom.json
 
       - name: Attest SBOM
-        uses: actions/attest-sbom@v3
+        uses: actions/attest-sbom@v4
         with:
           push-to-registry: true
           sbom-path: sbom.json
