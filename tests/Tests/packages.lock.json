@@ -114,15 +114,15 @@
       },
       "NUnit": {
         "type": "Direct",
-        "requested": "[4.5.0, )",
-        "resolved": "4.5.0",
-        "contentHash": "3AXYqXoll1CnWA+fNqMQemJO5qofh2r75bdrPyJqjCRCcZpwuCAgUnHxG1wKEbrGjtobrWWbwVrDhYcXcxRkjw=="
+        "requested": "[4.5.1, )",
+        "resolved": "4.5.1",
+        "contentHash": "x1sIqU9i0IkxqFayqthzmJs/75jTMbrfNMixj4vtfTi7rRzGbtuY27V+iAhfTY02u5k2qvW3QBGM414OG4q8Lw=="
       },
       "NUnit.Analyzers": {
         "type": "Direct",
-        "requested": "[4.11.2, )",
-        "resolved": "4.11.2",
-        "contentHash": "D9w1tsxMyBAsINY2yyIaS59V9W4iGtuPyHs+9enuhmDAaCsSOitJKha4TUPENCAd2LrylCawur0YhCJoLMHBJA=="
+        "requested": "[4.12.0, )",
+        "resolved": "4.12.0",
+        "contentHash": "QuEHoNlYPyjX+MUNLgj5WquT4MFFJIhIVjbZelP13z6hQP5eCl/7QgSCA0xxhTJLnrMkc7QcnEp2lTchx5pHYA=="
       },
       "NUnit3TestAdapter": {
         "type": "Direct",
@@ -776,7 +776,7 @@
         "type": "Project",
         "dependencies": {
           "Microsoft.AspNetCore.OpenApi": "[10.0.3, )",
-          "Scalar.AspNetCore": "[2.12.50, )",
+          "Scalar.AspNetCore": "[2.13.2, )",
           "ScreenshotCreator.Logic": "[5.0.0, )",
           "mu88.Shared": "[8.0.0, )"
         }
@@ -832,9 +832,9 @@
       },
       "Scalar.AspNetCore": {
         "type": "CentralTransitive",
-        "requested": "[2.12.50, )",
-        "resolved": "2.12.50",
-        "contentHash": "VjP0hDqICp70OuDtasziehQfs3t2TuhlXfWoOgc5H06iiYLAajclEjfrNDqqD2CTxBPMoU243BXmEphCRF/QTQ=="
+        "requested": "[2.13.2, )",
+        "resolved": "2.13.2",
+        "contentHash": "/FTdSYDnWJHPCuPtGE6WXsiy6Mj1iAhT0N4hVqe5mnsxqKrqgX3QQItdjB+25WAcyBLRfuoci7o286KB72dLcw=="
       }
     }
   }
