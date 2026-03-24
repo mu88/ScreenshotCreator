@@ -28,13 +28,11 @@ jobs:
 
     needs: ci_cd
 
-    uses: mu88/common/.github/workflows/ci-cd.yml@092005d5010b8490e35143bfe1dc26ebdc954f84
+    uses: mu88/common/.github/workflows/ci-cd.yml@74ae161be67791a743a890c0a0ee2a2088ef1042
     with:
       docker-attest-provenance-and-sbom: true
       docker-publish-project: src/ScreenshotCreator.Api/ScreenshotCreator.Api.csproj
-      dotnet-test-additional-params-unit-integration-tests: '/p:ExcludeByFile=\"**/Log.Prefix.cs\"'
       requires-docker-login: true
-      sonar-additional-params: '/d:sonar.cs.opencover.reportsPaths=tests/Tests/coverage.opencover.xml /s:$GITHUB_WORKSPACE/SonarQube.Analysis.xml'
       sonar-key: mu88_ScreenshotCreator
     secrets:
       sonar-token: ${{ secrets.SONAR_TOKEN }}
