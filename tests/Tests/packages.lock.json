@@ -26,12 +26,6 @@
         "resolved": "3.10.0",
         "contentHash": "Igph39WNImUFqQrpTeBDPafcCnM1u/8IooZHqMRF/5JdV5H78p+AbZkeYY1Nkz1WlbI/Gt2Hq/3rYh55jxRF9Q=="
       },
-      "coverlet.msbuild": {
-        "type": "Direct",
-        "requested": "[8.0.0, )",
-        "resolved": "8.0.0",
-        "contentHash": "2Kd7SC2da4J8eSAUUHevT2VII53teLGIbbGXmdbdmCL/8g89BFCDAe+Qm3mF2h7nkuFxjK1SXYQxLvHd4gMm2Q=="
-      },
       "FluentAssertions": {
         "type": "Direct",
         "requested": "[8.8.0, )",
@@ -51,11 +45,11 @@
       },
       "Magick.NET-Q16-AnyCPU": {
         "type": "Direct",
-        "requested": "[14.11.0, )",
-        "resolved": "14.11.0",
-        "contentHash": "L6IvAG7scg/nma67v0JUTKL9SOpu5FY7O9W3SElMTPm4Iu62/KC3A+rGa5KwUletRXsjf67RaAhDh47/fug2rg==",
+        "requested": "[14.11.1, )",
+        "resolved": "14.11.1",
+        "contentHash": "Cry8xqvDCVV8MPehesfPJ7DDB22+SJsPOIVVdjkbC497l67PxyQNjJeE+uaFriB229BIpF+5sVNZsQZx5MKwSg==",
         "dependencies": {
-          "Magick.NET.Core": "14.11.0"
+          "Magick.NET.Core": "14.11.1"
         }
       },
       "Microsoft.AspNetCore.Mvc.Testing": {
@@ -203,8 +197,8 @@
       },
       "Magick.NET.Core": {
         "type": "Transitive",
-        "resolved": "14.11.0",
-        "contentHash": "MdNdyZJ7CjTV0zc4G1dGz8RIis5ZizYOMRrQ4+WghHYq5Hn151VNPPFpRsZ3fw61klegTFbzYRyMQjfl/sYW3w=="
+        "resolved": "14.11.1",
+        "contentHash": "e9ejYUe6+GgbB6KBOpMp0jVDS72u0siDBz0RKSjBAEIZcigKDXDsOcoPLmLJJJqhorx3C4soRak2hCL/gaKdcg=="
       },
       "Meziantou.Analyzer": {
         "type": "Transitive",
@@ -784,7 +778,7 @@
       "screenshotcreator.logic": {
         "type": "Project",
         "dependencies": {
-          "Magick.NET-Q16-AnyCPU": "[14.11.0, )",
+          "Magick.NET-Q16-AnyCPU": "[14.11.1, )",
           "Microsoft.Bcl.TimeProvider": "[10.0.3, )",
           "Microsoft.Extensions.Logging.Abstractions": "[10.0.3, )",
           "Microsoft.Extensions.Options": "[10.0.3, )",
