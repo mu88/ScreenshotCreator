@@ -4,8 +4,6 @@ using NSubstitute;
 using ScreenshotCreator.Api;
 using ScreenshotCreator.Logic;
 
-#pragma warning disable CS4014
-
 namespace Tests.Unit.Api;
 
 [TestFixture]
@@ -24,13 +22,14 @@ public class BackgroundScreenshotCreatorTests
             NullLogger<BackgroundScreenshotCreator>.Instance);
 
         // Act
+#pragma warning disable CS4014
         testee.StartAsync(cancellationTokenSource.Token);
+#pragma warning restore CS4014
         await Task.Delay(TimeSpan.FromSeconds(1.5), cancellationTokenSource.Token);
         await cancellationTokenSource.CancelAsync();
 
         // Assert
-        await screenshotCreatorMock.Received(2).CreateScreenshotAsync(800, 600);
-        await screenshotCreatorMock.Received(2).CreateScreenshotAsync(800, 600);
+        await screenshotCreatorMock.Received(2).CreateScreenshotAsync(800, 600, Arg.Any<CancellationToken>());
     }
 
     [Test]
@@ -45,16 +44,18 @@ public class BackgroundScreenshotCreatorTests
             NullLogger<BackgroundScreenshotCreator>.Instance);
 
         // Act
+#pragma warning disable CS4014
         testee.StartAsync(cancellationTokenSource.Token);
+#pragma warning restore CS4014
         await Task.Delay(TimeSpan.FromSeconds(1.5), cancellationTokenSource.Token);
         await cancellationTokenSource.CancelAsync();
 
         // Assert
-        await screenshotCreatorMock.DidNotReceive().CreateScreenshotAsync(800, 600);
+        await screenshotCreatorMock.DidNotReceive().CreateScreenshotAsync(800, 600, Arg.Any<CancellationToken>());
     }
 
     [Test]
-    public async Task ProcessInBackground_ShouldDoNothing_IfNotActive()
+    public async Task ProcessInBackground_ShouldStillCreateScreenshots_IfNotActive()
     {
         // Arrange
         var activeFrom = TimeOnly.FromDateTime(DateTime.UtcNow).AddHours(4);
@@ -70,11 +71,13 @@ public class BackgroundScreenshotCreatorTests
             NullLogger<BackgroundScreenshotCreator>.Instance);
 
         // Act
+#pragma warning disable CS4014
         testee.StartAsync(cancellationTokenSource.Token);
+#pragma warning restore CS4014
         await Task.Delay(TimeSpan.FromSeconds(1.5), cancellationTokenSource.Token);
         await cancellationTokenSource.CancelAsync();
 
         // Assert
-        await screenshotCreatorMock.Received(2).CreateScreenshotAsync(800, 600);
+        await screenshotCreatorMock.Received(2).CreateScreenshotAsync(800, 600, Arg.Any<CancellationToken>());
     }
 }

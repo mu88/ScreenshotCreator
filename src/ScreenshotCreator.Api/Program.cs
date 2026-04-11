@@ -4,7 +4,6 @@ using mu88.Shared.OpenTelemetry;
 using Scalar.AspNetCore;
 using ScreenshotCreator.Api;
 using ScreenshotCreator.Logic;
-using Creator = ScreenshotCreator.Logic.ScreenshotCreator;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,9 +20,7 @@ builder.Services
     .Bind(builder.Configuration.GetSection(ScreenshotOptions.SectionName))
     .ValidateDataAnnotations()
     .ValidateOnStart();
-builder.Services.AddSingleton<IScreenshotCreator, Creator>();
-builder.Services.AddSingleton<IPlaywrightHelper, PlaywrightHelper>();
-builder.Services.AddSingleton<ImageProcessor>();
+builder.Services.AddScreenshotCreatorLogicServices();
 builder.Services.AddHostedService<BackgroundScreenshotCreator>();
 
 var app = builder.Build();
@@ -39,9 +36,9 @@ app.UsePathBase("/screenshotCreator");
 
 app.MapGet("latestImage", ReturnImageOrNotFoundAsync);
 app.MapGet("createImageNow",
-    async (HttpContext httpContext, ImageProcessor imageProcessor, IScreenshotCreator creator, IOptions<ScreenshotOptions> options) =>
+    async (HttpContext httpContext, IImageProcessor imageProcessor, IScreenshotCreator creator, IOptions<ScreenshotOptions> options) =>
     {
-        await creator.CreateScreenshotAsync(options.Value.Width, options.Value.Height);
+        await creator.CreateScreenshotAsync(options.Value.Width, options.Value.Height, httpContext.RequestAborted);
         return await ReturnImageOrNotFoundAsync(httpContext, imageProcessor, options);
     });
 app.MapGet("createImageWithSizeNow",
@@ -49,12 +46,21 @@ app.MapGet("createImageWithSizeNow",
         uint width,
         uint height,
         HttpContext httpContext,
-        ImageProcessor imageProcessor,
+        IImageProcessor imageProcessor,
         IOptions<ScreenshotOptions> options,
         IScreenshotCreator creator) =>
     {
-        await creator.CreateScreenshotAsync(width, height);
-        return await ReturnImageOrNotFoundAsync(httpContext, imageProcessor, options);
+        if (width == 0 || height == 0)
+        {
+            return (IResult)TypedResults.ValidationProblem(new Dictionary<string, string[]>(StringComparer.Ordinal)
+            {
+                { nameof(width), ValidationErrorMessages.WidthMustBeGreaterThanZero },
+                { nameof(height), ValidationErrorMessages.HeightMustBeGreaterThanZero }
+            });
+        }
+
+        await creator.CreateScreenshotAsync(width, height, httpContext.RequestAborted);
+        return (IResult)await ReturnImageOrNotFoundAsync(httpContext, imageProcessor, options);
     });
 app.MapHealthChecks("/healthz");
 
@@ -62,7 +68,7 @@ await app.RunAsync();
 
 async Task<Results<FileContentHttpResult, NotFound>> ReturnImageOrNotFoundAsync(
     HttpContext httpContext,
-    ImageProcessor imageProcessor,
+    IImageProcessor imageProcessor,
     IOptions<ScreenshotOptions> options,
     bool blackAndWhite = false,
     bool asWaveshareBytes = false,

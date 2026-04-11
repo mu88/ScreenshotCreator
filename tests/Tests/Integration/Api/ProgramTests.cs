@@ -155,6 +155,28 @@ public class ProgramTests : PlaywrightTests
         result.Should().Be404NotFound();
     }
 
+    [Test]
+    public async Task CreateImageWithSizeNow_ShouldReturn400_IfWidthIsZero()
+    {
+        // Arrange & Act
+        var result = await _clientForAny.GetAsync(QueryHelpers.AddQueryString("createImageWithSizeNow",
+            new Dictionary<string, string?> { { "width", "0" }, { "height", "768" } }));
+
+        // Assert
+        result.Should().Be400BadRequest();
+    }
+
+    [Test]
+    public async Task CreateImageWithSizeNow_ShouldReturn400_IfHeightIsZero()
+    {
+        // Arrange & Act
+        var result = await _clientForAny.GetAsync(QueryHelpers.AddQueryString("createImageWithSizeNow",
+            new Dictionary<string, string?> { { "width", "1024" }, { "height", "0" } }));
+
+        // Assert
+        result.Should().Be400BadRequest();
+    }
+
     private static async Task<IContainer> StartLocalOpenHabContainerAndGetPortAsync()
     {
         var openHabNetwork = new NetworkBuilder().Build();

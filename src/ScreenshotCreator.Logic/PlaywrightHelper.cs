@@ -2,7 +2,7 @@
 
 namespace ScreenshotCreator.Logic;
 
-public class PlaywrightHelper(IOptions<ScreenshotOptions> options) : IPlaywrightHelper
+internal sealed class PlaywrightHelper(IOptions<ScreenshotOptions> options) : IPlaywrightHelper
 {
     private readonly ScreenshotOptions _screenshotOptions = options.Value;
 
@@ -10,5 +10,6 @@ public class PlaywrightHelper(IOptions<ScreenshotOptions> options) : IPlaywright
     public IPlaywrightFacade CreatePlaywrightFacade() => new PlaywrightFacade();
 
     /// <inheritdoc />
-    public async Task WaitAsync() => await Task.Delay(TimeSpan.FromSeconds(_screenshotOptions.TimeBetweenHttpCallsInSeconds));
+    public async Task WaitAsync(CancellationToken cancellationToken)
+        => await Task.Delay(TimeSpan.FromSeconds(_screenshotOptions.TimeBetweenHttpCallsInSeconds), cancellationToken);
 }

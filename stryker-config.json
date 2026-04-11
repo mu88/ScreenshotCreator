@@ -17,7 +17,8 @@
       "logger.*"
     ],
     "mutate": [
-      "!**/ScreenshotOptions.cs"
+      "!**/ScreenshotOptions.cs",
+      "!**/ServiceCollectionExtensions.cs"
     ]
   }
 }

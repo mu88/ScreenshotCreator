@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using FluentAssertions;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Options;
 using Microsoft.Playwright;
@@ -27,7 +28,7 @@ public class ScreenshotCreatorTests
             NullLogger<ScreenshotCreator.Logic.ScreenshotCreator>.Instance);
 
         // Act
-        await testee.CreateScreenshotAsync(800, 480);
+        await testee.CreateScreenshotAsync(800, 480, CancellationToken.None);
 
         // Assert
         await pageMock.Received(1).SetViewportSizeAsync(800, 480);
@@ -36,7 +37,7 @@ public class ScreenshotCreatorTests
             .ScreenshotAsync(Arg.Is<PageScreenshotOptions>(options => options.Path == screenshotOptions.ScreenshotFile &&
                 options.Type == ScreenshotType.Png));
         playwrightHelperMock.Received(1).CreatePlaywrightFacade();
-        await playwrightHelperMock.Received(1).WaitAsync();
+        await playwrightHelperMock.Received(1).WaitAsync(CancellationToken.None);
         await playwrightFacadeMock.Received(1).GetPlaywrightPageAsync();
     }
 
@@ -57,7 +58,7 @@ public class ScreenshotCreatorTests
             NullLogger<ScreenshotCreator.Logic.ScreenshotCreator>.Instance);
 
         // Act
-        await testee.CreateScreenshotAsync(800, 480);
+        await testee.CreateScreenshotAsync(800, 480, CancellationToken.None);
 
         // Assert
         await pageMock.Received(1).SetViewportSizeAsync(800, 480);
@@ -66,7 +67,7 @@ public class ScreenshotCreatorTests
             .ScreenshotAsync(Arg.Is<PageScreenshotOptions>(options => options.Path == screenshotOptions.ScreenshotFile &&
                 options.Type == ScreenshotType.Png));
         playwrightHelperMock.Received(1).CreatePlaywrightFacade();
-        await playwrightHelperMock.Received(2).WaitAsync();
+        await playwrightHelperMock.Received(2).WaitAsync(CancellationToken.None);
         await playwrightFacadeMock.Received(1).GetPlaywrightPageAsync();
     }
 
@@ -88,7 +89,7 @@ public class ScreenshotCreatorTests
             Substitute.For<ILogger<ScreenshotCreator.Logic.ScreenshotCreator>>());
 
         // Act
-        await testee.CreateScreenshotAsync(800, 480);
+        await testee.CreateScreenshotAsync(800, 480, CancellationToken.None);
 
         // Assert
         await pageMock.GetByPlaceholder("User Name").Received(1).FillAsync(screenshotOptions.Username);
@@ -103,7 +104,7 @@ public class ScreenshotCreatorTests
                 options.Type == ScreenshotType.Png));
         await pageMock.Received(2).GetByText("You are not allowed to view this page because of visibility restrictions.").CountAsync();
         playwrightHelperMock.Received(1).CreatePlaywrightFacade();
-        await playwrightHelperMock.Received(4).WaitAsync();
+        await playwrightHelperMock.Received(4).WaitAsync(CancellationToken.None);
         await playwrightFacadeMock.Received(1).GetPlaywrightPageAsync();
     }
 
@@ -125,7 +126,7 @@ public class ScreenshotCreatorTests
             Substitute.For<ILogger<ScreenshotCreator.Logic.ScreenshotCreator>>());
 
         // Act
-        await testee.CreateScreenshotAsync(800, 480);
+        await testee.CreateScreenshotAsync(800, 480, CancellationToken.None);
 
         // Assert
         await pageMock.Received(1)
@@ -154,7 +155,7 @@ public class ScreenshotCreatorTests
             Substitute.For<ILogger<ScreenshotCreator.Logic.ScreenshotCreator>>());
 
         // Act
-        await testee.CreateScreenshotAsync(800, 480);
+        await testee.CreateScreenshotAsync(800, 480, CancellationToken.None);
 
         // Assert
         await pageMock.Received(1)
@@ -182,7 +183,7 @@ public class ScreenshotCreatorTests
             Substitute.For<ILogger<ScreenshotCreator.Logic.ScreenshotCreator>>());
 
         // Act
-        await testee.CreateScreenshotAsync(800, 480);
+        await testee.CreateScreenshotAsync(800, 480, CancellationToken.None);
 
         // Assert
         await pageMock.DidNotReceive()
@@ -208,11 +209,39 @@ public class ScreenshotCreatorTests
             Substitute.For<ILogger<ScreenshotCreator.Logic.ScreenshotCreator>>());
 
         // Act
-        await testee.CreateScreenshotAsync(800, 480);
+        await testee.CreateScreenshotAsync(800, 480, CancellationToken.None);
 
         // Assert
         await pageMock.Received(1)
             .ScreenshotAsync(Arg.Is<PageScreenshotOptions>(options => options.Path == screenshotOptions.ScreenshotFile &&
                 options.Type == ScreenshotType.Png));
+    }
+
+    [Test]
+    public async Task CreateScreenshot_ShouldLogError_IfPlaywrightThrows()
+    {
+        // Arrange
+        var screenshotOptions = new ScreenshotOptions { Url = "https://www.mysite.com", UrlType = UrlType.Any };
+        var playwrightFacadeMock = Substitute.For<IPlaywrightFacade>();
+#pragma warning disable CA2012
+        playwrightFacadeMock.GetPlaywrightPageAsync().Returns(
+            new ValueTask<IPage>(Task.FromException<IPage>(new InvalidOperationException("Browser crash"))));
+#pragma warning restore CA2012
+        var playwrightHelperMock = Substitute.For<IPlaywrightHelper>();
+        playwrightHelperMock.CreatePlaywrightFacade().Returns(playwrightFacadeMock);
+        var loggerMock = Substitute.For<ILogger<ScreenshotCreator.Logic.ScreenshotCreator>>();
+        var testee = new ScreenshotCreator.Logic.ScreenshotCreator(playwrightHelperMock,
+            Options.Create(screenshotOptions),
+            loggerMock);
+
+        // Act
+        var act = async () => await testee.CreateScreenshotAsync(800, 480, CancellationToken.None);
+
+        // Assert
+        await act.Should().NotThrowAsync("because exceptions are caught and logged to keep the BackgroundService alive");
+        loggerMock.ReceivedCalls()
+            .Any(call => string.Equals(call.GetMethodInfo().Name, nameof(ILogger.Log), StringComparison.Ordinal)
+                && LogLevel.Error.Equals(call.GetArguments()[0]))
+            .Should().BeTrue("because ScreenshotCreationFailed should be logged at Error level");
     }
 }

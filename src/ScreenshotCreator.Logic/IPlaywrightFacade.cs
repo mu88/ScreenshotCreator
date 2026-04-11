@@ -2,7 +2,7 @@
 
 namespace ScreenshotCreator.Logic;
 
-public interface IPlaywrightFacade : IAsyncDisposable
+internal interface IPlaywrightFacade : IAsyncDisposable
 {
     ValueTask<IPage> GetPlaywrightPageAsync();
 }

@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 
 namespace ScreenshotCreator.Logic;
 
-public class ImageProcessor(ILogger<ImageProcessor> logger)
+internal sealed class ImageProcessor(ILogger<ImageProcessor> logger) : IImageProcessor
 {
     public async Task<ProcessingResult> ProcessAsync(string screenshotFile, bool blackAndWhite, bool asWaveshareBytes)
     {

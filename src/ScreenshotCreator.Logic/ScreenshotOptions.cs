@@ -20,7 +20,7 @@ public class ScreenshotOptions
 
     public string ScreenshotFile { get; set; } = "/home/app/Screenshot.png";
 
-    public string? AvailabilityIndicator { get; set; } = string.Empty;
+    public string? AvailabilityIndicator { get; set; } = null;
 
     // Stryker restore all
     [Range(1, uint.MaxValue)]
@@ -40,8 +40,8 @@ public class ScreenshotOptions
 
     public Activity? Activity { get; set; }
 
-    public string CalculateSleepBetweenUpdates()
-        => Activity.DisplayShouldBeActive()
+    public string CalculateSleepBetweenUpdates(TimeProvider? timeProvider = null)
+        => Activity.DisplayShouldBeActive(timeProvider)
             ? RefreshIntervalInSeconds.ToString()
             : Activity.RefreshIntervalWhenInactiveInSeconds.ToString();
 }

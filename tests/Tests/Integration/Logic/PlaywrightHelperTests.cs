@@ -31,7 +31,7 @@ public class PlaywrightHelperTests : PlaywrightTests
 
         // Act
         var stopwatch = Stopwatch.StartNew();
-        await testee.WaitAsync();
+        await testee.WaitAsync(CancellationToken.None);
         stopwatch.Stop();
 
         // Assert

@@ -1,3 +1,3 @@
 ﻿namespace ScreenshotCreator.Logic;
 
-public record ProcessingResult(byte[] Data, string? MediaType);
+public record ProcessingResult(byte[] Data, string MediaType);

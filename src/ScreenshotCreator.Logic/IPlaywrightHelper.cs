@@ -1,8 +1,8 @@
 ﻿namespace ScreenshotCreator.Logic;
 
-public interface IPlaywrightHelper
+internal interface IPlaywrightHelper
 {
     IPlaywrightFacade CreatePlaywrightFacade();
 
-    Task WaitAsync();
+    Task WaitAsync(CancellationToken cancellationToken);
 }
