@@ -7,6 +7,8 @@ namespace ScreenshotCreator.Logic;
 internal sealed class ScreenshotCreator(IPlaywrightHelper playwrightHelper, IOptions<ScreenshotOptions> options, ILogger<ScreenshotCreator> logger)
     : IScreenshotCreator
 {
+    private const float PageReadyTimeoutMs = 30_000;
+
     private readonly ScreenshotOptions _screenshotOptions = options.Value;
 
     public async Task CreateScreenshotAsync(uint width, uint height, CancellationToken cancellationToken)
@@ -17,12 +19,14 @@ internal sealed class ScreenshotCreator(IPlaywrightHelper playwrightHelper, IOpt
             var page = await playwrightFacade.GetPlaywrightPageAsync();
 
             await page.SetViewportSizeAsync((int)width, (int)height);
-            if (await NeedsLoginAsync(page, cancellationToken))
+            await NavigateToUrlAsync(page, cancellationToken);
+            if (await NeedsLoginAsync(page))
             {
                 await LoginAsync(page, cancellationToken);
+                await NavigateToUrlAsync(page, cancellationToken);
             }
 
-            if (await PageIsAvailableAsync(page, cancellationToken))
+            if (await PageIsAvailableAsync(page))
             {
                 await page.ScreenshotAsync(new PageScreenshotOptions { Path = _screenshotOptions.ScreenshotFile, Type = ScreenshotType.Png });
                 logger.ScreenshotCreated();
@@ -34,15 +38,27 @@ internal sealed class ScreenshotCreator(IPlaywrightHelper playwrightHelper, IOpt
         }
     }
 
-    private async Task<bool> PageIsAvailableAsync(IPage page, CancellationToken cancellationToken)
+    private static async Task<bool> IsTextVisibleAsync(IPage page, string text, float timeoutMs)
     {
-        await NavigateToUrlAsync(page, cancellationToken);
+        try
+        {
+            await page.GetByText(text).WaitForAsync(new LocatorWaitForOptions { Timeout = timeoutMs, State = WaitForSelectorState.Visible });
+            return true;
+        }
+        catch (PlaywrightException)
+        {
+            return false;
+        }
+    }
+
+    private async Task<bool> PageIsAvailableAsync(IPage page)
+    {
         if (string.IsNullOrWhiteSpace(_screenshotOptions.AvailabilityIndicator))
         {
             return true;
         }
 
-        return await page.GetByText(_screenshotOptions.AvailabilityIndicator).CountAsync() > 0;
+        return await IsTextVisibleAsync(page, _screenshotOptions.AvailabilityIndicator, PageReadyTimeoutMs);
     }
 
     private async Task NavigateToUrlAsync(IPage page, CancellationToken cancellationToken)
@@ -76,7 +92,7 @@ internal sealed class ScreenshotCreator(IPlaywrightHelper playwrightHelper, IOpt
         await playwrightHelper.WaitAsync(cancellationToken);
     }
 
-    private async Task<bool> NeedsLoginAsync(IPage page, CancellationToken cancellationToken)
+    private async Task<bool> NeedsLoginAsync(IPage page)
     {
         if (_screenshotOptions.UrlType != UrlType.OpenHab)
         {
@@ -84,9 +100,7 @@ internal sealed class ScreenshotCreator(IPlaywrightHelper playwrightHelper, IOpt
             return false;
         }
 
-        await NavigateToUrlAsync(page, cancellationToken);
-
-        var needsLogin = await page.GetByText("You are not allowed to view this page because of visibility restrictions.").CountAsync() > 0;
+        var needsLogin = await IsTextVisibleAsync(page, "You are not allowed to view this page because of visibility restrictions.", PageReadyTimeoutMs);
         logger.LoginNecessaryCheck(needsLogin);
 
         return needsLogin;

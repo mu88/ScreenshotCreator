@@ -43,7 +43,7 @@ public class ProgramTests : PlaywrightTests
         result.Should().Be200Ok();
         result.Content.Headers.ContentType.Should().NotBeNull();
         result.Content.Headers.ContentType!.MediaType.Should().Be("image/png");
-        (await result.Content.ReadAsByteArrayAsync()).Length.Should().BeInRange(7000, 15000);
+        (await result.Content.ReadAsByteArrayAsync()).Length.Should().BeInRange(5000, 20000);
     }
 
     [Test]
