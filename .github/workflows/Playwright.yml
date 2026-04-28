@@ -3,6 +3,8 @@ name: Playwright
 on:
   workflow_dispatch:
   push:
+    branches:
+      - '**'
     paths: 
       - '.github/workflows/Playwright.yml'
       - 'src/ScreenshotCreator.Api/Dockerfile-Playwright'
@@ -17,11 +19,20 @@ jobs:
       packages: write
 
     outputs:
-      digests: ${{ steps.extract-digests.outputs.digests }}
+      digests: ${{ steps.extract-digests.outputs.digests || '[]' }}
+      publish: ${{ steps.publish_check.outputs.publish }}
 
     steps:
       - name: Check out code
         uses: actions/checkout@v6
+
+      - name: Determine if image should be published
+        id: publish_check
+        shell: pwsh
+        run: |
+          $publish = ("${{ github.event_name }}" -eq "workflow_dispatch") -or `
+                     ("${{ github.event_name }}" -eq "push" -and "${{ github.ref_name }}" -eq "${{ github.event.repository.default_branch }}")
+          Write-Output "publish=$($publish.ToString().ToLower())" >> $env:GITHUB_OUTPUT
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v4
@@ -45,18 +56,28 @@ jobs:
           $majorVersion = [regex]::Match($tfm, '\d+').Value
           Write-Output "major_version=$majorVersion" >> $env:GITHUB_OUTPUT
 
+      - name: Extract Playwright version
+        id: extract_playwright_version
+        shell: pwsh
+        run: |
+          [xml]$xml = Get-Content 'Directory.Packages.props'
+          $version = ($xml.Project.ItemGroup.PackageVersion | Where-Object { $_.Include -eq 'Microsoft.Playwright' }).Version
+          Write-Output "playwright_version=$version" >> $env:GITHUB_OUTPUT
+
       - name: Build and push Docker image for Playwright
         id: docker_build
         uses: docker/build-push-action@v7
         with:
-          push: true
+          push: ${{ steps.publish_check.outputs.publish == 'true' }}
           provenance: false
           platforms: linux/arm64,linux/amd64
           tags: ghcr.io/mu88/screenshotcreator-playwright:latest,ghcr.io/mu88/screenshotcreator-playwright:${{ steps.extract_version.outputs.major_version }}.0.${{ github.run_number }}
           file: src/ScreenshotCreator.Api/Dockerfile-Playwright
+          build-args: PLAYWRIGHT_VERSION=${{ steps.extract_playwright_version.outputs.playwright_version }}
 
       - name: Extract generated Docker image digests
         id: extract-digests
+        if: steps.publish_check.outputs.publish == 'true'
         shell: pwsh
         run: |
           $ErrorActionPreference = "Stop"
@@ -87,6 +108,7 @@ jobs:
     name: 'Attest Docker image build provenance and SBOM'
     runs-on: ubuntu-latest
 
+    if: ${{ needs.playwright.outputs.publish == 'true' }}
     needs: playwright
 
     permissions:

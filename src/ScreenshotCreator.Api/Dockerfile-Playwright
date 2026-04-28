@@ -6,9 +6,10 @@ RUN chmod +x /scripts/install-powershell-$TARGETARCH.sh && \
     /scripts/install-powershell-$TARGETARCH.sh
 
 FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/sdk:10.0.201 AS sdk
+ARG PLAYWRIGHT_VERSION=0.0.0
 WORKDIR /src_playwright
 RUN dotnet new console --no-restore 
-RUN dotnet add package Microsoft.Playwright
+RUN dotnet add package Microsoft.Playwright --version ${PLAYWRIGHT_VERSION}
 RUN dotnet build --property:PlaywrightPlatform=all -c Release
 
 FROM base AS playwright-install
