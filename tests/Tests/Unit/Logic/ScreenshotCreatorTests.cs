@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Options;
@@ -48,7 +48,9 @@ public class ScreenshotCreatorTests
         // Arrange
         var screenshotOptions = new ScreenshotOptions { Url = $"https://www.mysite.com{subresource}", UrlType = UrlType.OpenHab };
         var pageMock = Substitute.For<IPage>();
-        pageMock.GetByText("You are not allowed to view this page because of visibility restrictions.").CountAsync().Returns(0);
+        pageMock.GetByText("You are not allowed to view this page because of visibility restrictions.")
+            .WaitForAsync(Arg.Any<LocatorWaitForOptions?>())
+            .Returns(Task.FromException(new PlaywrightException("Timeout 5000ms exceeded.")));
         var playwrightFacadeMock = Substitute.For<IPlaywrightFacade>();
         playwrightFacadeMock.GetPlaywrightPageAsync().Returns(pageMock);
         var playwrightHelperMock = Substitute.For<IPlaywrightHelper>();
@@ -62,12 +64,12 @@ public class ScreenshotCreatorTests
 
         // Assert
         await pageMock.Received(1).SetViewportSizeAsync(800, 480);
-        await pageMock.Received(2).GotoAsync(screenshotOptions.Url);
+        await pageMock.Received(1).GotoAsync(screenshotOptions.Url);
         await pageMock.Received(1)
             .ScreenshotAsync(Arg.Is<PageScreenshotOptions>(options => options.Path == screenshotOptions.ScreenshotFile &&
                 options.Type == ScreenshotType.Png));
         playwrightHelperMock.Received(1).CreatePlaywrightFacade();
-        await playwrightHelperMock.Received(2).WaitAsync(CancellationToken.None);
+        await playwrightHelperMock.Received(1).WaitAsync(CancellationToken.None);
         await playwrightFacadeMock.Received(1).GetPlaywrightPageAsync();
     }
 
@@ -78,7 +80,9 @@ public class ScreenshotCreatorTests
         // Arrange
         var screenshotOptions = new ScreenshotOptions { Url = $"https://www.mysite.com{subresource}", UrlType = UrlType.OpenHab };
         var pageMock = Substitute.For<IPage>();
-        pageMock.GetByText("You are not allowed to view this page because of visibility restrictions.").CountAsync().Returns(1);
+        pageMock.GetByText("You are not allowed to view this page because of visibility restrictions.")
+            .WaitForAsync(Arg.Any<LocatorWaitForOptions?>())
+            .Returns(Task.CompletedTask);
         pageMock.GetByText("lock_shield_fill").IsVisibleAsync().Returns(true);
         var playwrightFacadeMock = Substitute.For<IPlaywrightFacade>();
         playwrightFacadeMock.GetPlaywrightPageAsync().Returns(pageMock);
@@ -102,7 +106,8 @@ public class ScreenshotCreatorTests
         await pageMock.Received(1)
             .ScreenshotAsync(Arg.Is<PageScreenshotOptions>(options => options.Path == screenshotOptions.ScreenshotFile &&
                 options.Type == ScreenshotType.Png));
-        await pageMock.Received(2).GetByText("You are not allowed to view this page because of visibility restrictions.").CountAsync();
+        await pageMock.Received(2).GetByText("You are not allowed to view this page because of visibility restrictions.")
+            .WaitForAsync(Arg.Any<LocatorWaitForOptions?>());
         playwrightHelperMock.Received(1).CreatePlaywrightFacade();
         await playwrightHelperMock.Received(4).WaitAsync(CancellationToken.None);
         await playwrightFacadeMock.Received(1).GetPlaywrightPageAsync();
@@ -115,7 +120,9 @@ public class ScreenshotCreatorTests
         var screenshotOptions = new ScreenshotOptions { Url = "https://www.mysite.com", UrlType = UrlType.OpenHab };
         var pageMock = Substitute.For<IPage>();
         pageMock.GetByPlaceholder("User Name").IsVisibleAsync().Returns(false);
-        pageMock.GetByText("You are not allowed to view this page because of visibility restrictions.").CountAsync().Returns(1);
+        pageMock.GetByText("You are not allowed to view this page because of visibility restrictions.")
+            .WaitForAsync(Arg.Any<LocatorWaitForOptions?>())
+            .Returns(Task.CompletedTask);
         pageMock.GetByText("lock_shield_fill").IsVisibleAsync().Returns(false);
         var playwrightFacadeMock = Substitute.For<IPlaywrightFacade>();
         playwrightFacadeMock.GetPlaywrightPageAsync().Returns(pageMock);
@@ -144,7 +151,9 @@ public class ScreenshotCreatorTests
         var screenshotOptions = new ScreenshotOptions { Url = "https://www.mysite.com", UrlType = UrlType.OpenHab };
         var pageMock = Substitute.For<IPage>();
         pageMock.GetByPlaceholder("User Name").IsVisibleAsync().Returns(true);
-        pageMock.GetByText("You are not allowed to view this page because of visibility restrictions.").CountAsync().Returns(1);
+        pageMock.GetByText("You are not allowed to view this page because of visibility restrictions.")
+            .WaitForAsync(Arg.Any<LocatorWaitForOptions?>())
+            .Returns(Task.CompletedTask);
         pageMock.GetByText("lock_shield_fill").IsVisibleAsync().Returns(false);
         var playwrightFacadeMock = Substitute.For<IPlaywrightFacade>();
         playwrightFacadeMock.GetPlaywrightPageAsync().Returns(pageMock);
@@ -171,8 +180,12 @@ public class ScreenshotCreatorTests
         // Arrange
         var screenshotOptions = new ScreenshotOptions { Url = "https://www.mysite.com", UrlType = UrlType.OpenHab, AvailabilityIndicator = "Success" };
         var pageMock = Substitute.For<IPage>();
-        pageMock.GetByText("You are not allowed to view this page because of visibility restrictions.").CountAsync().Returns(1);
-        pageMock.GetByText(screenshotOptions.AvailabilityIndicator).CountAsync().Returns(0);
+        pageMock.GetByText("You are not allowed to view this page because of visibility restrictions.")
+            .WaitForAsync(Arg.Any<LocatorWaitForOptions?>())
+            .Returns(Task.CompletedTask);
+        pageMock.GetByText(screenshotOptions.AvailabilityIndicator)
+            .WaitForAsync(Arg.Any<LocatorWaitForOptions?>())
+            .Returns(Task.FromException(new PlaywrightException("Timeout 5000ms exceeded.")));
         pageMock.GetByText("lock_shield_fill").IsVisibleAsync().Returns(true);
         var playwrightFacadeMock = Substitute.For<IPlaywrightFacade>();
         playwrightFacadeMock.GetPlaywrightPageAsync().Returns(pageMock);
@@ -197,8 +210,12 @@ public class ScreenshotCreatorTests
         // Arrange
         var screenshotOptions = new ScreenshotOptions { Url = "https://www.mysite.com", UrlType = UrlType.OpenHab, AvailabilityIndicator = "Success" };
         var pageMock = Substitute.For<IPage>();
-        pageMock.GetByText("You are not allowed to view this page because of visibility restrictions.").CountAsync().Returns(1);
-        pageMock.GetByText(screenshotOptions.AvailabilityIndicator).CountAsync().Returns(1);
+        pageMock.GetByText("You are not allowed to view this page because of visibility restrictions.")
+            .WaitForAsync(Arg.Any<LocatorWaitForOptions?>())
+            .Returns(Task.CompletedTask);
+        pageMock.GetByText(screenshotOptions.AvailabilityIndicator)
+            .WaitForAsync(Arg.Any<LocatorWaitForOptions?>())
+            .Returns(Task.CompletedTask);
         pageMock.GetByText("lock_shield_fill").IsVisibleAsync().Returns(true);
         var playwrightFacadeMock = Substitute.For<IPlaywrightFacade>();
         playwrightFacadeMock.GetPlaywrightPageAsync().Returns(pageMock);
