@@ -45,6 +45,14 @@ jobs:
           $majorVersion = [regex]::Match($tfm, '\d+').Value
           Write-Output "major_version=$majorVersion" >> $env:GITHUB_OUTPUT
 
+      - name: Extract Playwright version
+        id: extract_playwright_version
+        shell: pwsh
+        run: |
+          [xml]$xml = Get-Content 'Directory.Packages.props'
+          $version = ($xml.Project.ItemGroup.PackageVersion | Where-Object { $_.Include -eq 'Microsoft.Playwright' }).Version
+          Write-Output "playwright_version=$version" >> $env:GITHUB_OUTPUT
+
       - name: Build and push Docker image for Playwright
         id: docker_build
         uses: docker/build-push-action@v7
@@ -54,6 +62,7 @@ jobs:
           platforms: linux/arm64,linux/amd64
           tags: ghcr.io/mu88/screenshotcreator-playwright:latest,ghcr.io/mu88/screenshotcreator-playwright:${{ steps.extract_version.outputs.major_version }}.0.${{ github.run_number }}
           file: src/ScreenshotCreator.Api/Dockerfile-Playwright
+          build-args: PLAYWRIGHT_VERSION=${{ steps.extract_playwright_version.outputs.playwright_version }}
 
       - name: Extract generated Docker image digests
         id: extract-digests
