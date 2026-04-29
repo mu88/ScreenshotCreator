@@ -4,9 +4,9 @@
     "net10.0": {
       "Microsoft.AspNetCore.OpenApi": {
         "type": "Direct",
-        "requested": "[10.0.5, )",
-        "resolved": "10.0.5",
-        "contentHash": "vTcxIfOPyfFbYk1g8YcXJfkMnlEWVkSnnjxcZLy60zgwiHMRf2SnZR+9E4HlpwKxgE3yfKMOti8J6WfKuKsw6w==",
+        "requested": "[10.0.6, )",
+        "resolved": "10.0.6",
+        "contentHash": "WTAQe7MAbbKztRyeCRGZOqqlIqpMHDBz+jKo7LLY6hp4qRqn7iucR24u32KJVxV7mF3tSEfwXH96NgGSiDBw7A==",
         "dependencies": {
           "Microsoft.OpenApi": "2.0.0"
         }
@@ -142,7 +142,7 @@
         "type": "Project",
         "dependencies": {
           "Magick.NET-Q16-AnyCPU": "[14.12.0, )",
-          "Microsoft.Bcl.TimeProvider": "[10.0.5, )",
+          "Microsoft.Bcl.TimeProvider": "[10.0.6, )",
           "Microsoft.Playwright": "[1.59.0, )",
           "mu88.Shared": "[8.1.0, )"
         }
@@ -158,9 +158,9 @@
       },
       "Microsoft.Bcl.TimeProvider": {
         "type": "CentralTransitive",
-        "requested": "[10.0.5, )",
-        "resolved": "10.0.5",
-        "contentHash": "LtRd4Zq2yXONwWDDigM3zkLmhyt07QwZZNzSZn3HkQ61oHkgraz+eq1+IljcXKEwdgldXP8LxDph0fMZ1ZP3sg=="
+        "requested": "[10.0.6, )",
+        "resolved": "10.0.6",
+        "contentHash": "MGGiMqKB+WBSX/AOJC0FIIDw1xPmbRM1Otq9e5tZk2nCvTm75FlYhXSzeutB7T4VHUJn9GlW0yNwxSfVI0Q4Yg=="
       },
       "Microsoft.Playwright": {
         "type": "CentralTransitive",

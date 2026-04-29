@@ -3,7 +3,7 @@
   "isRoot": true,
   "tools": {
     "dotnet-stryker": {
-      "version": "4.14.0",
+      "version": "4.14.1",
       "commands": [
         "dotnet-stryker"
       ]
@@ -15,14 +15,14 @@
       ]
     },
     "dotnet-sonarscanner": {
-      "version": "11.2.0",
+      "version": "11.2.1",
       "commands": [
         "dotnet-sonarscanner"
       ],
       "rollForward": false
     },
     "dotnet-coverage": {
-      "version": "18.5.2",
+      "version": "18.6.2",
       "commands": [
         "dotnet-coverage"
       ]
