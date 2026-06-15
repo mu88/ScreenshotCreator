@@ -143,7 +143,7 @@
         "dependencies": {
           "Magick.NET-Q16-AnyCPU": "[14.13.1, )",
           "Microsoft.Bcl.TimeProvider": "[10.0.6, )",
-          "Microsoft.Playwright": "[1.59.0, )",
+          "Microsoft.Playwright": "[1.60.0, )",
           "mu88.Shared": "[8.1.0, )"
         }
       },
@@ -164,9 +164,9 @@
       },
       "Microsoft.Playwright": {
         "type": "CentralTransitive",
-        "requested": "[1.59.0, )",
-        "resolved": "1.59.0",
-        "contentHash": "igqHbZMmXI6cYNPg1X1o5/51U3CQp83lvvov/d/zmus2wlG1LjvpEL6i1Jx51pRahPtSyppvwq+ZoBfxeSjiew==",
+        "requested": "[1.60.0, )",
+        "resolved": "1.60.0",
+        "contentHash": "RTwlxpmCsCMD8yCu8a9+/B+ce1axSVuRu3Ew4GI493g84bWxC323u69Tw8najJ/5uZ+cQVU3eDhB4GvubM9yHg==",
         "dependencies": {
           "Microsoft.Bcl.AsyncInterfaces": "6.0.0",
           "System.ComponentModel.Annotations": "5.0.0"
