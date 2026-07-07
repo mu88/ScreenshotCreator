@@ -42,6 +42,28 @@
         "*mu88/screenshotcreator-playwright"
       ],
       "enabled": false
+    },
+    {
+      "description": "Temporarily keep Microsoft.OpenApi pin updates immediate while GHSA-v5pm-xwqc-g5wc mitigation is active",
+      "matchPackageNames": [
+        "Microsoft.OpenApi"
+      ],
+      "minimumReleaseAge": "0 minutes",
+      "schedule": [
+        "at any time"
+      ],
+      "automergeSchedule": [
+        "at any time"
+      ]
+    },
+    {
+      "description": "Flag Microsoft.AspNetCore.OpenApi updates to review and remove the temporary Microsoft.OpenApi pin",
+      "matchPackageNames": [
+        "Microsoft.AspNetCore.OpenApi"
+      ],
+      "addLabels": [
+        "remove-temp-pin"
+      ]
     }
   ]
 }
