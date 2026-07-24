@@ -47,8 +47,8 @@
       },
       "Magick.NET.Core": {
         "type": "Transitive",
-        "resolved": "14.14.0",
-        "contentHash": "pACR3w4QmjBkebtYvZwNk0oow8YwEAF4CLfzSrGmPcWsObL8wvt/lOXsrzK9M0cVwYES7jp+bdnHQBTeQgfoIg=="
+        "resolved": "14.15.0",
+        "contentHash": "xgD1zqb4KQ1gMQcd3eIRp8hFMHBxzW9fOpLLDR7BWN0oCwZ0i6NW7rIUiCdsEi/NuZi1UlCLWBHh3v7Y2E3LIw=="
       },
       "Meziantou.Analyzer": {
         "type": "Transitive",
@@ -142,7 +142,7 @@
       "screenshotcreator.logic": {
         "type": "Project",
         "dependencies": {
-          "Magick.NET-Q16-AnyCPU": "[14.14.0, )",
+          "Magick.NET-Q16-AnyCPU": "[14.15.0, )",
           "Microsoft.Bcl.TimeProvider": "[10.0.9, )",
           "Microsoft.Playwright": "[1.61.0, )",
           "mu88.Shared": "[8.1.0, )"
@@ -150,11 +150,11 @@
       },
       "Magick.NET-Q16-AnyCPU": {
         "type": "CentralTransitive",
-        "requested": "[14.14.0, )",
-        "resolved": "14.14.0",
-        "contentHash": "fj6KqdjMRp58cw0oWtRS5eu+sKqn6ztpLt3UXcioL4AF0r4T9VPBTh9b24EUbhlp5pgETbagLh7/bsDbWjFnwA==",
+        "requested": "[14.15.0, )",
+        "resolved": "14.15.0",
+        "contentHash": "TB1Wc2hojzOMJ4tkBcXubASgtYSjEovoFpOjnfTjJXKVtKHGaN60juR+5YWFFhch1UUENcThaRWUXOWRcoGKkQ==",
         "dependencies": {
-          "Magick.NET.Core": "14.14.0"
+          "Magick.NET.Core": "14.15.0"
         }
       },
       "Microsoft.Bcl.TimeProvider": {
@@ -177,22 +177,22 @@
     "net10.0/linux-arm64": {
       "Magick.NET-Q16-AnyCPU": {
         "type": "CentralTransitive",
-        "requested": "[14.14.0, )",
-        "resolved": "14.14.0",
-        "contentHash": "fj6KqdjMRp58cw0oWtRS5eu+sKqn6ztpLt3UXcioL4AF0r4T9VPBTh9b24EUbhlp5pgETbagLh7/bsDbWjFnwA==",
+        "requested": "[14.15.0, )",
+        "resolved": "14.15.0",
+        "contentHash": "TB1Wc2hojzOMJ4tkBcXubASgtYSjEovoFpOjnfTjJXKVtKHGaN60juR+5YWFFhch1UUENcThaRWUXOWRcoGKkQ==",
         "dependencies": {
-          "Magick.NET.Core": "14.14.0"
+          "Magick.NET.Core": "14.15.0"
         }
       }
     },
     "net10.0/linux-x64": {
       "Magick.NET-Q16-AnyCPU": {
         "type": "CentralTransitive",
-        "requested": "[14.14.0, )",
-        "resolved": "14.14.0",
-        "contentHash": "fj6KqdjMRp58cw0oWtRS5eu+sKqn6ztpLt3UXcioL4AF0r4T9VPBTh9b24EUbhlp5pgETbagLh7/bsDbWjFnwA==",
+        "requested": "[14.15.0, )",
+        "resolved": "14.15.0",
+        "contentHash": "TB1Wc2hojzOMJ4tkBcXubASgtYSjEovoFpOjnfTjJXKVtKHGaN60juR+5YWFFhch1UUENcThaRWUXOWRcoGKkQ==",
         "dependencies": {
-          "Magick.NET.Core": "14.14.0"
+          "Magick.NET.Core": "14.15.0"
         }
       }
     }
