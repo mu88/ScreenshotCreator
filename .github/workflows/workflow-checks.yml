@@ -1,0 +1,15 @@
+name: GitHub Actions Checks
+
+on:
+  push:
+    paths:
+      - '.github/**'
+
+jobs:
+  gha-checks:
+    permissions:
+      security-events: write
+      packages: read
+      actions: read
+      contents: read
+    uses: mu88/common/.github/workflows/gha-checks.yml@1340948f0192f0c724ca0baf0e63768a6a8edf5e
