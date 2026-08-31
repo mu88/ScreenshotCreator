@@ -22,7 +22,6 @@
     </PackageReference>
     <PackageReference Include="Testcontainers" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
-    <PackageReference Include="Microsoft.OpenApi" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\ScreenshotCreator.Api\ScreenshotCreator.Api.csproj" />
