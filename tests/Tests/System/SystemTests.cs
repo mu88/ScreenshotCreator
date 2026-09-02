@@ -89,8 +89,8 @@ public class SystemTests
                 "/p:DoNotApplyGitHubScope=true"
             ])
             .ExecuteBufferedAsync(cancellationToken);
-        buildResult.IsSuccess.Should().BeTrue();
         Console.WriteLine(buildResult.StandardOutput);
+        buildResult.IsSuccess.Should().BeTrue();
     }
 
     private static async Task<IContainer> StartScreenshotCreatorAndOpenHabInContainersAsync(string containerImageTag, CancellationToken cancellationToken)
@@ -157,5 +157,5 @@ public class SystemTests
     }
 
     [SuppressMessage("Design", "MA0076:Do not use implicit culture-sensitive ToString in interpolated strings", Justification = "Okay for me")]
-    private static string GenerateContainerImageTag() => $"system-test-{DateTimeOffset.UtcNow.ToUnixTimeSeconds()}";
+    private static string GenerateContainerImageTag() => $"0.0.0-system-test-{DateTimeOffset.UtcNow.ToUnixTimeSeconds()}";
 }
