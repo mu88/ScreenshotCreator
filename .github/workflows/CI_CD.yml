@@ -12,7 +12,7 @@ jobs:
 
     steps:
       - name: Check out code
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
       - name: Enforce temporary package pins
         uses: mu88/common/.github/actions/check-temporary-package-pins@10f96e34f55796997ce898228c5a4d41b5d3db5e
@@ -25,7 +25,7 @@ jobs:
     steps:
       - name: Workflow Dispatch and wait
         if: ${{ contains(github.ref, 'renovate/playwright') }}
-        uses: aurelien-baudet/workflow-dispatch@v4.0.0
+        uses: aurelien-baudet/workflow-dispatch@3133c5d135c7dbe4be4f9793872b6ef331b53bc7 # v4.0.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           wait-for-completion: true
