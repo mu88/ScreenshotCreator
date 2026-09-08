@@ -10,6 +10,9 @@ jobs:
   temporary_security_pin_guard:
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: read
+
     steps:
       - name: Check out code
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
@@ -21,6 +24,9 @@ jobs:
 
   ci_cd:
     runs-on: ubuntu-latest
+
+    permissions:
+      actions: write
 
     steps:
       - name: Workflow Dispatch and wait
