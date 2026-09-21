@@ -45,11 +45,11 @@
       },
       "Magick.NET-Q16-AnyCPU": {
         "type": "Direct",
-        "requested": "[14.16.0, )",
-        "resolved": "14.16.0",
-        "contentHash": "uVMuIVbL9+N1H/+fTgJAZydAirr2fbuvrHm+EXpXAIIOwLTHfik/HfiWhcAK5gjj0FJAXhquEgBMDJuODWKM1g==",
+        "requested": "[14.17.1, )",
+        "resolved": "14.17.1",
+        "contentHash": "m7NksccmpXQiQoSsDyBpXkOFC3XV9/cM3chZp2bHPdi1QPTzSicljNwrKmGZiQnQUyOBznvzv+A3ROT3/eIqUg==",
         "dependencies": {
-          "Magick.NET.Core": "14.16.0"
+          "Magick.NET.Core": "14.17.1"
         }
       },
       "Microsoft.AspNetCore.Mvc.Testing": {
@@ -133,9 +133,9 @@
       },
       "Testcontainers": {
         "type": "Direct",
-        "requested": "[4.14.0, )",
-        "resolved": "4.14.0",
-        "contentHash": "ojuBi91xcMsR6vnFuNsQDWU9tlZlrtmqy95VPNWVVnh24GiwFL/WMnVmb6bRv8LqovtnKPJN9cpmH1k02Z4ZoA==",
+        "requested": "[4.15.0, )",
+        "resolved": "4.15.0",
+        "contentHash": "8tCZKMm++C/9dHIr8lsE1iDBIBmthbo2XlGFDr4gorT1vgZrJwU36fNkCGuX7h7V39rpQoTK/aG+FhJz3jhY3A==",
         "dependencies": {
           "Docker.DotNet.Enhanced": "4.3.3",
           "Docker.DotNet.Enhanced.X509": "4.3.3",
@@ -253,8 +253,8 @@
       },
       "Magick.NET.Core": {
         "type": "Transitive",
-        "resolved": "14.16.0",
-        "contentHash": "ddBX/Zb0sCsX4agqHdHeqUx+grfw8I7GFU+lgut3mtNl7roxbxemSQFGLIJXtzwPuAHxbaMtkXA+ijVl02EUhQ=="
+        "resolved": "14.17.1",
+        "contentHash": "4BBbU5l5DmdT9isSNGrIE/0VwAh29SoKMSDMiIvFBDqz6vQfG6EYBFJQOemdCH3xkMfesSzImOVPjnyMf/PIqA=="
       },
       "Meziantou.Analyzer": {
         "type": "Transitive",
@@ -886,7 +886,7 @@
       "screenshotcreator.logic": {
         "type": "Project",
         "dependencies": {
-          "Magick.NET-Q16-AnyCPU": "[14.16.0, )",
+          "Magick.NET-Q16-AnyCPU": "[14.17.1, )",
           "Microsoft.Bcl.TimeProvider": "[10.0.11, )",
           "Microsoft.Extensions.Logging.Abstractions": "[10.0.11, )",
           "Microsoft.Extensions.Options": "[10.0.11, )",

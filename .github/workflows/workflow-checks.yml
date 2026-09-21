@@ -12,4 +12,4 @@ jobs:
       packages: read
       actions: read
       contents: read
-    uses: mu88/common/.github/workflows/gha-checks.yml@5d4855b5be6da8c6a0b62e93c51ac90b4ea1de29 # main
+    uses: mu88/common/.github/workflows/gha-checks.yml@4e3d5313798009ef14a20532bb590147101941e8 # main
