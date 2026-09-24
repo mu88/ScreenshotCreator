@@ -40,7 +40,7 @@ jobs:
   shared_ci_cd:
     permissions:
       attestations: write
-      contents: read
+      contents: write # Needed for dependency submission (SBOM upload)
       id-token: write
       packages: write
 
@@ -48,7 +48,7 @@ jobs:
       - ci_cd
       - temporary_security_pin_guard
 
-    uses: mu88/common/.github/workflows/ci-cd.yml@4e3d5313798009ef14a20532bb590147101941e8 # main
+    uses: mu88/common/.github/workflows/ci-cd.yml@1f11d1740794acc87451af8a923b700b5beb49d8 # main
     with:
       docker-attest-provenance-and-sbom: true
       docker-publish-project: src/ScreenshotCreator.Api/ScreenshotCreator.Api.csproj
