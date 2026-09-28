@@ -24,3 +24,6 @@ COPY --from=sdk /src_playwright/bin/Release/net*/.playwright /ms-playwright-driv
 ENV PLAYWRIGHT_DRIVER_SEARCH_PATH=/ms-playwright-driver
 RUN chmod +x /ms-playwright-driver/.playwright/node/*/node && \
     rm -rf /src/*
+# pwsh is only needed to run Playwright's install script above; it is not used at app runtime,
+# so remove it to shrink the image and drop its bundled, unpatched dependencies from the SBOM.
+RUN rm -rf /opt/microsoft/powershell /usr/bin/pwsh
