@@ -173,7 +173,7 @@
         "type": "Project",
         "dependencies": {
           "Magick.NET-Q16-AnyCPU": "[14.17.1, )",
-          "Microsoft.Bcl.TimeProvider": "[10.0.11, )",
+          "Microsoft.Bcl.TimeProvider": "[10.0.12, )",
           "Microsoft.Playwright": "[1.62.0, )",
           "mu88.Shared": "[8.4.0, )"
         }
@@ -189,9 +189,9 @@
       },
       "Microsoft.Bcl.TimeProvider": {
         "type": "CentralTransitive",
-        "requested": "[10.0.11, )",
-        "resolved": "10.0.11",
-        "contentHash": "jSymjAVYlpehEqPGbFZ8ELexSJhVVNTQQp9V2lrBWQR1LHVOBJv0nntsLORASXgFwCZ+x5v8oBrt8/IdQxQI6w=="
+        "requested": "[10.0.12, )",
+        "resolved": "10.0.12",
+        "contentHash": "YgZ5iXpo16E5nqvIqNiJXzyG8DiBsx3wg4jcwz8zxnxDV798izSzJn/PBg7s+xLU57+myilIxEg2RhQmNCcl0w=="
       },
       "Microsoft.Playwright": {
         "type": "CentralTransitive",
