@@ -1,3 +1,3 @@
 {
-  "extends": "https://raw.githubusercontent.com/mu88/common/1f18f5ea231620a5f80b6cef59b484110e0d0b63/versionize/.versionize"
+  "extends": "https://raw.githubusercontent.com/mu88/common/309b9cb3032fc1ca368e5c414baf4998c700e314/versionize/.versionize"
 }
