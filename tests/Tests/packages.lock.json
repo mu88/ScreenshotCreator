@@ -99,6 +99,25 @@
           "StyleCop.Analyzers": "1.1.118"
         }
       },
+      "mu88.Shared.Testing": {
+        "type": "Direct",
+        "requested": "[8.5.0, )",
+        "resolved": "8.5.0",
+        "contentHash": "PM4MDr1TTeJ18oM/klVXceNMwuV9L7pPANkytxQM9IKCJ7RVpc66U72tz7zfsK08BnT/UBk/Kyc14JcIqZIuIg==",
+        "dependencies": {
+          "CliWrap": "3.10.5",
+          "Docker.DotNet": "3.125.15",
+          "FluentAssertions": "8.11.0",
+          "FluentAssertions.Web.v8": "2.0.3",
+          "IDisposableAnalyzers": "4.0.8",
+          "Meziantou.Analyzer": "3.0.266",
+          "Microsoft.Playwright": "1.48.0",
+          "NUnit": "4.6.1",
+          "StyleCop.Analyzers": "1.1.118",
+          "Testcontainers": "4.15.0",
+          "Testcontainers.Playwright": "4.15.0"
+        }
+      },
       "NSubstitute": {
         "type": "Direct",
         "requested": "[6.2.0, )",
@@ -166,6 +185,14 @@
         "type": "Transitive",
         "resolved": "2.9.1",
         "contentHash": "OE0sl1/sQ37bjVsPKKtwQlWDgqaxWgtme3xZz7JssWUzg5JpMIyHgCTY9MVMxOg48fJ1AgGT3tgdH5m/kQ5xhA=="
+      },
+      "Docker.DotNet": {
+        "type": "Transitive",
+        "resolved": "3.125.15",
+        "contentHash": "XN8FKxVv8Mjmwu104/Hl9lM61pLY675s70gzwSj8KR5pwblo8HfWLcCuinh9kYsqujBkMH4HVRCEcRuU6al4BQ==",
+        "dependencies": {
+          "Newtonsoft.Json": "13.0.1"
+        }
       },
       "Docker.DotNet.Enhanced": {
         "type": "Transitive",
@@ -258,8 +285,8 @@
       },
       "Meziantou.Analyzer": {
         "type": "Transitive",
-        "resolved": "3.0.159",
-        "contentHash": "VPNxfghpjFUAv6fLLVU6dNhqRrqFyAYb/CDPq+mA/KhAUv5I0ozpYi4UmvUfqPpmcVeDJiHYND486Epv149OcA=="
+        "resolved": "3.0.266",
+        "contentHash": "IA1m/Dvud0eJNMcC+pTDNVdaLPs4QMhRBMAVjQZnTdWwTDUDIJO/JvfAZpRULgi0hoAHlXQVkPRtLokNvRcaiQ=="
       },
       "Microsoft.ApplicationInsights": {
         "type": "Transitive",
@@ -729,6 +756,11 @@
           "Microsoft.TestPlatform.ObjectModel": "18.10.1"
         }
       },
+      "Newtonsoft.Json": {
+        "type": "Transitive",
+        "resolved": "13.0.1",
+        "contentHash": "ppPFpBcvxdsfUonNcvITKqLl3bqxWbDCZIzDWHzjpdAHRFfZe0Dw9HmA0+za13IdyrgJwpkDTDA9fHaxOrt20A=="
+      },
       "OpenTelemetry": {
         "type": "Transitive",
         "resolved": "1.17.0",
@@ -873,6 +905,14 @@
         "type": "Transitive",
         "resolved": "4.7.0",
         "contentHash": "VybpaOQQhqE6siHppMktjfGBw1GCwvCqiufqmP8F1nj7fTUNtW35LOEt3UZTEsECfo+ELAl/9o9nJx3U91i7vA=="
+      },
+      "Testcontainers.Playwright": {
+        "type": "Transitive",
+        "resolved": "4.15.0",
+        "contentHash": "3WOA3/nxQWvv2CV46zT90tm5tKNp4nG1m3fgsxofVtAAOBC9lMEikogzJsWyuHieqFhx3eKp4axBRH7Du8vK9A==",
+        "dependencies": {
+          "Testcontainers": "4.15.0"
+        }
       },
       "screenshotcreator.api": {
         "type": "Project",
