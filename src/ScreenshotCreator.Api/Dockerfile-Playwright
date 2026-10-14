@@ -1,4 +1,4 @@
-﻿FROM --platform=$TARGETARCH mcr.microsoft.com/dotnet/aspnet:10.0.12 AS base
+﻿FROM --platform=$TARGETARCH mcr.microsoft.com/dotnet/aspnet:10.0.13 AS base
 ARG TARGETARCH
 WORKDIR /app
 COPY src/ScreenshotCreator.Api/install-powershell-$TARGETARCH.sh /scripts/install-powershell-$TARGETARCH.sh
