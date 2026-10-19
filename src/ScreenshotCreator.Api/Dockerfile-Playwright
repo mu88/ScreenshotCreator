@@ -5,7 +5,7 @@ COPY src/ScreenshotCreator.Api/install-powershell-$TARGETARCH.sh /scripts/instal
 RUN chmod +x /scripts/install-powershell-$TARGETARCH.sh && \
     /scripts/install-powershell-$TARGETARCH.sh
 
-FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/sdk:10.0.401 AS sdk
+FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/sdk:10.0.402 AS sdk
 ARG PLAYWRIGHT_VERSION=0.0.0
 WORKDIR /src_playwright
 RUN dotnet new console --no-restore 
