@@ -48,12 +48,12 @@
       },
       "mu88.Shared": {
         "type": "Direct",
-        "requested": "[8.5.0, )",
-        "resolved": "8.5.0",
-        "contentHash": "hGMeR1bc3RKhRYSW1CrEsLgYvEU0lU1ScLHX74TZIQT3ma7CJ2ksm7WWwiR+LhulhMmb9MbHkRT/MNtfcy0RWw==",
+        "requested": "[8.6.0, )",
+        "resolved": "8.6.0",
+        "contentHash": "jU+fKbSmM4I2ZudsXU/NBfb+v9+frJtK/8isDWkhPn02nK7chqb4fPXIx0ErTP5LZKnkTwcFdH4B3nei/kBOJA==",
         "dependencies": {
           "IDisposableAnalyzers": "4.0.8",
-          "Meziantou.Analyzer": "3.0.266",
+          "Meziantou.Analyzer": "3.0.290",
           "Microsoft.Extensions.Diagnostics.HealthChecks.Common": "10.10.0",
           "Microsoft.Extensions.Hosting.Abstractions": "10.0.12",
           "OpenTelemetry.Exporter.OpenTelemetryProtocol": "1.19.1",
@@ -78,8 +78,8 @@
       },
       "Meziantou.Analyzer": {
         "type": "Transitive",
-        "resolved": "3.0.266",
-        "contentHash": "IA1m/Dvud0eJNMcC+pTDNVdaLPs4QMhRBMAVjQZnTdWwTDUDIJO/JvfAZpRULgi0hoAHlXQVkPRtLokNvRcaiQ=="
+        "resolved": "3.0.290",
+        "contentHash": "vdSXgMEPil67EFwkcicjSCMnB7TdhUNiR1Fjw1P8MN+UeX6yP8wTb7cNT20H/ejHuUxkrxQS1Rz4QcJuMLmCkA=="
       },
       "Microsoft.Bcl.AsyncInterfaces": {
         "type": "Transitive",
