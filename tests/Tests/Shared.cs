@@ -2,13 +2,16 @@
 using DotNet.Testcontainers.Builders;
 using DotNet.Testcontainers.Containers;
 using DotNet.Testcontainers.Networks;
+using mu88.Shared.Testing.Testcontainers;
 
 namespace Tests;
 
 public static class Shared
 {
+    private const string DockerfilePath = "testData/system/Dockerfile";
+
     public static IContainer CreateOpenHabContainer(INetwork network, string? containerName = null)
-        => new ContainerBuilder("openhab/openhab:5.1.1")
+        => new ContainerBuilder(TestcontainerImages.GetImageFromDockerfile(DockerfilePath, "openhab"))
             .WithNetwork(network)
             .WithNetworkAliases(containerName)
             .WithPortBinding(8080, true)
