@@ -34,7 +34,7 @@ public class ImageProcessorTests
         var screenshotFile = Path.GetTempFileName() + ".png";
         using (var imageWithAlpha = new MagickImage(await File.ReadAllBytesAsync("testData/Screenshot.png")))
         {
-            imageWithAlpha.Alpha(AlphaOption.Opaque);
+            imageWithAlpha.Alpha(AlphaAction.Opaque);
             await imageWithAlpha.WriteAsync(screenshotFile);
         }
 

@@ -15,7 +15,7 @@ internal sealed class ImageProcessor(ILogger<ImageProcessor> logger) : IImagePro
 
         if (blackAndWhite)
         {
-            image.Alpha(AlphaOption.Off);
+            image.Alpha(AlphaAction.Off);
             image.Threshold(new Percentage(95));
         }
 
