@@ -55,7 +55,7 @@ public class SystemTests : SystemTestsBase
             .WithWaitStrategy(Wait.ForUnixContainer().UntilExternalTcpPortIsAvailable(8080))
             .Build();
 
-    private async Task<IContainer> StartScreenshotCreatorAndOpenHabInContainersAsync(string containerImageTag, CancellationToken cancellationToken)
+    private static async Task<IContainer> StartScreenshotCreatorAndOpenHabInContainersAsync(string containerImageTag, CancellationToken cancellationToken)
     {
         Console.WriteLine("Building network and openHAB container");
         var network = new NetworkBuilder().Build();
