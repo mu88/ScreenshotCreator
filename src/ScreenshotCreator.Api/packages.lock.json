@@ -13,12 +13,12 @@
       },
       "mu88.Shared": {
         "type": "Direct",
-        "requested": "[8.6.0, )",
-        "resolved": "8.6.0",
-        "contentHash": "jU+fKbSmM4I2ZudsXU/NBfb+v9+frJtK/8isDWkhPn02nK7chqb4fPXIx0ErTP5LZKnkTwcFdH4B3nei/kBOJA==",
+        "requested": "[8.6.1, )",
+        "resolved": "8.6.1",
+        "contentHash": "TqcxjqQY4YdDgJ3UxAC/YzCTE2qsd8IAf7TomQjdRAmwsgdPzJ9cXm9xzxUxhjemJEwlW28fHgU6NElWQBW/SA==",
         "dependencies": {
           "IDisposableAnalyzers": "4.0.8",
-          "Meziantou.Analyzer": "3.0.290",
+          "Meziantou.Analyzer": "3.0.299",
           "Microsoft.Extensions.Diagnostics.HealthChecks.Common": "10.10.0",
           "OpenTelemetry.Exporter.OpenTelemetryProtocol": "1.19.1",
           "OpenTelemetry.Extensions.Hosting": "1.19.1",
@@ -32,9 +32,9 @@
       },
       "Scalar.AspNetCore": {
         "type": "Direct",
-        "requested": "[2.17.13, )",
-        "resolved": "2.17.13",
-        "contentHash": "+R0eJtJIIHW9owY61rIOgR2lywjZnjqUPAM7ll+lZYML7mZ4LxokG6wpAmkuyaLS1Ml4fI4kdAC2U6KkdrDDiA=="
+        "requested": "[2.18.0, )",
+        "resolved": "2.18.0",
+        "contentHash": "wwI3khcYNM7oL6axr4a41G29fJYOS3ckusgYZ4NiIccL8Amh2LOeu4HSK1SrQWiMJNrgoFqyWfDkOkunQCiRDw=="
       },
       "IDisposableAnalyzers": {
         "type": "Transitive",
@@ -48,8 +48,8 @@
       },
       "Meziantou.Analyzer": {
         "type": "Transitive",
-        "resolved": "3.0.290",
-        "contentHash": "vdSXgMEPil67EFwkcicjSCMnB7TdhUNiR1Fjw1P8MN+UeX6yP8wTb7cNT20H/ejHuUxkrxQS1Rz4QcJuMLmCkA=="
+        "resolved": "3.0.299",
+        "contentHash": "3PWTsYZnFFs49xDk6Y8+qy1jWe80+j9EhgzHrWo94MM711JsbCBqRptBJHhZmaueEJs6WNspJd+apIEqwyyjqg=="
       },
       "Microsoft.Bcl.AsyncInterfaces": {
         "type": "Transitive",
@@ -173,9 +173,9 @@
         "type": "Project",
         "dependencies": {
           "Magick.NET-Q16-AnyCPU": "[15.0.0, )",
-          "Microsoft.Bcl.TimeProvider": "[10.0.12, )",
+          "Microsoft.Bcl.TimeProvider": "[10.0.13, )",
           "Microsoft.Playwright": "[1.63.0, )",
-          "mu88.Shared": "[8.6.0, )"
+          "mu88.Shared": "[8.6.1, )"
         }
       },
       "Magick.NET-Q16-AnyCPU": {
@@ -189,9 +189,9 @@
       },
       "Microsoft.Bcl.TimeProvider": {
         "type": "CentralTransitive",
-        "requested": "[10.0.12, )",
-        "resolved": "10.0.12",
-        "contentHash": "YgZ5iXpo16E5nqvIqNiJXzyG8DiBsx3wg4jcwz8zxnxDV798izSzJn/PBg7s+xLU57+myilIxEg2RhQmNCcl0w=="
+        "requested": "[10.0.13, )",
+        "resolved": "10.0.13",
+        "contentHash": "lc+MQKVVPUZTVdo2zXNsxeldfnHQGCxw5DslUyIjn1rGuTYkE8ssz+Ip0yyd/srN6R4uYS2i18zOr+gj5/lC4g=="
       },
       "Microsoft.Playwright": {
         "type": "CentralTransitive",
