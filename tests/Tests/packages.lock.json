@@ -34,12 +34,12 @@
       },
       "FluentAssertions.Web.v8": {
         "type": "Direct",
-        "requested": "[2.0.4, )",
-        "resolved": "2.0.4",
-        "contentHash": "Jvd1W/k6PWiCARsOK5rOkIWV5NcCA5F2PjQFgc8zR5sHaBBr17CIG/UBVlTkeaizRlq3dscvMx7a2pOaW/hl+A==",
+        "requested": "[3.0.0, )",
+        "resolved": "3.0.0",
+        "contentHash": "pFVV5uJHd/+GZWeDOBA20Bi2ipnJaTX0VAdPdwScweWcve0GEgCvPtcUtOIkuoTo/cR2EpNROdWzpzFm7hURxg==",
         "dependencies": {
           "FluentAssertions": "8.0.0",
-          "HttpMessageFormatter": "2.0.4",
+          "HttpMessageFormatter": "2.0.6",
           "Microsoft.AspNetCore.WebUtilities": "2.3.0"
         }
       },
@@ -101,21 +101,21 @@
       },
       "mu88.Shared.Testing": {
         "type": "Direct",
-        "requested": "[8.5.0, )",
-        "resolved": "8.5.0",
-        "contentHash": "PM4MDr1TTeJ18oM/klVXceNMwuV9L7pPANkytxQM9IKCJ7RVpc66U72tz7zfsK08BnT/UBk/Kyc14JcIqZIuIg==",
+        "requested": "[8.6.1, )",
+        "resolved": "8.6.1",
+        "contentHash": "uok+rICQpMfYmyaJgWWS0gqfb+i4nnQvDZzyAHRNiGSVNOIJ0Hy5LKuozmoX4HNEP0LnUqjNjcYuyh7632DMBA==",
         "dependencies": {
           "CliWrap": "3.10.5",
           "Docker.DotNet": "3.125.15",
           "FluentAssertions": "8.11.0",
-          "FluentAssertions.Web.v8": "2.0.3",
+          "FluentAssertions.Web.v8": "3.0.0",
           "IDisposableAnalyzers": "4.0.8",
-          "Meziantou.Analyzer": "3.0.266",
-          "Microsoft.Playwright": "1.48.0",
-          "NUnit": "4.6.1",
+          "Meziantou.Analyzer": "3.0.299",
+          "Microsoft.Playwright": "1.63.0",
+          "NUnit": "5.0.0",
           "StyleCop.Analyzers": "1.1.118",
-          "Testcontainers": "4.15.0",
-          "Testcontainers.Playwright": "4.15.0"
+          "Testcontainers": "4.16.0",
+          "Testcontainers.Playwright": "4.16.0"
         }
       },
       "NSubstitute": {
@@ -152,9 +152,9 @@
       },
       "Testcontainers": {
         "type": "Direct",
-        "requested": "[4.15.0, )",
-        "resolved": "4.15.0",
-        "contentHash": "8tCZKMm++C/9dHIr8lsE1iDBIBmthbo2XlGFDr4gorT1vgZrJwU36fNkCGuX7h7V39rpQoTK/aG+FhJz3jhY3A==",
+        "requested": "[4.16.0, )",
+        "resolved": "4.16.0",
+        "contentHash": "JmMUZk6ZXQovbGQjaMB+YxOR0PbJTdYjOYjRcrm5LrA2dhLVMuCbhVGGunzCGIQfFMUB5Lno2LPOHMMuaGmuIg==",
         "dependencies": {
           "Docker.DotNet.Enhanced": "4.3.3",
           "Docker.DotNet.Enhanced.X509": "4.3.3",
@@ -262,8 +262,8 @@
       },
       "HttpMessageFormatter": {
         "type": "Transitive",
-        "resolved": "2.0.4",
-        "contentHash": "LkO6i/o3eXrh7hHIyWxeCjmREuumGctL76psNV3yngR+PgNTgWC/5VMTGw4jxWzF776JvcKvnfANpP1MQqqGsQ==",
+        "resolved": "2.0.6",
+        "contentHash": "K2fFQV53id2rV+4+liY829qzQTPtOjje2kro385R6bR2+ZdBqD4JxaqpZa/auyyHV2aJ+YtdsstLZOxVRsjPAQ==",
         "dependencies": {
           "Microsoft.AspNetCore.WebUtilities": "2.3.0"
         }
@@ -285,8 +285,8 @@
       },
       "Meziantou.Analyzer": {
         "type": "Transitive",
-        "resolved": "3.0.290",
-        "contentHash": "vdSXgMEPil67EFwkcicjSCMnB7TdhUNiR1Fjw1P8MN+UeX6yP8wTb7cNT20H/ejHuUxkrxQS1Rz4QcJuMLmCkA=="
+        "resolved": "3.0.299",
+        "contentHash": "3PWTsYZnFFs49xDk6Y8+qy1jWe80+j9EhgzHrWo94MM711JsbCBqRptBJHhZmaueEJs6WNspJd+apIEqwyyjqg=="
       },
       "Microsoft.ApplicationInsights": {
         "type": "Transitive",
@@ -908,10 +908,10 @@
       },
       "Testcontainers.Playwright": {
         "type": "Transitive",
-        "resolved": "4.15.0",
-        "contentHash": "3WOA3/nxQWvv2CV46zT90tm5tKNp4nG1m3fgsxofVtAAOBC9lMEikogzJsWyuHieqFhx3eKp4axBRH7Du8vK9A==",
+        "resolved": "4.16.0",
+        "contentHash": "G4i3xvy2IRUawZJ/SPjZtS6Ruxu4PoNFXoQk3UFEQyaoyd7fmZh3d30Eh3HDG2Bcc7+4+8w8zKeg4JD997Xy9w==",
         "dependencies": {
-          "Testcontainers": "4.15.0"
+          "Testcontainers": "4.16.0"
         }
       },
       "screenshotcreator.api": {
