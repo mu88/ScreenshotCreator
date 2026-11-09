@@ -13,9 +13,9 @@
       },
       "Microsoft.Bcl.TimeProvider": {
         "type": "Direct",
-        "requested": "[10.0.13, )",
-        "resolved": "10.0.13",
-        "contentHash": "lc+MQKVVPUZTVdo2zXNsxeldfnHQGCxw5DslUyIjn1rGuTYkE8ssz+Ip0yyd/srN6R4uYS2i18zOr+gj5/lC4g=="
+        "requested": "[10.0.14, )",
+        "resolved": "10.0.14",
+        "contentHash": "XkU2vsMYgQB/157jQzBffbskYFa0hi0vjttc0i/0/6+Zq+hh69WGhfVNSMEOfQ18WImbaJgvlpBr6YP+UTHfrA=="
       },
       "Microsoft.Extensions.Logging.Abstractions": {
         "type": "Direct",

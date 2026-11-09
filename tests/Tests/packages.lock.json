@@ -65,9 +65,9 @@
       },
       "Microsoft.Bcl.TimeProvider": {
         "type": "Direct",
-        "requested": "[10.0.13, )",
-        "resolved": "10.0.13",
-        "contentHash": "lc+MQKVVPUZTVdo2zXNsxeldfnHQGCxw5DslUyIjn1rGuTYkE8ssz+Ip0yyd/srN6R4uYS2i18zOr+gj5/lC4g=="
+        "requested": "[10.0.14, )",
+        "resolved": "10.0.14",
+        "contentHash": "XkU2vsMYgQB/157jQzBffbskYFa0hi0vjttc0i/0/6+Zq+hh69WGhfVNSMEOfQ18WImbaJgvlpBr6YP+UTHfrA=="
       },
       "Microsoft.NET.Test.Sdk": {
         "type": "Direct",
@@ -924,7 +924,7 @@
         "type": "Project",
         "dependencies": {
           "Microsoft.AspNetCore.OpenApi": "[10.0.12, )",
-          "Scalar.AspNetCore": "[2.18.0, )",
+          "Scalar.AspNetCore": "[2.18.3, )",
           "ScreenshotCreator.Logic": "[5.0.0, )",
           "mu88.Shared": "[8.6.1, )"
         }
@@ -933,7 +933,7 @@
         "type": "Project",
         "dependencies": {
           "Magick.NET-Q16-AnyCPU": "[15.0.0, )",
-          "Microsoft.Bcl.TimeProvider": "[10.0.13, )",
+          "Microsoft.Bcl.TimeProvider": "[10.0.14, )",
           "Microsoft.Extensions.Logging.Abstractions": "[10.0.12, )",
           "Microsoft.Extensions.Options": "[10.0.12, )",
           "Microsoft.Playwright": "[1.63.0, )",
@@ -980,9 +980,9 @@
       },
       "Scalar.AspNetCore": {
         "type": "CentralTransitive",
-        "requested": "[2.18.0, )",
-        "resolved": "2.18.0",
-        "contentHash": "wwI3khcYNM7oL6axr4a41G29fJYOS3ckusgYZ4NiIccL8Amh2LOeu4HSK1SrQWiMJNrgoFqyWfDkOkunQCiRDw=="
+        "requested": "[2.18.3, )",
+        "resolved": "2.18.3",
+        "contentHash": "6KXPOkCNnoZTXBl8GVNxq/zpS9UdGnz1a23EWy3CEiwYbZKQ5gi2APZ5mBruXcdXIr+ZXSZYiwX81UagjKFxeg=="
       }
     }
   }
