@@ -23,6 +23,7 @@
     </PackageReference>
     <PackageReference Include="Testcontainers" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
+    <PackageReference Include="Microsoft.AspNetCore.WebUtilities" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\ScreenshotCreator.Api\ScreenshotCreator.Api.csproj" />
