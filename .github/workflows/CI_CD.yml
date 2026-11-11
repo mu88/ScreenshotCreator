@@ -26,7 +26,7 @@ jobs:
     runs-on: ubuntu-latest
 
     permissions:
-      actions: write
+      actions: read
 
     steps:
       - name: Workflow Dispatch and wait
@@ -39,10 +39,8 @@ jobs:
 
   shared_ci_cd:
     permissions:
-      attestations: write
-      contents: write # Needed for dependency submission (SBOM upload)
-      id-token: write
-      packages: write
+      contents: read
+      packages: read
 
     needs:
       - ci_cd
@@ -51,7 +49,7 @@ jobs:
     uses: mu88/common/.github/workflows/ci-cd.yml@bf4949c266f27024a696728c0523958f8e1b90c3 # main
     with:
       docker-attest-provenance-and-sbom: true
-      docker-publish-project: src/ScreenshotCreator.Api/ScreenshotCreator.Api.csproj
+      docker-publish-project: ''
       requires-docker-login: true
       sonar-key: mu88_ScreenshotCreator
     secrets:

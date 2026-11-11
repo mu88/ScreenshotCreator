@@ -2,6 +2,11 @@ name: Playwright
 
 on:
   workflow_dispatch:
+    inputs:
+      expected_sha:
+        description: Expected feature-branch commit SHA to build
+        required: true
+        type: string
   push:
     branches:
       - '**'
@@ -25,13 +30,29 @@ jobs:
     steps:
       - name: Check out code
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: ${{ github.sha }}
+
+      - name: Validate bootstrap dispatch ref and SHA
+        if: ${{ github.event_name == 'workflow_dispatch' }}
+        shell: pwsh
+        env:
+          EXPECTED_SHA: ${{ inputs.expected_sha }}
+        run: |
+          if ($env:GITHUB_REF -ne 'refs/heads/feature/ai-security-bootstrap-20261111') {
+            throw 'The bootstrap image may only be published from its dedicated feature branch.'
+          }
+
+          if ($env:GITHUB_SHA -ne $env:EXPECTED_SHA) {
+            throw 'The dispatched commit SHA does not match the expected bootstrap commit.'
+          }
 
       - name: Determine if image should be published
         id: publish_check
         shell: pwsh
         run: |
-          $publish = ("${{ github.event_name }}" -eq "workflow_dispatch") -or `
-                     ("${{ github.event_name }}" -eq "push" -and "${{ github.ref_name }}" -eq "${{ github.event.repository.default_branch }}")
+          $publish = ("${{ github.event_name }}" -eq "workflow_dispatch") -and `
+                     ("${{ github.ref }}" -eq "refs/heads/feature/ai-security-bootstrap-20261111")
           Write-Output "publish=$($publish.ToString().ToLower())" >> $env:GITHUB_OUTPUT
 
       - name: Set up QEMU
@@ -71,7 +92,7 @@ jobs:
           push: ${{ steps.publish_check.outputs.publish == 'true' }}
           provenance: false
           platforms: linux/arm64,linux/amd64
-          tags: ghcr.io/mu88/screenshotcreator-playwright:latest,ghcr.io/mu88/screenshotcreator-playwright:${{ steps.extract_version.outputs.major_version }}.0.${{ github.run_number }}
+          tags: ghcr.io/mu88/screenshotcreator-playwright:${{ steps.extract_version.outputs.major_version }}.0.${{ github.run_number }}
           file: src/ScreenshotCreator.Api/Dockerfile-Playwright
           build-args: PLAYWRIGHT_VERSION=${{ steps.extract_playwright_version.outputs.playwright_version }}
 
