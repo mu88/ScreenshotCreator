@@ -18,7 +18,7 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
       - name: Enforce temporary package pins
-        uses: mu88/common/.github/actions/check-temporary-package-pins@c3e443586668540cae8993ed2995f7ea9a2a8108 # main
+        uses: mu88/common/.github/actions/check-temporary-package-pins@e3c88ef296055806e2c3ebf54979a354203d2e42 # main
         with:
           solution-path: ScreenshotCreator.slnx
 
@@ -48,7 +48,7 @@ jobs:
       - ci_cd
       - temporary_security_pin_guard
 
-    uses: mu88/common/.github/workflows/ci-cd.yml@c3e443586668540cae8993ed2995f7ea9a2a8108 # main
+    uses: mu88/common/.github/workflows/ci-cd.yml@e3c88ef296055806e2c3ebf54979a354203d2e42 # main
     with:
       docker-attest-provenance-and-sbom: true
       docker-publish-project: src/ScreenshotCreator.Api/ScreenshotCreator.Api.csproj
