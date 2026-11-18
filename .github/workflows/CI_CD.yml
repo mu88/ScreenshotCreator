@@ -7,21 +7,6 @@ on:
       - '**'
 
 jobs:
-  temporary_security_pin_guard:
-    runs-on: ubuntu-latest
-
-    permissions:
-      contents: read
-
-    steps:
-      - name: Check out code
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-
-      - name: Enforce temporary package pins
-        uses: mu88/common/.github/actions/check-temporary-package-pins@e3c88ef296055806e2c3ebf54979a354203d2e42 # main
-        with:
-          solution-path: ScreenshotCreator.slnx
-
   ci_cd:
     runs-on: ubuntu-latest
 
@@ -44,11 +29,9 @@ jobs:
       id-token: write
       packages: write
 
-    needs:
-      - ci_cd
-      - temporary_security_pin_guard
+    needs: ci_cd
 
-    uses: mu88/common/.github/workflows/ci-cd.yml@e3c88ef296055806e2c3ebf54979a354203d2e42 # main
+    uses: mu88/common/.github/workflows/ci-cd.yml@4b0f537de7133b6d169a85d780e108d3cd5493bc # main
     with:
       docker-attest-provenance-and-sbom: true
       docker-publish-project: src/ScreenshotCreator.Api/ScreenshotCreator.Api.csproj
