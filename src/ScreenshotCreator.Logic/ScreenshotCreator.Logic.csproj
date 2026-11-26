@@ -7,8 +7,6 @@
     <PackageReference Include="Magick.NET-Q16-AnyCPU" />
     <PackageReference Include="Microsoft.Bcl.TimeProvider" />
     <PackageReference Include="Microsoft.Playwright" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
-    <PackageReference Include="Microsoft.Extensions.Options" />
     <PackageReference Include="mu88.Shared" />
   </ItemGroup>
   <ItemGroup>

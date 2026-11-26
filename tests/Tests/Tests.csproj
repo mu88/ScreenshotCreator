@@ -23,8 +23,6 @@
     </PackageReference>
     <PackageReference Include="Testcontainers" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
-    <!-- TEMP-PIN: GHSA-6527-9fp8-r4x6 -->
-    <PackageReference Include="Microsoft.AspNetCore.WebUtilities" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\ScreenshotCreator.Api\ScreenshotCreator.Api.csproj" />
