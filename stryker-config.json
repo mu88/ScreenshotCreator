@@ -19,6 +19,9 @@
     "mutate": [
       "!**/ScreenshotOptions.cs",
       "!**/ServiceCollectionExtensions.cs"
-    ]
+    ],
+    "thresholds": {
+      "break": 1
+    }
   }
 }
