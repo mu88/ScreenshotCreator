@@ -1,7 +1,7 @@
 <Project>
   <PropertyGroup>
     <TargetFramework>net11.0</TargetFramework>
-    <Version>5.0.0</Version>
+    <Version>6.0.0</Version>
     <Features>$(Features);runtime-async=on</Features>
   </PropertyGroup>
 </Project>
