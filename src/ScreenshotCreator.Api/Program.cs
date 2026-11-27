@@ -66,7 +66,7 @@ app.MapHealthChecks("/healthz");
 
 await app.RunAsync();
 
-async Task<Results<FileContentHttpResult, NotFound>> ReturnImageOrNotFoundAsync(
+static async Task<Results<FileContentHttpResult, NotFound>> ReturnImageOrNotFoundAsync(
     HttpContext httpContext,
     IImageProcessor imageProcessor,
     IOptions<ScreenshotOptions> options,
